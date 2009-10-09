@@ -1,0 +1,69 @@
+# =============================== 
+# DEF: with_fields
+# def
+# =============================== 
+<% def with_fields(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, [:default, :default]); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do fields, associations, skip, skip_associations, include_timestamps, force_all, attributes, = _tag_locals(all_attributes, [:fields, :associations, :skip, :skip_associations, :include_timestamps, :force_all]) %><%
+  fields.nil? || associations.nil? or raise ArgumentError, "with-fields -- specify either fields or associations but not both"
+   
+  field_names = if associations == "has_many"
+                  this.class.reflections.values.select { |refl| refl.macro == :has_many }.map { |refl| refl.name.to_s }
+                                                                                                                
+                elsif fields.nil? || fields == "*" || fields.is_a?(Class)
+                  klass = fields.is_a?(Class) ? fields : this.class
+                  columns = standard_fields(klass, include_timestamps)
+
+                  if skip_associations == "has_many"
+                    assocs = this.class.reflections.values.reject {|r| r.macro == :has_many }.map &its.name.to_s
+                    columns + assocs
+                  elsif skip_associations
+                    columns
+                  else
+                    assocs = klass.reflections.values.map &its.name.to_s
+                    columns + assocs
+                  end
+                else
+                  comma_split(fields.gsub('-', '_'))
+                end
+  field_names -= comma_split(skip) if skip
+  field_names = field_names.select {|f| can_view?(this, f)} unless force_all
+  field_names.each do |field| 
+    if field == "this"
+      %><% concat(call_tag_parameter(:do_, {}, {}, all_parameters, :default)) %><%
+    else
+      %><% concat(with({:field => (field)}, { :default => proc { |_with__default_content| new_context { %><% concat(call_tag_parameter(:do_, {}, {}, all_parameters, :default)) %><% } }, })) %><%
+    end
+  end
+%><% output_buffer; end; end %><% _register_tag_attrs(:with_fields, [:fields, :associations, :skip, :skip_associations, :include_timestamps, :force_all]) %>
+# =============================== 
+# DEF: with_field_names
+# def
+# =============================== 
+<% def with_field_names(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do fields, skip, skip_associations, include_timestamps, attributes, = _tag_locals(all_attributes, [:fields, :skip, :skip_associations, :include_timestamps]) %><%=
+  field_names = if fields.nil? || fields == "*" || fields.is_a?(Class)
+                  klass = fields.is_a?(Class) ? fields : this.member_class
+                  columns = klass.content_columns.*.name
+                  columns -= %w{created_at updated_at created_on updated_on deleted_at} unless include_timestamps
+
+                  if skip_associations == "has_many"
+                    assocs = this.reflections.values.reject {|r| r.macro == :has_many }.map &its.name.to_s
+                    columns + assocs
+                  elsif skip_associations
+                    columns
+                  else
+                    assocs = klass.reflections.values.map &its.name.to_s
+                    columns + assocs
+                  end
+                else
+                  comma_split(fields)
+                end
+
+  field_names -= comma_split(skip) if skip
+  scope.new_scope :field_name => nil, :field_path => nil do
+    field_names.map do |n|
+      scope.field_name = n == "this" ? this.member_class.try.name : n.to_s.gsub("." , "_") 
+      scope.field_path = n
+      parameters.default
+    end
+  end
+%>
+<% output_buffer; end; end %><% _register_tag_attrs(:with_field_names, [:fields, :skip, :skip_associations, :include_timestamps]) %>

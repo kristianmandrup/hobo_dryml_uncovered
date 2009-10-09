@@ -1,0 +1,33 @@
+# =============================== 
+# DEF: transition_button
+# def
+# =============================== 
+<% def transition_button(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do transition, update, label, attributes, = _tag_locals(all_attributes, [:transition, :update, :label]) %><%= 
+    transition = transition.name unless transition.is_a?(String)
+    ajax_attributes, html_attributes = attributes.partition_hash(Hobo::RapidHelper::AJAX_ATTRS)
+
+    html_attributes[:method] = :put
+    url = object_url(this, transition, :method => :put)
+    add_classes!(html_attributes, "transition-button #{transition}-button")
+    label ||= transition.to_s.titleize
+    if update || !ajax_attributes.empty?
+      ajax_attributes[:message] ||= label
+      func = ajax_updater(url, update, ajax_attributes)
+      html_attributes.update(:onclick => "var e = this; " + func, :type =>'button', :value => label)
+      element(:input, html_attributes, nil, true, true)
+    else
+      button_to(label, url, html_attributes)
+    end
+  %>
+<% output_buffer; end; end %><% _register_tag_attrs(:transition_button, [:transition, :update, :label]) %>
+# =============================== 
+# DEF: transition_buttons
+# def
+# =============================== 
+<% def transition_buttons(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %>
+  <div class="transitions">
+    <% this.lifecycle.available_transitions_for(current_user).each do |t| %>
+      <% concat(transition_button({:transition => (t)}, {})) %>
+    <% end %>
+  </div>
+<% output_buffer; end; end %><% _register_tag_attrs(:transition_buttons, []) %>

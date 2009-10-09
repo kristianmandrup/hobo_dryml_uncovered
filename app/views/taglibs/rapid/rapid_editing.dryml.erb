@@ -1,0 +1,246 @@
+# =============================== 
+# DEF: editor
+# def
+# =============================== 
+<% def editor(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %><%= 
+  if !can_edit?
+    view(attributes)
+  else
+    attrs = add_classes(attributes, type_id, type_and_field, "editor")
+    if (refl = this_field_reflection)
+      if refl.macro == :belongs_to
+        belongs_to_editor(attrs)
+      else
+        has_many_editor(attrs)
+      end
+    else
+      call_polymorphic_tag("editor", attrs) or
+        raise HoboError.new("<editor> not implemented for #{this.class.name}\##{this_field} " +
+                            "(#{this.inspect}:#{this_type})")
+    end
+  end
+%><% output_buffer; end; end %><% _register_tag_attrs(:editor, []) %>
+# =============================== 
+# DEF: has_many_editor
+# def
+# =============================== 
+<% def has_many_editor(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %>
+  <% #TODO: Implement %>
+  <% concat(a(merge_attrs({}, attributes || {}), {})) %>
+<% output_buffer; end; end %><% _register_tag_attrs(:has_many_editor, []) %>
+# =============================== 
+# DEF: belongs_to_editor
+# eval
+# =============================== 
+
+      def belongs_to_editor(attributes={}, parameters={})
+        _tag_context(attributes) do
+          attributes.delete :with
+          attributes.delete :field
+          call_polymorphic_tag('belongs_to_editor', attributes, parameters) { belongs_to_editor__base(attributes.except, parameters) }
+        end
+      end
+      
+# =============================== 
+# DEF: belongs_to_editor__base
+# def
+# =============================== 
+<% def belongs_to_editor__base(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %><%= select_one_editor(attributes) %><% output_buffer; end; end %><% _register_tag_attrs(:belongs_to_editor__base, []) %>
+# =============================== 
+# DEF: editor__for_string
+# def
+# =============================== 
+<% def editor__for_string(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %><%= in_place_editor attributes %><% output_buffer; end; end %><% _register_tag_attrs(:editor__for_string, []) %>
+# =============================== 
+# DEF: editor__for_hobo_fields__text
+# def
+# =============================== 
+<% def editor__for_hobo_fields__text(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %><%= in_place_editor attributes %><% output_buffer; end; end %><% _register_tag_attrs(:editor__for_hobo_fields__text, []) %>
+# =============================== 
+# DEF: editor__for_hobo_fields__html_string
+# def
+# =============================== 
+<% def editor__for_hobo_fields__html_string(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %><%= in_place_editor attributes %><% output_buffer; end; end %><% _register_tag_attrs(:editor__for_hobo_fields__html_string, []) %>
+# =============================== 
+# DEF: editor__for_active_support__time_with_zone
+# def
+# =============================== 
+<% def editor__for_active_support__time_with_zone(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %><%= in_place_editor attributes %><% output_buffer; end; end %><% _register_tag_attrs(:editor__for_active_support__time_with_zone, []) %>
+# =============================== 
+# DEF: editor__for_date
+# def
+# =============================== 
+<% def editor__for_date(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %><%= in_place_editor attributes %><% output_buffer; end; end %><% _register_tag_attrs(:editor__for_date, []) %>
+# =============================== 
+# DEF: editor__for_integer
+# def
+# =============================== 
+<% def editor__for_integer(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %><%= in_place_editor attributes %><% output_buffer; end; end %><% _register_tag_attrs(:editor__for_integer, []) %>
+# =============================== 
+# DEF: editor__for_big_decimal
+# def
+# =============================== 
+<% def editor__for_big_decimal(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %><%= in_place_editor attributes %><% output_buffer; end; end %><% _register_tag_attrs(:editor__for_big_decimal, []) %>
+# =============================== 
+# DEF: editor__for_float
+# def
+# =============================== 
+<% def editor__for_float(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %><%= in_place_editor attributes %><% output_buffer; end; end %><% _register_tag_attrs(:editor__for_float, []) %>
+# =============================== 
+# DEF: editor__for_hobo_fields__password_string
+# def
+# =============================== 
+<% def editor__for_hobo_fields__password_string(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %><% raise HoboError, "passwords cannot be edited in place" %><% output_buffer; end; end %><% _register_tag_attrs(:editor__for_hobo_fields__password_string, []) %>
+# =============================== 
+# DEF: editor__for_hobo__boolean
+# def
+# =============================== 
+<% def editor__for_hobo__boolean(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %><% concat(boolean_checkbox_editor(merge_attrs({}, attributes || {}), {})) %><% output_buffer; end; end %><% _register_tag_attrs(:editor__for_hobo__boolean, []) %>
+# =============================== 
+# DEF: editor__for_hobo_fields__enum_string
+# def
+# =============================== 
+<% def editor__for_hobo_fields__enum_string(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %>
+ <% concat(string_select_editor(merge_attrs({:values => (this_type.values)}, attributes), merge_parameter_hashes({}, (parameters) || {}))) %>
+<% output_buffer; end; end %><% _register_tag_attrs(:editor__for_hobo_fields__enum_string, []) %>
+# =============================== 
+# DEF: select_one_editor
+# def
+# =============================== 
+<% def select_one_editor(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do include_none, blank_message, sort, update, options, attributes, = _tag_locals(all_attributes, [:include_none, :blank_message, :sort, :update, :options]) %><%
+  raise HoboError.new("Not allowed to edit") unless can_edit?
+  blank_message ||= "(No #{this_type.name.to_s.titleize})"
+  options ||= this_field_reflection.klass.find(:all).select {|x| can_view?(x)}.map {|x|
+            [ name(:with => x, :no_wrapper => true), x.id ]
+          }
+   options = options.sort if sort
+   options.insert(0, [blank_message, ""]) if this.nil? || include_none
+   f = ajax_updater(object_url(this_parent, :method => :put),
+                    update,
+                    :method => "put",
+                    :params => { this_parent.class.name.underscore => {
+                        this_field_reflection.primary_key_name => Hobo.raw_js('this.value')
+                      } })
+    %>
+  <% concat(element(:select, merge_attrs({'onchange' => "#{f}"}, attributes || {}), new_context { %>
+     <%= options_for_select(options, this ? this.id : "") %>
+  <% })) %>
+<% output_buffer; end; end %><% _register_tag_attrs(:select_one_editor, [:include_none, :blank_message, :sort, :update, :options]) %>
+# =============================== 
+# DEF: string_select_editor
+# def
+# =============================== 
+<% def string_select_editor(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do update, values, labels, titleize, attributes, = _tag_locals(all_attributes, [:update, :values, :labels, :titleize]) %><%
+  raise HoboError.new("Not allowed to edit") unless can_edit?
+
+  values = comma_split(values)
+  labels ||= {}
+  titleize = true if titleize.nil?
+  options = values.map {|v| [labels.fetch(v.to_sym, titleize ? v.titleize : v), v] }
+  
+  f = ajax_updater(object_url(this_parent, :method => :put),
+                   update,
+                   :method => "put",
+                   :params => { this_parent.class.name.underscore => {
+                       this_field => Hobo.raw_js('this.value')
+                    } })
+%>
+  <% concat(element(:select, merge_attrs({'onchange' => "#{f}"}, attributes || {}), new_context { %>
+    <%= options_for_select(options, this) %>
+  <% })) %>
+<% output_buffer; end; end %><% _register_tag_attrs(:string_select_editor, [:update, :values, :labels, :titleize]) %>
+# =============================== 
+# DEF: boolean_checkbox_editor
+# def
+# =============================== 
+<% def boolean_checkbox_editor(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do update, message, attributes, = _tag_locals(all_attributes, [:update, :message]) %><%
+  raise HoboError.new("Not allowed to edit") unless can_edit?
+  f = ajax_updater(object_url(this_parent, :method => :put),
+                   update,
+                   :method => "put",
+                   :message => message,
+                   :spinner_next_to => Hobo.raw_js("this"),
+                   :params => { this_parent.class.name.underscore => {
+                       this_field => Hobo.raw_js('this.checked')
+                    } })
+%>
+  <% concat(input(merge_attrs({:type => "checkbox", :value => "1", :onclick => "#{f}"}, ( this ? attributes.merge(:checked => 'checked') : attributes) || {}), 
+{})) %>
+<% output_buffer; end; end %><% _register_tag_attrs(:boolean_checkbox_editor, [:update, :message]) %>
+# =============================== 
+# DEF: sti_type_editor
+# def
+# =============================== 
+<% def sti_type_editor(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do update, attributes, = _tag_locals(all_attributes, [:update]) %>
+  <% base_class = this.class
+     base_class = base_class.superclass while base_class.superclass != ActiveRecord::Base
+   f = ajax_updater("#{base_url}/#{controller_for base_class}/#{this.id}",
+                    update,
+                    :method => "put",
+                    :params => { base_class.name.underscore => {
+                        "type" => Hobo.raw_js('this.value')
+                    } })
+  %>
+
+  <select onchange="<%= f %>">
+    <%= parameters.default || options_for_select(base_class.send(:subclasses).map{|x| [x.name.titleize, x.name]},
+                                                 this.class.name) %>
+  </select>
+<% output_buffer; end; end %><% _register_tag_attrs(:sti_type_editor, [:update]) %>
+# =============================== 
+# DEF: integer_select_editor
+# def
+# =============================== 
+<% def integer_select_editor(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do options, min, max, update, nil_option, message, attributes, = _tag_locals(all_attributes, [:options, :min, :max, :update, :nil_option, :message]) %>
+ <% options ||= (min.to_i..max.to_i).to_a %>
+ <% concat(element(:select, merge_attrs({'class' => "integer editor #{'update:' + comma_split(update).join(':') unless update.blank?} #{model_id_class(this_parent, this_field)}"}, (message ? attributes.merge(:hobo_message => message) : attributes) || {}), new_context { %>
+   <% concat(if_({:test => (this.nil?)}, { :default => proc { |_if__default_content| new_context { %><option value=""><%= nil_option || "Choose a value" %></option><% } }, })) %>
+   <%= options_for_select(options.*.to_s, this.to_s) %>
+ <% })) %>
+<% output_buffer; end; end %><% _register_tag_attrs(:integer_select_editor, [:options, :min, :max, :update, :nil_option, :message]) %>
+# =============================== 
+# DEF: has_many_checkbox_editor
+# def
+# =============================== 
+<% def has_many_checkbox_editor(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do model, update, message, attributes, = _tag_locals(all_attributes, [:model, :update, :message]) %><%=
+  raise HoboError.new("no update specified") unless update
+
+  fields = attributes.delete_if{|k,v|!k.ends_with? "_id"}
+  conditions = fields.map{|k,v|"#{k}=#{v}"}.join " AND "
+
+  klass = model.is_a?(String) ? model.constantize : model
+  obj = klass.find(:first, :conditions => conditions)
+
+  checkbox_attrs = {:type =>'checkbox'}
+  
+  if obj == nil
+    new = klass.new(fields)
+    permission = if can_create?(new)
+      class_name = new.class.name.underscore
+      ajax_options = { :message => message }
+      ajax_options[:params] = { class_name => fields } unless fields.empty?
+      checkbox_attrs[:onclick] = ajax_updater(object_url(new.class, :method => :post), update, ajax_options)
+    end
+  else
+    permission = if can_delete?(obj)
+      checkbox_attrs[:checked] = 'checked'
+      message ||= "Unsetting #{obj.class.name.titleize}"
+      class_name = obj.class.name.underscore
+      checkbox_attrs[:onclick] = ajax_updater(object_url(obj, :method => :delete), update, {:message => message, :method => 'delete'})                          
+    end
+  end
+  element(:input, add_classes(attributes.merge(checkbox_attrs),
+                              "checkbox_input has_many_checkbox has_many_#{class_name}_checkbox")) if permission
+%><% output_buffer; end; end %><% _register_tag_attrs(:has_many_checkbox_editor, [:model, :update, :message]) %>
+# =============================== 
+# DEF: has_many_checkbox_editors
+# def
+# =============================== 
+<% def has_many_checkbox_editors(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, [:editor, :name]); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %>
+  <% concat(table({}, {
+    :tr => proc { [{}, { :default => proc { |_tr__default_content| new_context { %>
+      <td><% concat(call_tag_parameter(:has_many_checkbox_editor, merge_attrs({}, attributes || {}), {}, all_parameters, :editor)) %></td>
+      <td><% concat(call_tag_parameter(:name, {}, {}, all_parameters, :name)) %></td>
+    <% } }, }] }, 
+  })) %>
+<% output_buffer; end; end %><% _register_tag_attrs(:has_many_checkbox_editors, []) %>

@@ -1,0 +1,76 @@
+# =============================== 
+# DEF: form__for_user
+# def
+# =============================== 
+<% def form__for_user(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, [:default, :error_messages, :field_list, :actions, :submit, :cancel]); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %>
+  <% concat(call_tag_parameter(:form__base, merge_attrs({}, attributes), merge_parameter_hashes({ :default => proc { |_form__default_content| new_context { %>
+    <% concat(call_tag_parameter(:error_messages, {}, {}, all_parameters, :error_messages)) %>
+    <% concat(call_tag_parameter(:field_list, {:fields => "name, email_address, administrator"}, {}, all_parameters, :field_list)) %>
+    <% concat(call_tag_parameter(:div, {}, { :default => proc { |_div__default_content| new_context { %>
+      <% concat(call_tag_parameter(:submit, {:label => "Save"}, {}, all_parameters, :submit)) %><% concat(call_tag_parameter(:or_cancel, {}, {}, all_parameters, :cancel)) %>
+    <% } }, }, all_parameters, :actions)) %>
+  <% } }, }, (parameters) || {}), all_parameters, :default)) %>
+<% output_buffer; end; end %><% _register_tag_attrs(:form__for_user, []) %>
+# =============================== 
+# DEF: signup_form
+# eval
+# =============================== 
+
+      def signup_form(attributes={}, parameters={})
+        _tag_context(attributes) do
+          attributes.delete :with
+          attributes.delete :field
+          call_polymorphic_tag('signup_form', attributes, parameters) { signup_form__base(attributes.except, parameters) }
+        end
+      end
+      
+# =============================== 
+# DEF: signup_form__base
+# def
+# =============================== 
+<% def signup_form__base(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %><% output_buffer; end; end %><% _register_tag_attrs(:signup_form__base, []) %>
+# =============================== 
+# DEF: signup_form__for_user
+# def
+# =============================== 
+<% def signup_form__for_user(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, [:default, :error_messages, :field_list, :actions, :submit, :cancel]); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %>
+  <% concat(call_tag_parameter(:form, merge_attrs({:lifecycle => "signup"}, attributes), merge_parameter_hashes({ :default => proc { |_form__default_content| new_context { %>
+    <% concat(call_tag_parameter(:error_messages, {}, {}, all_parameters, :error_messages)) %>
+    <% concat(call_tag_parameter(:field_list, {:fields => "name, email_address, password, password_confirmation"}, {}, all_parameters, :field_list)) %>
+    <% concat(call_tag_parameter(:div, {}, { :default => proc { |_div__default_content| new_context { %>
+      <% concat(call_tag_parameter(:submit, {:label => "Signup"}, {}, all_parameters, :submit)) %><% concat(call_tag_parameter(:or_cancel, {}, {}, all_parameters, :cancel)) %>
+    <% } }, }, all_parameters, :actions)) %>
+  <% } }, }, (parameters) || {}), all_parameters, :default)) %>
+<% output_buffer; end; end %><% _register_tag_attrs(:signup_form__for_user, []) %>
+# =============================== 
+# DEF: reset_password_form
+# eval
+# =============================== 
+
+      def reset_password_form(attributes={}, parameters={})
+        _tag_context(attributes) do
+          attributes.delete :with
+          attributes.delete :field
+          call_polymorphic_tag('reset_password_form', attributes, parameters) { reset_password_form__base(attributes.except, parameters) }
+        end
+      end
+      
+# =============================== 
+# DEF: reset_password_form__base
+# def
+# =============================== 
+<% def reset_password_form__base(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %><% output_buffer; end; end %><% _register_tag_attrs(:reset_password_form__base, []) %>
+# =============================== 
+# DEF: reset_password_form__for_user
+# def
+# =============================== 
+<% def reset_password_form__for_user(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, [:default, :error_messages, :field_list, :actions, :submit, :cancel]); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %>
+  <% concat(call_tag_parameter(:form, merge_attrs({:lifecycle => "reset_password"}, attributes), merge_parameter_hashes({ :default => proc { |_form__default_content| new_context { %>
+    <% concat(call_tag_parameter(:error_messages, {}, {}, all_parameters, :error_messages)) %>
+    <% concat((if !(this.lifecycle.provided_key).blank?; (__tmp_1 = input({:name => "key", :type => "hidden", :value => (this.lifecycle.provided_key)}, {}); Hobo::Dryml.last_if = true; __tmp_1) else (Hobo::Dryml.last_if = false; ''); end)) %>
+    <% concat(call_tag_parameter(:field_list, {:fields => "password, password_confirmation"}, {}, all_parameters, :field_list)) %>
+    <% concat(call_tag_parameter(:div, {}, { :default => proc { |_div__default_content| new_context { %>
+      <% concat(call_tag_parameter(:submit, {:label => "Reset Password"}, {}, all_parameters, :submit)) %><% concat(call_tag_parameter(:or_cancel, {}, {}, all_parameters, :cancel)) %>
+    <% } }, }, all_parameters, :actions)) %>
+  <% } }, }, (parameters) || {}), all_parameters, :default)) %>
+<% output_buffer; end; end %><% _register_tag_attrs(:reset_password_form__for_user, []) %>

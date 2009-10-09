@@ -1,0 +1,31 @@
+- Create small Rails Blog (on Heroku)
+-- "Adventures in Hobo world..."
+
+- do logging test in my-rails/logging/test
+-- It works! Why not in Rails!?
+- Try rails debug!
+
+- Insert 'debugger' statements
+- ss --debugger
+- Ensure script "create hobo app edge, has config.gem 'hobo' commented out or removed!"
+
+http://guides.rubyonrails.org/debugging_rails_applications.html
+
+- Add Tracing (tracer.rb?)
+- Add logging
+- Find root of templating and start investigating from here to get a sense of the main flow...
+- Tweak it one small step at a time...
+- Use Needle for logging/tracing (see email)
+- Let DrymlExt be called with either a has of configurations or an instance of class DrymlExtConfig, containing same parameters
+
+class DrymlExtConfig
+  def sub_result_handler
+  end
+
+  def all_result_handler
+  end
+
+  def init_result
+  end
+end
+  

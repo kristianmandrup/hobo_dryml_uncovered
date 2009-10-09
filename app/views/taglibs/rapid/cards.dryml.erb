@@ -1,0 +1,11 @@
+# =============================== 
+# DEF: card__for_user
+# def
+# =============================== 
+<% def card__for_user(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, [:default, :header, :heading]); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %>
+  <% concat(call_tag_parameter(:card__base, merge_attrs({:class => "user"}, attributes), merge_parameter_hashes({
+    :header => merge_tag_parameter(proc { [{}, { :default => proc { |_header__default_content| new_context { %>
+      <% concat(call_tag_parameter(:h4, {}, { :default => proc { |_h4__default_content| new_context { %><% concat(a({}, { :default => proc { |_a__default_content| new_context { %><% concat(name.to_s) %><% } }, })) %><% } }, }, all_parameters, :heading)) %>
+    <% } }, }] }, all_parameters[:header]), 
+  }, (parameters) || {}), all_parameters, :default)) %>
+<% output_buffer; end; end %><% _register_tag_attrs(:card__for_user, []) %>

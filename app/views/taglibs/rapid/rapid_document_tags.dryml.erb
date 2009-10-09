@@ -1,0 +1,60 @@
+# =============================== 
+# DEF: section_group
+# def
+# =============================== 
+<% def section_group(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, [:default]); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %><div class="section-group"><% concat(call_tag_parameter(:div, merge_attrs({:class => "section-group-inner"}, attributes || {}), { :default => proc { |_div__default_content| new_context { %><% } }, }, all_parameters, :default)) %></div><% output_buffer; end; end %><% _register_tag_attrs(:section_group, []) %>
+# =============================== 
+# DEF: section
+# def
+# =============================== 
+<% def section(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do empty, with_flash_messages, attributes, = _tag_locals(all_attributes, [:empty, :with_flash_messages]) %>
+  <% begin; body = (parameters.default); flash = (with_flash_messages && !scope.flash_rendered); ; end %>
+  <% concat((if !(!body.blank? || empty || flash).blank?; (__tmp_2 = element(:div, merge_attrs({'class' => "section #{'with-flash' if flash}"}, attributes || {}), new_context { %>
+    <% concat((if !(flash).blank?; (__tmp_1 = flash_messages.to_s; Hobo::Dryml.last_if = true; __tmp_1) else (Hobo::Dryml.last_if = false; ''); end)) %>
+    <%= body %>
+  <% }); Hobo::Dryml.last_if = true; __tmp_2) else (Hobo::Dryml.last_if = false; ''); end)) %>
+<% output_buffer; end; end %><% _register_tag_attrs(:section, [:empty, :with_flash_messages]) %>
+# =============================== 
+# DEF: aside
+# def
+# =============================== 
+<% def aside(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do empty, attributes, = _tag_locals(all_attributes, [:empty]) %>
+  <% begin; body = (parameters.default); ; end %>
+  <% concat((if !(!body.blank? || empty).blank?; (__tmp_3 = element(:div, merge_attrs({'class' => "aside"}, attributes || {}), new_context { %><%= body %><% }); Hobo::Dryml.last_if = true; __tmp_3) else (Hobo::Dryml.last_if = false; ''); end)) %>
+<% output_buffer; end; end %><% _register_tag_attrs(:aside, [:empty]) %>
+# =============================== 
+# DEF: header
+# def
+# =============================== 
+<% def header(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do empty, attributes, = _tag_locals(all_attributes, [:empty]) %>
+  <% begin; body = (parameters.default); ; end %>
+  <% concat((if !(!body.blank? || empty).blank?; (__tmp_4 = element(:div, merge_attrs({'class' => "header"}, attributes || {}), new_context { %><%= body %><% }); Hobo::Dryml.last_if = true; __tmp_4) else (Hobo::Dryml.last_if = false; ''); end)) %>
+<% output_buffer; end; end %><% _register_tag_attrs(:header, [:empty]) %>
+# =============================== 
+# DEF: footer
+# def
+# =============================== 
+<% def footer(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do empty, attributes, = _tag_locals(all_attributes, [:empty]) %>
+  <% begin; body = (parameters.default); ; end %>
+  <% concat((if !(!body.blank? || empty).blank?; (__tmp_5 = element(:div, merge_attrs({'class' => "footer"}, attributes || {}), new_context { %><%= body %><% }); Hobo::Dryml.last_if = true; __tmp_5) else (Hobo::Dryml.last_if = false; ''); end)) %>
+<% output_buffer; end; end %><% _register_tag_attrs(:footer, [:empty]) %>
+# =============================== 
+# DEF: labelled_item_list
+# def
+# =============================== 
+<% def labelled_item_list(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, [:default]); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %><% concat(table(merge_attrs({:class => "field-list"}, attributes || {}), { :default => proc { |_table__default_content| new_context { %><% concat(call_tag_parameter(:do_, {}, {}, all_parameters, :default)) %><% } }, })) %><% output_buffer; end; end %><% _register_tag_attrs(:labelled_item_list, []) %>
+# =============================== 
+# DEF: labelled_item
+# def
+# =============================== 
+<% def labelled_item(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, [:default]); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %><% concat(element(:tr, merge_attrs({}, attributes || {}), new_context { %><% concat(call_tag_parameter(:do_, {}, {}, all_parameters, :default)) %><% })) %><% output_buffer; end; end %><% _register_tag_attrs(:labelled_item, []) %>
+# =============================== 
+# DEF: item_label
+# def
+# =============================== 
+<% def item_label(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, [:default]); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %><% concat(element(:th, merge_attrs({}, attributes || {}), new_context { %><% concat(call_tag_parameter(:do_, {}, {}, all_parameters, :default)) %><% })) %><% output_buffer; end; end %><% _register_tag_attrs(:item_label, []) %>
+# =============================== 
+# DEF: item_value
+# def
+# =============================== 
+<% def item_value(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, [:default]); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %><% concat(element(:td, merge_attrs({}, attributes || {}), new_context { %><% concat(call_tag_parameter(:do_, {}, {}, all_parameters, :default)) %><% })) %><% output_buffer; end; end %><% _register_tag_attrs(:item_value, []) %>
