@@ -6,22 +6,48 @@ Uncovering the secrets of Hobo DRYML...
 This Hobo application is based on a Hobo edge application which has since been modified to include lot of logging functionality and logging statements. 
 This has been done to uncover some of the "magic secrets" of DRYML, so that Hobo extension providers (such as myself!) can get a better understanding of the DRYML templating process, and hence be better able to tweak it and add more advanced functionality and customizations.
 
+NOTE:
+------ 
+The current approach is rather "crude" and obtrusive and in general more of a Proof of Concept with a "poor design. As I gain more experience with metaprogramming the design will improve!  
+
+In a coming version I plan to do the logging by applying some "meta-magic" (metprogramming), using alias_method on select methods of relevant DRYML classes to inject 'before' and after 'aspects' in the form of logging statements around the method call. 
+This should make it much easier to seemingly integrate with future versions of Hobo/DRYML. 
+
+There should also be better options for fine tuning logging, fx only logging specific parts of DRYML generation, fx only view templates, specific view templates, in- or exclude rapid taglib logging etc. Suggestions are welcome!
+
+----
 Logging is currently provided by libs/logging.rb which contains a few modules that are included in select DRYML classes. 
 One such module is: Logging, which contains some logging helper methods. 
 
+Fine tuning of logging can currently be done by setting instance variables in the setup method. For now this seems hacky but it works ;-P
+
 The following Hobo::Dryml classes includes the Logging module:
+These classes can be found in hobo/lib/hobo/dryml
 
 - DRYMLBuilder
 - Template
 - TemplateEnvironment
 - Taglib
+- TemplateHandler
 
-The result of each DRYML erb generation is output to a .dryml.erb file in the same folder as the original .dryml file (for easy comparison). 
+The result of each DRYML erb generation is output to a .dryml.erb file in the same folder as the original .dryml file (for easy comparison).
+Also the logging performed for each dryml file is logged to a .dryml.log file, so you can see exactly how each .dryml file was handled.   
 
-Example:
-When DRYML compiles front/index.dryml, the final .erb output is stored as front/index.dryml.erb (thanks to Brett Nelson for this patch!)
+On top of all this, an overall DRYML logging file is generated in log/dryml_template.log
+This file is cleared in case more than 20 seconds have passed since last run. 
 
-The rapid library is compiled (and cached!) when the first page of an application is compiled and displayed. This process has also been uncovered here.
+Logging view templates 
+======================
+When DRYML compiles the view templates, the logging output is generated next to the .dryml file. 
+For example for front/index.dryml, the final .erb output is stored as front/index.dryml.erb (thanks to Brett Nelson for this patch!).
+Logging statements are sent to front/index.dryml.log.
+
+Logging of Rapid taglib
+=======================
+The rapid tag library is compiled (and cached!) when the first page of an application is compiled and displayed. This process has also been uncovered here.
+
 The resulting .erb files from this proces are saved in the folder /app/views/taglibs/rapid/ where core.dryml becomes core.dryml.erb
+The log file is currently stored in the taglibs folder next to the original rapid taglib file.
+
 Currently this .erb file is only created if it doesn't exists already in. If you change the .dryml file you should delete the corresponding .erb file manually to
 effectively delte the "cache", or change the login in logging.rb to not test for the existence of the .erb file : unless File.exist?(file).  

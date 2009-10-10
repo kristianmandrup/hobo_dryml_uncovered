@@ -11,21 +11,63 @@ module Logging
     # log(msg)
   end
   
-  def log(msg)
+  def log_template?(template)
+    return false if !@template_path
+    
+    template_dir = File.dirname(template)
+    view_folder = template_dir.sub(/^(.*)\/views\/(.*?)$/, "\1")
+    
+    template_file = File.basename(template)
+    template_taglib_match = /(.*?)_/.match(template_file)
+    if template_taglib_match
+      template_taglib = template_taglib_match[1]
+      return false if @log_exclude_taglibs.include?(template_taglib)          
+    end
+    
+    return false if !@log_taglibs && template_dir.include?('taglibs')
+
+    return false if @log_view_folders_exclude && @log_view_folders_exclude.include?(view_folder)
+
+    if !@log_view_folders || @log_view_folders.blank? || @log_view_folders.include?(template_dir)
+      if !@log_views || @log_view_folders.blank? || @log_views.include?(template_file)
+        return true
+      end
+    end
+    return false
+  end
+
+  def setup
     @log ||= Logger.new(STDOUT)
     @log.level ||= Logger::DEBUG          
     @log_file ||= 'dryml_template'
-    @overwrite = false
-    @console_log = false
     
-    if @template_path
+    # fine tune logging
+    @overwrite ||= false
+    @console_log ||= false
+    @log_dryml ||= false
+    @log_rapid ||= false
+    @log_taglibs ||= false 
+    # specify which view folders to include for logging
+           
+    @log_view_folders ||= 'front recipe'
+    @log_view_folders_exclude ||= 'ingredient'    
+    
+    @log_views ||= 'index show'
+    @log_views_exclude ||= 'new'
+    
+    @log_exclude_taglibs ||= 'rapid core'
+  end
+  
+  def log(msg)
+    setup if !@log
+    if log_template?(@template_path)
       file = @template_path + '.log'
       if File.exist?(@template_path)
         log_f(msg, file)
       end
     else
        @log.debug msg if @console_log
-       log_dryml(msg)
+       log_dryml(msg) if @log_dryml
     end
   end  
 
