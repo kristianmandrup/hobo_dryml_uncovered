@@ -7,29 +7,45 @@ end
 
 module Logging
   
+  def log_detail(msg)
+    # log(msg)
+  end
   
   def log(msg)
     @log ||= Logger.new(STDOUT)
     @log.level ||= Logger::DEBUG          
     @log_file ||= 'dryml_template'
     @overwrite = false
-#    @old_template ||= ''
+    @console_log = false
     
-    if @template_path # && @template_path.include?('app/views/') || !@template_path.include?('views/taglibs')
+    if @template_path
       file = @template_path + '.log'
       if File.exist?(@template_path)
         log_f(msg, file)
       end
     else
-       # @log.debug msg
-       log_f(msg)
+       @log.debug msg if @console_log
+       log_dryml(msg)
     end
   end  
+
+  def is_old_file?(file)
+    File.new(file).mtime < (Time.now - 20.seconds)
+  end
+
+  def log_dryml(txt)
+    file = RAILS_ROOT + "/log/#{@log_file}.log"
+    mode = is_old_file?(file) ? "w+" : "a+"
+    open(file, mode) do |f|
+      f.puts txt
+    end
+  end
 
   def log_f(txt, file = nil)
     file = file || (RAILS_ROOT + "/log/#{@log_file}.log")
     unless File.exist?(file) && @overwrite
-      open(file, "a+") do |f|
+      mode = is_old_file?(file) ? "w+" : "a+"
+      open(file, mode) do |f|
         f.puts txt
       end
     end
