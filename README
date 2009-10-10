@@ -8,7 +8,7 @@ This has been done to uncover some of the "magic secrets" of DRYML, so that Hobo
 
 NOTE:
 ------ 
-The current approach is rather "crude" and obtrusive and in general more of a Proof of Concept with a "poor design. As I gain more experience with metaprogramming the design will improve!  
+The current approach is rather "crude" and intrusive and in general more of a Proof of Concept with a "poor design. As I gain more experience with metaprogramming the design will improve! The goal is to have a mostly non-intrusive mechanism for enabling logging to the exact degree you need for debugging/understanding or otherwise investigation DRYML internals!   
 
 In a coming version I plan to do the logging by applying some "meta-magic" (metprogramming), using alias_method on select methods of relevant DRYML classes to inject 'before' and after 'aspects' in the form of logging statements around the method call. 
 This should make it much easier to seemingly integrate with future versions of Hobo/DRYML. 
