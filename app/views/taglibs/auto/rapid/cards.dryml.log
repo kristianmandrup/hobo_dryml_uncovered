@@ -1,0 +1,91 @@
+creating new Template builder
+Hobo::Dryml::Template.initialize : END
+Template::Compile
+Template::proces_src
+processing taglib app/views/taglibs/auto/rapid/cards.dryml
+Template::children_to_erb
+Template::node_to_erb
+Template::node_to_erb
+Template::node_to_erb
+Template::element_to_erb
+Template::def_element
+Tag Name: card
+Template::tag_method - card__for_user 
+Template::tag_method_body
+Template::children_to_erb
+Template::node_to_erb
+Template::node_to_erb
+Template::element_to_erb
+Template::tag_call - card__base
+Template::tag_attributes
+Template::parameter_tag_hash_item
+Template::param_proc
+Template::default_param_proc
+Template::children_to_erb
+Template::node_to_erb
+Template::node_to_erb
+Template::element_to_erb
+Template::tag_call - h4
+Template::tag_attributes
+Template::default_param_proc
+Template::children_to_erb
+Template::node_to_erb
+Template::element_to_erb
+Template::tag_call - a
+Template::tag_attributes
+Template::default_param_proc
+Template::children_to_erb
+Template::node_to_erb
+Template::element_to_erb
+Template::tag_call - name
+Template::tag_attributes
+Template::without_parameters
+call - name.to_s
+Template::apply_control_attributes
+Template::maybe_make_part_call
+call before metadata - <% concat(name.to_s) %>
+Template::tag_call - name END
+Template::element_to_erb END
+Template::without_parameters
+call - a({}, { :default => proc { |_a__default_content| new_context { %><% concat(name.to_s) %><% } }, })
+Template::apply_control_attributes
+Template::maybe_make_part_call
+call before metadata - <% concat(a({}, { :default => proc { |_a__default_content| new_context { %><% concat(name.to_s) %><% } }, })) %>
+Template::tag_call - a END
+Template::element_to_erb END
+Template::without_parameters
+call - call_tag_parameter(:h4, {}, { :default => proc { |_h4__default_content| new_context { %><% concat(a({}, { :default => proc { |_a__default_content| new_context { %><% concat(name.to_s) %><% } }, })) %><% } }, }, all_parameters, :heading)
+Template::apply_control_attributes
+Template::maybe_make_part_call
+call before metadata - <% concat(call_tag_parameter(:h4, {}, { :default => proc { |_h4__default_content| new_context { %><% concat(a({}, { :default => proc { |_a__default_content| new_context { %><% concat(name.to_s) %><% } }, })) %><% } }, }, all_parameters, :heading)) %>
+Template::tag_call - h4 END
+Template::element_to_erb END
+Template::node_to_erb
+Template::without_parameters
+Template::without_parameters
+call - call_tag_parameter(:card__base, merge_attrs({:class => "user"}, attributes), merge_parameter_hashes({
+    :header => merge_tag_parameter(proc { [{}, { :default => proc { |_header__default_content| new_context { %>
+      <% concat(call_tag_parameter(:h4, {}, { :default => proc { |_h4__default_content| new_context { %><% concat(a({}, { :default => proc { |_a__default_content| new_context { %><% concat(name.to_s) %><% } }, })) %><% } }, }, all_parameters, :heading)) %>
+    <% } }, }] }, all_parameters[:header]), 
+  }, (parameters) || {}), all_parameters, :default)
+Template::apply_control_attributes
+Template::maybe_make_part_call
+call before metadata - <% concat(call_tag_parameter(:card__base, merge_attrs({:class => "user"}, attributes), merge_parameter_hashes({
+    :header => merge_tag_parameter(proc { [{}, { :default => proc { |_header__default_content| new_context { %>
+      <% concat(call_tag_parameter(:h4, {}, { :default => proc { |_h4__default_content| new_context { %><% concat(a({}, { :default => proc { |_a__default_content| new_context { %><% concat(name.to_s) %><% } }, })) %><% } }, }, all_parameters, :heading)) %>
+    <% } }, }] }, all_parameters[:header]), 
+  }, (parameters) || {}), all_parameters, :default)) %>
+Template::tag_call - card__base END
+Template::element_to_erb END
+Template::node_to_erb
+Template::tag_method_body END
+<% def card__for_user(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, [:default, :header, :heading]); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %>
+  <% concat(call_tag_parameter(:card__base, merge_attrs({:class => "user"}, attributes), merge_parameter_hashes({
+    :header => merge_tag_parameter(proc { [{}, { :default => proc { |_header__default_content| new_context { %>
+      <% concat(call_tag_parameter(:h4, {}, { :default => proc { |_h4__default_content| new_context { %><% concat(a({}, { :default => proc { |_a__default_content| new_context { %><% concat(name.to_s) %><% } }, })) %><% } }, }, all_parameters, :heading)) %>
+    <% } }, }] }, all_parameters[:header]), 
+  }, (parameters) || {}), all_parameters, :default)) %>
+<% output_buffer; end; end %>
+Template::element_to_erb END
+Template::node_to_erb
+Build template with Hobo::Dryml::DRYMLBuilder

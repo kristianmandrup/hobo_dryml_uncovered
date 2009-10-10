@@ -1,18 +1,18 @@
-module Context
-  def set_context(context)
-    @context = context
+class String
+  def blank?
+    return true if self.nil? || self.strip.empty?        
+    false
   end
-end  
+end
 
-
-module Logging
+class Logging
   
   def log_detail(msg)
     # log(msg)
   end
   
   def log_template?(template)
-    return false if !@template_path
+    return false if !template
     
     # directory of template file
     template_dir = File.dirname(template)
@@ -48,8 +48,8 @@ module Logging
   end
 
   def setup
-    @log ||= Logger.new(STDOUT)
-    @log.level ||= Logger::DEBUG          
+    # @log ||= Logger.new(STDOUT)
+    # @log.level ||= Logger::DEBUG          
     @log_file ||= 'dryml_template'
     
     # fine tune logging
@@ -106,35 +106,28 @@ module Logging
         f.puts txt
       end
     end
-  end
-    
+  end    
 end
 
-module SaveErb  
-  def save_erb_file(erb, file = nil)
-    file = file || (RAILS_ROOT + "/" + @template_path + ".erb")
-    unless (File.basename(@template_path, '.dryml') == 'application') || @template_path.include?('taglibs')
-      unless File.exist?(file) && @overwrite      
-        File.open(file, "w") do |erbfile|
-          erbfile.syswrite(erb)
-        end
-      end
-    end
-    erb
-  end
+@my_log = Logging.new
+@my_log.setup
+
+def do_log?(path)
+  puts "path: #{path} do log = #{@my_log.log_template?(path)}"
 end
 
-module SaveEnv  
-  def save_environment_file(tag_name, env_src, taglib)
-    if tag_name
-      dir = RAILS_ROOT + "/app/views/taglibs/rapid/"
-      FileUtils.mkdir_p(dir) unless File.directory?(dir)      
-      file = File.join(dir, "#{taglib}.dryml.erb")
-      unless File.exist?(file)
-        File.open(file, "w+") do |f|
-          f.puts env_src
-        end
-      end
-    end
-  end
-end
+do_log?("/app/views/front/index.dryml")
+do_log?("/app/views/recipe/index.dryml")
+do_log?("/app/views/ingredient/index.dryml")
+
+do_log?("/app/views/front/show.dryml")
+do_log?("/app/views/recipe/show.dryml")
+do_log?("/app/views/ingredient/show.dryml")
+
+do_log?("/app/views/front/new.dryml")
+do_log?("/app/views/recipe/new.dryml")
+do_log?("/app/views/ingredient/new.dryml")
+
+do_log?("/hobo/taglibs/rapid_core.dryml")
+do_log?("/hobo/taglibs/core.dryml")
+

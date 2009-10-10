@@ -1,0 +1,136 @@
+Sat Oct 10 18:27:35 +0200 2009
+creating new Template builder
+Hobo::Dryml::Template.initialize : END
+Template::Compile
+Template::proces_src
+processing taglib app/views/front/index.dryml
+Template::children_to_erb
+Template::node_to_erb
+Template::element_to_erb
+Template::tag_call - page
+Template::tag_attributes
+Template::parameter_tag_hash_item
+Template::param_proc
+Template::without_parameters
+Template::parameter_tag_hash_item
+Template::param_proc
+Template::default_param_proc
+Template::children_to_erb
+Template::node_to_erb
+Template::node_to_erb
+Template::element_to_erb
+Template::tag_call - header
+Template::tag_attributes
+Template::default_param_proc
+Template::children_to_erb
+Template::node_to_erb
+Template::node_to_erb
+Template::element_to_erb
+Template::static_element_to_erb
+Template::children_to_erb
+Template::node_to_erb
+Template::element_to_erb END
+Template::node_to_erb
+Template::node_to_erb
+Template::element_to_erb
+Template::tag_call - comma
+Template::tag_attributes
+Template::default_param_proc
+Template::children_to_erb
+Template::node_to_erb
+Template::node_to_erb
+Template::element_to_erb
+Template::tag_call - x
+Template::tag_attributes
+Template::default_param_proc
+Template::children_to_erb
+Template::node_to_erb
+Template::without_parameters
+call - x({}, { :default => proc { |_x__default_content| new_context { %>hello<% } }, })
+Template::apply_control_attributes
+Template::maybe_make_part_call
+call before metadata - <% concat(x({}, { :default => proc { |_x__default_content| new_context { %>hello<% } }, })) %>
+Template::tag_call - x END
+Template::element_to_erb END
+Template::node_to_erb
+Template::node_to_erb
+Template::element_to_erb
+Template::tag_call - x
+Template::tag_attributes
+Template::default_param_proc
+Template::children_to_erb
+Template::node_to_erb
+Template::without_parameters
+call - x({}, { :default => proc { |_x__default_content| new_context { %>hello you<% } }, })
+Template::apply_control_attributes
+Template::maybe_make_part_call
+call before metadata - <% concat(x({}, { :default => proc { |_x__default_content| new_context { %>hello you<% } }, })) %>
+Template::tag_call - x END
+Template::element_to_erb END
+Template::node_to_erb
+Template::without_parameters
+call - comma({}, { :default => proc { |_comma__default_content| new_context { %>
+          <% concat(x({}, { :default => proc { |_x__default_content| new_context { %>hello<% } }, })) %>
+          <% concat(x({}, { :default => proc { |_x__default_content| new_context { %>hello you<% } }, })) %>
+        <% } }, })
+Template::apply_control_attributes
+Template::maybe_make_part_call
+call before metadata - <% concat(comma({}, { :default => proc { |_comma__default_content| new_context { %>
+          <% concat(x({}, { :default => proc { |_x__default_content| new_context { %>hello<% } }, })) %>
+          <% concat(x({}, { :default => proc { |_x__default_content| new_context { %>hello you<% } }, })) %>
+        <% } }, })) %>
+Template::tag_call - comma END
+Template::element_to_erb END
+Template::node_to_erb
+Template::without_parameters
+call - header({:class => "content-header"}, { :default => proc { |_header__default_content| new_context { %>
+        <h3>Congratulations! Your Hobo Rails App is up and running</h3>    
+        <% concat(comma({}, { :default => proc { |_comma__default_content| new_context { %>
+          <% concat(x({}, { :default => proc { |_x__default_content| new_context { %>hello<% } }, })) %>
+          <% concat(x({}, { :default => proc { |_x__default_content| new_context { %>hello you<% } }, })) %>
+        <% } }, })) %>              
+    <% } }, })
+Template::apply_control_attributes
+Template::maybe_make_part_call
+call before metadata - <% concat(header({:class => "content-header"}, { :default => proc { |_header__default_content| new_context { %>
+        <h3>Congratulations! Your Hobo Rails App is up and running</h3>    
+        <% concat(comma({}, { :default => proc { |_comma__default_content| new_context { %>
+          <% concat(x({}, { :default => proc { |_x__default_content| new_context { %>hello<% } }, })) %>
+          <% concat(x({}, { :default => proc { |_x__default_content| new_context { %>hello you<% } }, })) %>
+        <% } }, })) %>              
+    <% } }, })) %>
+Template::tag_call - header END
+Template::element_to_erb END
+Template::node_to_erb
+Template::without_parameters
+Template::without_parameters
+call - page({:title => "Home"}, {
+  :body => proc { [{:class => "front-page"}, {}] }, 
+  :content => proc { [{}, { :default => proc { |_content__default_content| new_context { %>
+    <% concat(header({:class => "content-header"}, { :default => proc { |_header__default_content| new_context { %>
+        <h3>Congratulations! Your Hobo Rails App is up and running</h3>    
+        <% concat(comma({}, { :default => proc { |_comma__default_content| new_context { %>
+          <% concat(x({}, { :default => proc { |_x__default_content| new_context { %>hello<% } }, })) %>
+          <% concat(x({}, { :default => proc { |_x__default_content| new_context { %>hello you<% } }, })) %>
+        <% } }, })) %>              
+    <% } }, })) %>
+  <% } }, }] }, 
+})
+Template::apply_control_attributes
+Template::maybe_make_part_call
+call before metadata - <% concat(page({:title => "Home"}, {
+  :body => proc { [{:class => "front-page"}, {}] }, 
+  :content => proc { [{}, { :default => proc { |_content__default_content| new_context { %>
+    <% concat(header({:class => "content-header"}, { :default => proc { |_header__default_content| new_context { %>
+        <h3>Congratulations! Your Hobo Rails App is up and running</h3>    
+        <% concat(comma({}, { :default => proc { |_comma__default_content| new_context { %>
+          <% concat(x({}, { :default => proc { |_x__default_content| new_context { %>hello<% } }, })) %>
+          <% concat(x({}, { :default => proc { |_x__default_content| new_context { %>hello you<% } }, })) %>
+        <% } }, })) %>              
+    <% } }, })) %>
+  <% } }, }] }, 
+})) %>
+Template::tag_call - page END
+Template::element_to_erb END
+Template::node_to_erb
+Build template with Hobo::Dryml::DRYMLBuilder

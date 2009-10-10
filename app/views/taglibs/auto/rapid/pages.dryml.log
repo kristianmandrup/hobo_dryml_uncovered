@@ -1,0 +1,1126 @@
+creating new Template builder
+Hobo::Dryml::Template.initialize : END
+Template::Compile
+Template::proces_src
+processing taglib app/views/taglibs/auto/rapid/pages.dryml
+Template::children_to_erb
+Template::node_to_erb
+Template::node_to_erb
+Template::node_to_erb
+Template::node_to_erb
+Template::node_to_erb
+Template::element_to_erb
+Template::def_element
+Tag Name: main-nav
+Template::tag_method - main-nav 
+Template::tag_method_body
+Template::children_to_erb
+Template::node_to_erb
+Template::node_to_erb
+Template::element_to_erb
+Template::tag_call - navigation
+Template::tag_attributes
+Template::compile_merge_attrs
+Template::default_param_proc
+Template::children_to_erb
+Template::node_to_erb
+Template::node_to_erb
+Template::element_to_erb
+Template::tag_call - nav_item
+Template::tag_attributes
+Template::default_param_proc
+Template::children_to_erb
+Template::node_to_erb
+Template::without_parameters
+call - nav_item({:href => "#{base_url}/"}, { :default => proc { |_nav_item__default_content| new_context { %>Home<% } }, })
+Template::apply_control_attributes
+Template::maybe_make_part_call
+call before metadata - <% concat(nav_item({:href => "#{base_url}/"}, { :default => proc { |_nav_item__default_content| new_context { %>Home<% } }, })) %>
+Template::tag_call - nav_item END
+Template::element_to_erb END
+Template::node_to_erb
+Template::without_parameters
+call - call_tag_parameter(:navigation, merge_attrs({:class => "main-nav"}, attributes || {}), { :default => proc { |_navigation__default_content| new_context { %>
+    <% concat(nav_item({:href => "#{base_url}/"}, { :default => proc { |_nav_item__default_content| new_context { %>Home<% } }, })) %>
+  <% } }, }, all_parameters, :default)
+Template::apply_control_attributes
+Template::maybe_make_part_call
+call before metadata - <% concat(call_tag_parameter(:navigation, merge_attrs({:class => "main-nav"}, attributes || {}), { :default => proc { |_navigation__default_content| new_context { %>
+    <% concat(nav_item({:href => "#{base_url}/"}, { :default => proc { |_nav_item__default_content| new_context { %>Home<% } }, })) %>
+  <% } }, }, all_parameters, :default)) %>
+Template::tag_call - navigation END
+Template::element_to_erb END
+Template::node_to_erb
+Template::tag_method_body END
+<% def main_nav(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, [:default]); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %>
+  <% concat(call_tag_parameter(:navigation, merge_attrs({:class => "main-nav"}, attributes || {}), { :default => proc { |_navigation__default_content| new_context { %>
+    <% concat(nav_item({:href => "#{base_url}/"}, { :default => proc { |_nav_item__default_content| new_context { %>Home<% } }, })) %>
+  <% } }, }, all_parameters, :default)) %>
+<% output_buffer; end; end %>
+Template::element_to_erb END
+Template::node_to_erb
+Template::node_to_erb
+Template::node_to_erb
+Template::node_to_erb
+Template::element_to_erb
+Template::def_element
+Tag Name: index-page
+Template::tag_method - index-page__for_user 
+Template::tag_method_body
+Template::children_to_erb
+Template::node_to_erb
+Template::node_to_erb
+Template::element_to_erb
+Template::tag_call - page
+Template::tag_attributes
+Template::parameter_tag_hash_item
+Template::param_proc
+Template::without_parameters
+Template::parameter_tag_hash_item
+Template::param_proc
+Template::default_param_proc
+Template::children_to_erb
+Template::node_to_erb
+Template::node_to_erb
+Template::element_to_erb
+Template::tag_call - header
+Template::tag_attributes
+Template::default_param_proc
+Template::children_to_erb
+Template::node_to_erb
+Template::node_to_erb
+Template::element_to_erb
+Template::tag_call - h2
+Template::tag_attributes
+Template::default_param_proc
+Template::children_to_erb
+Template::node_to_erb
+Template::without_parameters
+call - call_tag_parameter(:h2, {}, { :default => proc { |_h2__default_content| new_context { %>Users<% } }, }, all_parameters, :heading)
+Template::apply_control_attributes
+Template::maybe_make_part_call
+call before metadata - <% concat(call_tag_parameter(:h2, {}, { :default => proc { |_h2__default_content| new_context { %>Users<% } }, }, all_parameters, :heading)) %>
+Template::tag_call - h2 END
+Template::element_to_erb END
+Template::node_to_erb
+Template::node_to_erb
+Template::element_to_erb
+Template::tag_call - p
+Template::tag_attributes
+Template::default_param_proc
+Template::children_to_erb
+Template::node_to_erb
+Template::node_to_erb
+Template::element_to_erb
+Template::tag_call - count
+Template::tag_attributes
+Template::without_parameters
+call - count({:prefix => "are"}, {})
+Template::apply_control_attributes
+Template::maybe_make_part_call
+call before metadata - <% concat(count({:prefix => "are"}, {})) %>
+Template::tag_call - count END
+Template::element_to_erb END
+Template::without_parameters
+call - call_tag_parameter(:p, {}, { :default => proc { |_p__default_content| new_context { %>There <% concat(count({:prefix => "are"}, {})) %><% } }, }, all_parameters, :count)
+Template::apply_control_attributes
+Template::maybe_make_part_call
+call before metadata - <% concat((if !(this).blank?; (__tmp_1 = call_tag_parameter(:p, {}, { :default => proc { |_p__default_content| new_context { %>There <% concat(count({:prefix => "are"}, {})) %><% } }, }, all_parameters, :count); Hobo::Dryml.last_if = true; __tmp_1) else (Hobo::Dryml.last_if = false; ''); end)) %>
+Template::tag_call - p END
+Template::element_to_erb END
+Template::node_to_erb
+Template::without_parameters
+call - call_tag_parameter(:header, {}, { :default => proc { |_header__default_content| new_context { %>
+        <% concat(call_tag_parameter(:h2, {}, { :default => proc { |_h2__default_content| new_context { %>Users<% } }, }, all_parameters, :heading)) %>
+
+        <% concat((if !(this).blank?; (__tmp_1 = call_tag_parameter(:p, {}, { :default => proc { |_p__default_content| new_context { %>There <% concat(count({:prefix => "are"}, {})) %><% } }, }, all_parameters, :count); Hobo::Dryml.last_if = true; __tmp_1) else (Hobo::Dryml.last_if = false; ''); end)) %>
+      <% } }, }, all_parameters, :content_header)
+Template::apply_control_attributes
+Template::maybe_make_part_call
+call before metadata - <% concat(call_tag_parameter(:header, {}, { :default => proc { |_header__default_content| new_context { %>
+        <% concat(call_tag_parameter(:h2, {}, { :default => proc { |_h2__default_content| new_context { %>Users<% } }, }, all_parameters, :heading)) %>
+
+        <% concat((if !(this).blank?; (__tmp_1 = call_tag_parameter(:p, {}, { :default => proc { |_p__default_content| new_context { %>There <% concat(count({:prefix => "are"}, {})) %><% } }, }, all_parameters, :count); Hobo::Dryml.last_if = true; __tmp_1) else (Hobo::Dryml.last_if = false; ''); end)) %>
+      <% } }, }, all_parameters, :content_header)) %>
+Template::tag_call - header END
+Template::element_to_erb END
+Template::node_to_erb
+Template::node_to_erb
+Template::element_to_erb
+Template::tag_call - section
+Template::tag_attributes
+Template::default_param_proc
+Template::children_to_erb
+Template::node_to_erb
+Template::node_to_erb
+Template::element_to_erb
+Template::tag_call - page_nav
+Template::tag_attributes
+Template::without_parameters
+call - call_tag_parameter(:page_nav, {}, {}, all_parameters, :top_page_nav)
+Template::apply_control_attributes
+Template::maybe_make_part_call
+call before metadata - <% concat(call_tag_parameter(:page_nav, {}, {}, all_parameters, :top_page_nav)) %>
+Template::tag_call - page_nav END
+Template::element_to_erb END
+Template::node_to_erb
+Template::node_to_erb
+Template::element_to_erb
+Template::tag_call - collection
+Template::tag_attributes
+Template::without_parameters
+call - call_tag_parameter(:collection, {}, {}, all_parameters, :collection)
+Template::apply_control_attributes
+Template::maybe_make_part_call
+call before metadata - <% concat(call_tag_parameter(:collection, {}, {}, all_parameters, :collection)) %>
+Template::tag_call - collection END
+Template::element_to_erb END
+Template::node_to_erb
+Template::node_to_erb
+Template::element_to_erb
+Template::tag_call - page_nav
+Template::tag_attributes
+Template::without_parameters
+call - call_tag_parameter(:page_nav, {}, {}, all_parameters, :bottom_page_nav)
+Template::apply_control_attributes
+Template::maybe_make_part_call
+call before metadata - <% concat(call_tag_parameter(:page_nav, {}, {}, all_parameters, :bottom_page_nav)) %>
+Template::tag_call - page_nav END
+Template::element_to_erb END
+Template::node_to_erb
+Template::without_parameters
+call - call_tag_parameter(:section, {}, { :default => proc { |_section__default_content| new_context { %>
+
+        <% concat(call_tag_parameter(:page_nav, {}, {}, all_parameters, :top_page_nav)) %>
+
+        <% concat(call_tag_parameter(:collection, {}, {}, all_parameters, :collection)) %>
+
+        <% concat(call_tag_parameter(:page_nav, {}, {}, all_parameters, :bottom_page_nav)) %>
+
+
+      <% } }, }, all_parameters, :content_body)
+Template::apply_control_attributes
+Template::maybe_make_part_call
+call before metadata - <% concat(call_tag_parameter(:section, {}, { :default => proc { |_section__default_content| new_context { %>
+
+        <% concat(call_tag_parameter(:page_nav, {}, {}, all_parameters, :top_page_nav)) %>
+
+        <% concat(call_tag_parameter(:collection, {}, {}, all_parameters, :collection)) %>
+
+        <% concat(call_tag_parameter(:page_nav, {}, {}, all_parameters, :bottom_page_nav)) %>
+
+
+      <% } }, }, all_parameters, :content_body)) %>
+Template::tag_call - section END
+Template::element_to_erb END
+Template::node_to_erb
+Template::without_parameters
+Template::without_parameters
+call - page(merge_attrs({:title => "Users"}, attributes), merge_parameter_hashes({
+    :body => merge_tag_parameter(proc { [{:class => "index-page user"}, {}] }, all_parameters[:body]), 
+    
+    :content => merge_tag_parameter(proc { [{}, { :default => proc { |_content__default_content| new_context { %>
+      <% concat(call_tag_parameter(:header, {}, { :default => proc { |_header__default_content| new_context { %>
+        <% concat(call_tag_parameter(:h2, {}, { :default => proc { |_h2__default_content| new_context { %>Users<% } }, }, all_parameters, :heading)) %>
+
+        <% concat((if !(this).blank?; (__tmp_1 = call_tag_parameter(:p, {}, { :default => proc { |_p__default_content| new_context { %>There <% concat(count({:prefix => "are"}, {})) %><% } }, }, all_parameters, :count); Hobo::Dryml.last_if = true; __tmp_1) else (Hobo::Dryml.last_if = false; ''); end)) %>
+      <% } }, }, all_parameters, :content_header)) %>
+      
+      <% concat(call_tag_parameter(:section, {}, { :default => proc { |_section__default_content| new_context { %>
+
+        <% concat(call_tag_parameter(:page_nav, {}, {}, all_parameters, :top_page_nav)) %>
+
+        <% concat(call_tag_parameter(:collection, {}, {}, all_parameters, :collection)) %>
+
+        <% concat(call_tag_parameter(:page_nav, {}, {}, all_parameters, :bottom_page_nav)) %>
+
+
+      <% } }, }, all_parameters, :content_body)) %>
+    <% } }, }] }, all_parameters[:content]), 
+  }, (parameters) || {}))
+Template::apply_control_attributes
+Template::maybe_make_part_call
+call before metadata - <% concat(page(merge_attrs({:title => "Users"}, attributes), merge_parameter_hashes({
+    :body => merge_tag_parameter(proc { [{:class => "index-page user"}, {}] }, all_parameters[:body]), 
+    
+    :content => merge_tag_parameter(proc { [{}, { :default => proc { |_content__default_content| new_context { %>
+      <% concat(call_tag_parameter(:header, {}, { :default => proc { |_header__default_content| new_context { %>
+        <% concat(call_tag_parameter(:h2, {}, { :default => proc { |_h2__default_content| new_context { %>Users<% } }, }, all_parameters, :heading)) %>
+
+        <% concat((if !(this).blank?; (__tmp_1 = call_tag_parameter(:p, {}, { :default => proc { |_p__default_content| new_context { %>There <% concat(count({:prefix => "are"}, {})) %><% } }, }, all_parameters, :count); Hobo::Dryml.last_if = true; __tmp_1) else (Hobo::Dryml.last_if = false; ''); end)) %>
+      <% } }, }, all_parameters, :content_header)) %>
+      
+      <% concat(call_tag_parameter(:section, {}, { :default => proc { |_section__default_content| new_context { %>
+
+        <% concat(call_tag_parameter(:page_nav, {}, {}, all_parameters, :top_page_nav)) %>
+
+        <% concat(call_tag_parameter(:collection, {}, {}, all_parameters, :collection)) %>
+
+        <% concat(call_tag_parameter(:page_nav, {}, {}, all_parameters, :bottom_page_nav)) %>
+
+
+      <% } }, }, all_parameters, :content_body)) %>
+    <% } }, }] }, all_parameters[:content]), 
+  }, (parameters) || {}))) %>
+Template::tag_call - page END
+Template::element_to_erb END
+Template::node_to_erb
+Template::tag_method_body END
+<% def index_page__for_user(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, [:body, :content, :content_header, :heading, :count, :content_body, :top_page_nav, :collection, :bottom_page_nav]); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %>
+  <% concat(page(merge_attrs({:title => "Users"}, attributes), merge_parameter_hashes({
+    :body => merge_tag_parameter(proc { [{:class => "index-page user"}, {}] }, all_parameters[:body]), 
+    
+    :content => merge_tag_parameter(proc { [{}, { :default => proc { |_content__default_content| new_context { %>
+      <% concat(call_tag_parameter(:header, {}, { :default => proc { |_header__default_content| new_context { %>
+        <% concat(call_tag_parameter(:h2, {}, { :default => proc { |_h2__default_content| new_context { %>Users<% } }, }, all_parameters, :heading)) %>
+
+        <% concat((if !(this).blank?; (__tmp_1 = call_tag_parameter(:p, {}, { :default => proc { |_p__default_content| new_context { %>There <% concat(count({:prefix => "are"}, {})) %><% } }, }, all_parameters, :count); Hobo::Dryml.last_if = true; __tmp_1) else (Hobo::Dryml.last_if = false; ''); end)) %>
+      <% } }, }, all_parameters, :content_header)) %>
+      
+      <% concat(call_tag_parameter(:section, {}, { :default => proc { |_section__default_content| new_context { %>
+
+        <% concat(call_tag_parameter(:page_nav, {}, {}, all_parameters, :top_page_nav)) %>
+
+        <% concat(call_tag_parameter(:collection, {}, {}, all_parameters, :collection)) %>
+
+        <% concat(call_tag_parameter(:page_nav, {}, {}, all_parameters, :bottom_page_nav)) %>
+
+
+      <% } }, }, all_parameters, :content_body)) %>
+    <% } }, }] }, all_parameters[:content]), 
+  }, (parameters) || {}))) %>
+<% output_buffer; end; end %>
+Template::element_to_erb END
+Template::node_to_erb
+Template::node_to_erb
+Template::element_to_erb
+Template::def_element
+Tag Name: new-page
+Template::tag_method - new-page__for_user 
+Template::tag_method_body
+Template::children_to_erb
+Template::node_to_erb
+Template::node_to_erb
+Template::element_to_erb
+Template::tag_call - page
+Template::tag_attributes
+Template::parameter_tag_hash_item
+Template::param_proc
+Template::without_parameters
+Template::parameter_tag_hash_item
+Template::param_proc
+Template::default_param_proc
+Template::children_to_erb
+Template::node_to_erb
+Template::node_to_erb
+Template::element_to_erb
+Template::tag_call - section
+Template::tag_attributes
+Template::default_param_proc
+Template::children_to_erb
+Template::node_to_erb
+Template::node_to_erb
+Template::element_to_erb
+Template::tag_call - h2
+Template::tag_attributes
+Template::default_param_proc
+Template::children_to_erb
+Template::node_to_erb
+Template::without_parameters
+call - call_tag_parameter(:h2, {}, { :default => proc { |_h2__default_content| new_context { %>New User<% } }, }, all_parameters, :heading)
+Template::apply_control_attributes
+Template::maybe_make_part_call
+call before metadata - <% concat(call_tag_parameter(:h2, {}, { :default => proc { |_h2__default_content| new_context { %>New User<% } }, }, all_parameters, :heading)) %>
+Template::tag_call - h2 END
+Template::element_to_erb END
+Template::node_to_erb
+Template::without_parameters
+call - call_tag_parameter(:section, {}, { :default => proc { |_section__default_content| new_context { %>
+        <% concat(call_tag_parameter(:h2, {}, { :default => proc { |_h2__default_content| new_context { %>New User<% } }, }, all_parameters, :heading)) %>
+      <% } }, }, all_parameters, :content_header)
+Template::apply_control_attributes
+Template::maybe_make_part_call
+call before metadata - <% concat(call_tag_parameter(:section, {}, { :default => proc { |_section__default_content| new_context { %>
+        <% concat(call_tag_parameter(:h2, {}, { :default => proc { |_h2__default_content| new_context { %>New User<% } }, }, all_parameters, :heading)) %>
+      <% } }, }, all_parameters, :content_header)) %>
+Template::tag_call - section END
+Template::element_to_erb END
+Template::node_to_erb
+Template::node_to_erb
+Template::element_to_erb
+Template::tag_call - section
+Template::tag_attributes
+Template::default_param_proc
+Template::children_to_erb
+Template::node_to_erb
+Template::node_to_erb
+Template::element_to_erb
+Template::tag_call - form
+Template::tag_attributes
+Template::parameter_tag_hash_item
+Template::param_proc
+Template::without_parameters
+Template::without_parameters
+call - call_tag_parameter(:form, {}, {
+          :submit => proc { [{:label => "Create User"}, {}] }, 
+        }, all_parameters, :form)
+Template::apply_control_attributes
+Template::maybe_make_part_call
+call before metadata - <% concat(call_tag_parameter(:form, {}, {
+          :submit => proc { [{:label => "Create User"}, {}] }, 
+        }, all_parameters, :form)) %>
+Template::tag_call - form END
+Template::element_to_erb END
+Template::node_to_erb
+Template::without_parameters
+call - call_tag_parameter(:section, {}, { :default => proc { |_section__default_content| new_context { %>
+        <% concat(call_tag_parameter(:form, {}, {
+          :submit => proc { [{:label => "Create User"}, {}] }, 
+        }, all_parameters, :form)) %>
+      <% } }, }, all_parameters, :content_body)
+Template::apply_control_attributes
+Template::maybe_make_part_call
+call before metadata - <% concat(call_tag_parameter(:section, {}, { :default => proc { |_section__default_content| new_context { %>
+        <% concat(call_tag_parameter(:form, {}, {
+          :submit => proc { [{:label => "Create User"}, {}] }, 
+        }, all_parameters, :form)) %>
+      <% } }, }, all_parameters, :content_body)) %>
+Template::tag_call - section END
+Template::element_to_erb END
+Template::node_to_erb
+Template::without_parameters
+Template::without_parameters
+call - page(merge_attrs({:title => "New User"}, attributes), merge_parameter_hashes({
+    :body => merge_tag_parameter(proc { [{:class => "new-page user"}, {}] }, all_parameters[:body]), 
+    
+    :content => merge_tag_parameter(proc { [{}, { :default => proc { |_content__default_content| new_context { %>
+      <% concat(call_tag_parameter(:section, {}, { :default => proc { |_section__default_content| new_context { %>
+        <% concat(call_tag_parameter(:h2, {}, { :default => proc { |_h2__default_content| new_context { %>New User<% } }, }, all_parameters, :heading)) %>
+      <% } }, }, all_parameters, :content_header)) %>
+      
+      <% concat(call_tag_parameter(:section, {}, { :default => proc { |_section__default_content| new_context { %>
+        <% concat(call_tag_parameter(:form, {}, {
+          :submit => proc { [{:label => "Create User"}, {}] }, 
+        }, all_parameters, :form)) %>
+      <% } }, }, all_parameters, :content_body)) %>
+    <% } }, }] }, all_parameters[:content]), 
+  }, (parameters) || {}))
+Template::apply_control_attributes
+Template::maybe_make_part_call
+call before metadata - <% concat(page(merge_attrs({:title => "New User"}, attributes), merge_parameter_hashes({
+    :body => merge_tag_parameter(proc { [{:class => "new-page user"}, {}] }, all_parameters[:body]), 
+    
+    :content => merge_tag_parameter(proc { [{}, { :default => proc { |_content__default_content| new_context { %>
+      <% concat(call_tag_parameter(:section, {}, { :default => proc { |_section__default_content| new_context { %>
+        <% concat(call_tag_parameter(:h2, {}, { :default => proc { |_h2__default_content| new_context { %>New User<% } }, }, all_parameters, :heading)) %>
+      <% } }, }, all_parameters, :content_header)) %>
+      
+      <% concat(call_tag_parameter(:section, {}, { :default => proc { |_section__default_content| new_context { %>
+        <% concat(call_tag_parameter(:form, {}, {
+          :submit => proc { [{:label => "Create User"}, {}] }, 
+        }, all_parameters, :form)) %>
+      <% } }, }, all_parameters, :content_body)) %>
+    <% } }, }] }, all_parameters[:content]), 
+  }, (parameters) || {}))) %>
+Template::tag_call - page END
+Template::element_to_erb END
+Template::node_to_erb
+Template::tag_method_body END
+<% def new_page__for_user(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, [:body, :content, :content_header, :heading, :content_body, :form]); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %>
+  <% concat(page(merge_attrs({:title => "New User"}, attributes), merge_parameter_hashes({
+    :body => merge_tag_parameter(proc { [{:class => "new-page user"}, {}] }, all_parameters[:body]), 
+    
+    :content => merge_tag_parameter(proc { [{}, { :default => proc { |_content__default_content| new_context { %>
+      <% concat(call_tag_parameter(:section, {}, { :default => proc { |_section__default_content| new_context { %>
+        <% concat(call_tag_parameter(:h2, {}, { :default => proc { |_h2__default_content| new_context { %>New User<% } }, }, all_parameters, :heading)) %>
+      <% } }, }, all_parameters, :content_header)) %>
+      
+      <% concat(call_tag_parameter(:section, {}, { :default => proc { |_section__default_content| new_context { %>
+        <% concat(call_tag_parameter(:form, {}, {
+          :submit => proc { [{:label => "Create User"}, {}] }, 
+        }, all_parameters, :form)) %>
+      <% } }, }, all_parameters, :content_body)) %>
+    <% } }, }] }, all_parameters[:content]), 
+  }, (parameters) || {}))) %>
+<% output_buffer; end; end %>
+Template::element_to_erb END
+Template::node_to_erb
+Template::node_to_erb
+Template::element_to_erb
+Template::def_element
+Tag Name: show-page
+Template::tag_method - show-page__for_user 
+Template::tag_method_body
+Template::children_to_erb
+Template::node_to_erb
+Template::node_to_erb
+Template::element_to_erb
+Template::tag_call - page
+Template::tag_attributes
+Template::parameter_tag_hash_item
+Template::param_proc
+Template::without_parameters
+Template::parameter_tag_hash_item
+Template::param_proc
+Template::default_param_proc
+Template::children_to_erb
+Template::node_to_erb
+Template::node_to_erb
+Template::element_to_erb
+Template::tag_call - header
+Template::tag_attributes
+Template::default_param_proc
+Template::children_to_erb
+Template::node_to_erb
+Template::node_to_erb
+Template::element_to_erb
+Template::tag_call - h2
+Template::tag_attributes
+Template::default_param_proc
+Template::children_to_erb
+Template::node_to_erb
+Template::element_to_erb
+Template::tag_call - name
+Template::tag_attributes
+Template::without_parameters
+call - name.to_s
+Template::apply_control_attributes
+Template::maybe_make_part_call
+call before metadata - <% concat(name.to_s) %>
+Template::tag_call - name END
+Template::element_to_erb END
+Template::without_parameters
+call - call_tag_parameter(:h2, {}, { :default => proc { |_h2__default_content| new_context { %><% concat(name.to_s) %><% } }, }, all_parameters, :heading)
+Template::apply_control_attributes
+Template::maybe_make_part_call
+call before metadata - <% concat(call_tag_parameter(:h2, {}, { :default => proc { |_h2__default_content| new_context { %><% concat(name.to_s) %><% } }, }, all_parameters, :heading)) %>
+Template::tag_call - h2 END
+Template::element_to_erb END
+Template::node_to_erb
+Template::node_to_erb
+Template::element_to_erb
+Template::tag_call - record_flags
+Template::tag_attributes
+Template::without_parameters
+call - call_tag_parameter(:record_flags, {:fields => "administrator"}, {}, all_parameters, :record_flags)
+Template::apply_control_attributes
+Template::maybe_make_part_call
+call before metadata - <% concat(call_tag_parameter(:record_flags, {:fields => "administrator"}, {}, all_parameters, :record_flags)) %>
+Template::tag_call - record_flags END
+Template::element_to_erb END
+Template::node_to_erb
+Template::node_to_erb
+Template::element_to_erb
+Template::tag_call - a
+Template::tag_attributes
+Template::default_param_proc
+Template::children_to_erb
+Template::node_to_erb
+Template::without_parameters
+call - call_tag_parameter(:a, {:action => "edit"}, { :default => proc { |_a__default_content| new_context { %>Edit User<% } }, }, all_parameters, :edit_link)
+Template::apply_control_attributes
+Template::maybe_make_part_call
+call before metadata - <% concat((if !(can_edit?).blank?; (__tmp_2 = call_tag_parameter(:a, {:action => "edit"}, { :default => proc { |_a__default_content| new_context { %>Edit User<% } }, }, all_parameters, :edit_link); Hobo::Dryml.last_if = true; __tmp_2) else (Hobo::Dryml.last_if = false; ''); end)) %>
+Template::tag_call - a END
+Template::element_to_erb END
+Template::node_to_erb
+Template::without_parameters
+call - call_tag_parameter(:header, {}, { :default => proc { |_header__default_content| new_context { %>
+            <% concat(call_tag_parameter(:h2, {}, { :default => proc { |_h2__default_content| new_context { %><% concat(name.to_s) %><% } }, }, all_parameters, :heading)) %>
+
+            <% concat(call_tag_parameter(:record_flags, {:fields => "administrator"}, {}, all_parameters, :record_flags)) %>
+
+            <% concat((if !(can_edit?).blank?; (__tmp_2 = call_tag_parameter(:a, {:action => "edit"}, { :default => proc { |_a__default_content| new_context { %>Edit User<% } }, }, all_parameters, :edit_link); Hobo::Dryml.last_if = true; __tmp_2) else (Hobo::Dryml.last_if = false; ''); end)) %>
+          <% } }, }, all_parameters, :content_header)
+Template::apply_control_attributes
+Template::maybe_make_part_call
+call before metadata - <% concat(call_tag_parameter(:header, {}, { :default => proc { |_header__default_content| new_context { %>
+            <% concat(call_tag_parameter(:h2, {}, { :default => proc { |_h2__default_content| new_context { %><% concat(name.to_s) %><% } }, }, all_parameters, :heading)) %>
+
+            <% concat(call_tag_parameter(:record_flags, {:fields => "administrator"}, {}, all_parameters, :record_flags)) %>
+
+            <% concat((if !(can_edit?).blank?; (__tmp_2 = call_tag_parameter(:a, {:action => "edit"}, { :default => proc { |_a__default_content| new_context { %>Edit User<% } }, }, all_parameters, :edit_link); Hobo::Dryml.last_if = true; __tmp_2) else (Hobo::Dryml.last_if = false; ''); end)) %>
+          <% } }, }, all_parameters, :content_header)) %>
+Template::tag_call - header END
+Template::element_to_erb END
+Template::node_to_erb
+Template::node_to_erb
+Template::element_to_erb
+Template::tag_call - section
+Template::tag_attributes
+Template::default_param_proc
+Template::children_to_erb
+Template::node_to_erb
+Template::node_to_erb
+Template::element_to_erb
+Template::tag_call - field_list
+Template::tag_attributes
+Template::without_parameters
+call - call_tag_parameter(:field_list, {:fields => "email_address"}, {}, all_parameters, :field_list)
+Template::apply_control_attributes
+Template::maybe_make_part_call
+call before metadata - <% concat(call_tag_parameter(:field_list, {:fields => "email_address"}, {}, all_parameters, :field_list)) %>
+Template::tag_call - field_list END
+Template::element_to_erb END
+Template::node_to_erb
+Template::without_parameters
+call - call_tag_parameter(:section, {}, { :default => proc { |_section__default_content| new_context { %>
+            <% concat(call_tag_parameter(:field_list, {:fields => "email_address"}, {}, all_parameters, :field_list)) %>
+          <% } }, }, all_parameters, :content_body)
+Template::apply_control_attributes
+Template::maybe_make_part_call
+call before metadata - <% concat(call_tag_parameter(:section, {}, { :default => proc { |_section__default_content| new_context { %>
+            <% concat(call_tag_parameter(:field_list, {:fields => "email_address"}, {}, all_parameters, :field_list)) %>
+          <% } }, }, all_parameters, :content_body)) %>
+Template::tag_call - section END
+Template::element_to_erb END
+Template::node_to_erb
+Template::without_parameters
+Template::without_parameters
+call - page(merge_attrs({:title => "User"}, attributes), merge_parameter_hashes({
+
+    :body => merge_tag_parameter(proc { [{:class => "show-page user"}, {}] }, all_parameters[:body]), 
+
+    :content => merge_tag_parameter(proc { [{}, { :default => proc { |_content__default_content| new_context { %>
+          <% concat(call_tag_parameter(:header, {}, { :default => proc { |_header__default_content| new_context { %>
+            <% concat(call_tag_parameter(:h2, {}, { :default => proc { |_h2__default_content| new_context { %><% concat(name.to_s) %><% } }, }, all_parameters, :heading)) %>
+
+            <% concat(call_tag_parameter(:record_flags, {:fields => "administrator"}, {}, all_parameters, :record_flags)) %>
+
+            <% concat((if !(can_edit?).blank?; (__tmp_2 = call_tag_parameter(:a, {:action => "edit"}, { :default => proc { |_a__default_content| new_context { %>Edit User<% } }, }, all_parameters, :edit_link); Hobo::Dryml.last_if = true; __tmp_2) else (Hobo::Dryml.last_if = false; ''); end)) %>
+          <% } }, }, all_parameters, :content_header)) %>
+    
+          <% concat(call_tag_parameter(:section, {}, { :default => proc { |_section__default_content| new_context { %>
+            <% concat(call_tag_parameter(:field_list, {:fields => "email_address"}, {}, all_parameters, :field_list)) %>
+          <% } }, }, all_parameters, :content_body)) %>
+    <% } }, }] }, all_parameters[:content]), 
+    
+  }, (parameters) || {}))
+Template::apply_control_attributes
+Template::maybe_make_part_call
+call before metadata - <% concat(page(merge_attrs({:title => "User"}, attributes), merge_parameter_hashes({
+
+    :body => merge_tag_parameter(proc { [{:class => "show-page user"}, {}] }, all_parameters[:body]), 
+
+    :content => merge_tag_parameter(proc { [{}, { :default => proc { |_content__default_content| new_context { %>
+          <% concat(call_tag_parameter(:header, {}, { :default => proc { |_header__default_content| new_context { %>
+            <% concat(call_tag_parameter(:h2, {}, { :default => proc { |_h2__default_content| new_context { %><% concat(name.to_s) %><% } }, }, all_parameters, :heading)) %>
+
+            <% concat(call_tag_parameter(:record_flags, {:fields => "administrator"}, {}, all_parameters, :record_flags)) %>
+
+            <% concat((if !(can_edit?).blank?; (__tmp_2 = call_tag_parameter(:a, {:action => "edit"}, { :default => proc { |_a__default_content| new_context { %>Edit User<% } }, }, all_parameters, :edit_link); Hobo::Dryml.last_if = true; __tmp_2) else (Hobo::Dryml.last_if = false; ''); end)) %>
+          <% } }, }, all_parameters, :content_header)) %>
+    
+          <% concat(call_tag_parameter(:section, {}, { :default => proc { |_section__default_content| new_context { %>
+            <% concat(call_tag_parameter(:field_list, {:fields => "email_address"}, {}, all_parameters, :field_list)) %>
+          <% } }, }, all_parameters, :content_body)) %>
+    <% } }, }] }, all_parameters[:content]), 
+    
+  }, (parameters) || {}))) %>
+Template::tag_call - page END
+Template::element_to_erb END
+Template::node_to_erb
+Template::tag_method_body END
+<% def show_page__for_user(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, [:body, :content, :content_header, :heading, :record_flags, :edit_link, :content_body, :field_list]); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %>
+  <% concat(page(merge_attrs({:title => "User"}, attributes), merge_parameter_hashes({
+
+    :body => merge_tag_parameter(proc { [{:class => "show-page user"}, {}] }, all_parameters[:body]), 
+
+    :content => merge_tag_parameter(proc { [{}, { :default => proc { |_content__default_content| new_context { %>
+          <% concat(call_tag_parameter(:header, {}, { :default => proc { |_header__default_content| new_context { %>
+            <% concat(call_tag_parameter(:h2, {}, { :default => proc { |_h2__default_content| new_context { %><% concat(name.to_s) %><% } }, }, all_parameters, :heading)) %>
+
+            <% concat(call_tag_parameter(:record_flags, {:fields => "administrator"}, {}, all_parameters, :record_flags)) %>
+
+            <% concat((if !(can_edit?).blank?; (__tmp_2 = call_tag_parameter(:a, {:action => "edit"}, { :default => proc { |_a__default_content| new_context { %>Edit User<% } }, }, all_parameters, :edit_link); Hobo::Dryml.last_if = true; __tmp_2) else (Hobo::Dryml.last_if = false; ''); end)) %>
+          <% } }, }, all_parameters, :content_header)) %>
+    
+          <% concat(call_tag_parameter(:section, {}, { :default => proc { |_section__default_content| new_context { %>
+            <% concat(call_tag_parameter(:field_list, {:fields => "email_address"}, {}, all_parameters, :field_list)) %>
+          <% } }, }, all_parameters, :content_body)) %>
+    <% } }, }] }, all_parameters[:content]), 
+    
+  }, (parameters) || {}))) %>
+<% output_buffer; end; end %>
+Template::element_to_erb END
+Template::node_to_erb
+Template::node_to_erb
+Template::element_to_erb
+Template::def_element
+Tag Name: edit-page
+Template::tag_method - edit-page__for_user 
+Template::tag_method_body
+Template::children_to_erb
+Template::node_to_erb
+Template::node_to_erb
+Template::element_to_erb
+Template::tag_call - page
+Template::tag_attributes
+Template::parameter_tag_hash_item
+Template::param_proc
+Template::without_parameters
+Template::parameter_tag_hash_item
+Template::param_proc
+Template::default_param_proc
+Template::children_to_erb
+Template::node_to_erb
+Template::node_to_erb
+Template::element_to_erb
+Template::tag_call - section
+Template::tag_attributes
+Template::default_param_proc
+Template::children_to_erb
+Template::node_to_erb
+Template::node_to_erb
+Template::element_to_erb
+Template::tag_call - h2
+Template::tag_attributes
+Template::default_param_proc
+Template::children_to_erb
+Template::node_to_erb
+Template::node_to_erb
+Template::element_to_erb
+Template::tag_call - type_name
+Template::tag_attributes
+Template::without_parameters
+call - type_name.to_s
+Template::apply_control_attributes
+Template::maybe_make_part_call
+call before metadata - <% concat(type_name.to_s) %>
+Template::tag_call - type_name END
+Template::element_to_erb END
+Template::without_parameters
+call - call_tag_parameter(:h2, {}, { :default => proc { |_h2__default_content| new_context { %>Edit <% concat(type_name.to_s) %><% } }, }, all_parameters, :heading)
+Template::apply_control_attributes
+Template::maybe_make_part_call
+call before metadata - <% concat(call_tag_parameter(:h2, {}, { :default => proc { |_h2__default_content| new_context { %>Edit <% concat(type_name.to_s) %><% } }, }, all_parameters, :heading)) %>
+Template::tag_call - h2 END
+Template::element_to_erb END
+Template::node_to_erb
+Template::node_to_erb
+Template::element_to_erb
+Template::tag_call - delete_button
+Template::tag_attributes
+Template::without_parameters
+call - call_tag_parameter(:delete_button, {:label => "Remove This User"}, {}, all_parameters, :delete_button)
+Template::apply_control_attributes
+Template::maybe_make_part_call
+call before metadata - <% concat(call_tag_parameter(:delete_button, {:label => "Remove This User"}, {}, all_parameters, :delete_button)) %>
+Template::tag_call - delete_button END
+Template::element_to_erb END
+Template::node_to_erb
+Template::without_parameters
+call - call_tag_parameter(:section, {}, { :default => proc { |_section__default_content| new_context { %>
+        <% concat(call_tag_parameter(:h2, {}, { :default => proc { |_h2__default_content| new_context { %>Edit <% concat(type_name.to_s) %><% } }, }, all_parameters, :heading)) %>
+        <% concat(call_tag_parameter(:delete_button, {:label => "Remove This User"}, {}, all_parameters, :delete_button)) %>
+      <% } }, }, all_parameters, :content_header)
+Template::apply_control_attributes
+Template::maybe_make_part_call
+call before metadata - <% concat(call_tag_parameter(:section, {}, { :default => proc { |_section__default_content| new_context { %>
+        <% concat(call_tag_parameter(:h2, {}, { :default => proc { |_h2__default_content| new_context { %>Edit <% concat(type_name.to_s) %><% } }, }, all_parameters, :heading)) %>
+        <% concat(call_tag_parameter(:delete_button, {:label => "Remove This User"}, {}, all_parameters, :delete_button)) %>
+      <% } }, }, all_parameters, :content_header)) %>
+Template::tag_call - section END
+Template::element_to_erb END
+Template::node_to_erb
+Template::node_to_erb
+Template::element_to_erb
+Template::tag_call - section
+Template::tag_attributes
+Template::default_param_proc
+Template::children_to_erb
+Template::node_to_erb
+Template::node_to_erb
+Template::element_to_erb
+Template::tag_call - form
+Template::tag_attributes
+Template::without_parameters
+call - call_tag_parameter(:form, {}, {}, all_parameters, :form)
+Template::apply_control_attributes
+Template::maybe_make_part_call
+call before metadata - <% concat(call_tag_parameter(:form, {}, {}, all_parameters, :form)) %>
+Template::tag_call - form END
+Template::element_to_erb END
+Template::node_to_erb
+Template::without_parameters
+call - call_tag_parameter(:section, {}, { :default => proc { |_section__default_content| new_context { %>
+        <% concat(call_tag_parameter(:form, {}, {}, all_parameters, :form)) %>
+      <% } }, }, all_parameters, :content_body)
+Template::apply_control_attributes
+Template::maybe_make_part_call
+call before metadata - <% concat(call_tag_parameter(:section, {}, { :default => proc { |_section__default_content| new_context { %>
+        <% concat(call_tag_parameter(:form, {}, {}, all_parameters, :form)) %>
+      <% } }, }, all_parameters, :content_body)) %>
+Template::tag_call - section END
+Template::element_to_erb END
+Template::node_to_erb
+Template::without_parameters
+Template::without_parameters
+call - page(merge_attrs({:title => "Edit User"}, attributes), merge_parameter_hashes({
+
+    :body => merge_tag_parameter(proc { [{:class => "edit-page user"}, {}] }, all_parameters[:body]), 
+
+    :content => proc { [{}, { :default => proc { |_content__default_content| new_context { %>
+      <% concat(call_tag_parameter(:section, {}, { :default => proc { |_section__default_content| new_context { %>
+        <% concat(call_tag_parameter(:h2, {}, { :default => proc { |_h2__default_content| new_context { %>Edit <% concat(type_name.to_s) %><% } }, }, all_parameters, :heading)) %>
+        <% concat(call_tag_parameter(:delete_button, {:label => "Remove This User"}, {}, all_parameters, :delete_button)) %>
+      <% } }, }, all_parameters, :content_header)) %>
+
+      <% concat(call_tag_parameter(:section, {}, { :default => proc { |_section__default_content| new_context { %>
+        <% concat(call_tag_parameter(:form, {}, {}, all_parameters, :form)) %>
+      <% } }, }, all_parameters, :content_body)) %>
+    <% } }, }] }, 
+    
+  }, (parameters) || {}))
+Template::apply_control_attributes
+Template::maybe_make_part_call
+call before metadata - <% concat(page(merge_attrs({:title => "Edit User"}, attributes), merge_parameter_hashes({
+
+    :body => merge_tag_parameter(proc { [{:class => "edit-page user"}, {}] }, all_parameters[:body]), 
+
+    :content => proc { [{}, { :default => proc { |_content__default_content| new_context { %>
+      <% concat(call_tag_parameter(:section, {}, { :default => proc { |_section__default_content| new_context { %>
+        <% concat(call_tag_parameter(:h2, {}, { :default => proc { |_h2__default_content| new_context { %>Edit <% concat(type_name.to_s) %><% } }, }, all_parameters, :heading)) %>
+        <% concat(call_tag_parameter(:delete_button, {:label => "Remove This User"}, {}, all_parameters, :delete_button)) %>
+      <% } }, }, all_parameters, :content_header)) %>
+
+      <% concat(call_tag_parameter(:section, {}, { :default => proc { |_section__default_content| new_context { %>
+        <% concat(call_tag_parameter(:form, {}, {}, all_parameters, :form)) %>
+      <% } }, }, all_parameters, :content_body)) %>
+    <% } }, }] }, 
+    
+  }, (parameters) || {}))) %>
+Template::tag_call - page END
+Template::element_to_erb END
+Template::node_to_erb
+Template::tag_method_body END
+<% def edit_page__for_user(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, [:body, :content_header, :heading, :delete_button, :content_body, :form]); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %>
+  <% concat(page(merge_attrs({:title => "Edit User"}, attributes), merge_parameter_hashes({
+
+    :body => merge_tag_parameter(proc { [{:class => "edit-page user"}, {}] }, all_parameters[:body]), 
+
+    :content => proc { [{}, { :default => proc { |_content__default_content| new_context { %>
+      <% concat(call_tag_parameter(:section, {}, { :default => proc { |_section__default_content| new_context { %>
+        <% concat(call_tag_parameter(:h2, {}, { :default => proc { |_h2__default_content| new_context { %>Edit <% concat(type_name.to_s) %><% } }, }, all_parameters, :heading)) %>
+        <% concat(call_tag_parameter(:delete_button, {:label => "Remove This User"}, {}, all_parameters, :delete_button)) %>
+      <% } }, }, all_parameters, :content_header)) %>
+
+      <% concat(call_tag_parameter(:section, {}, { :default => proc { |_section__default_content| new_context { %>
+        <% concat(call_tag_parameter(:form, {}, {}, all_parameters, :form)) %>
+      <% } }, }, all_parameters, :content_body)) %>
+    <% } }, }] }, 
+    
+  }, (parameters) || {}))) %>
+<% output_buffer; end; end %>
+Template::element_to_erb END
+Template::node_to_erb
+Template::node_to_erb
+Template::element_to_erb
+Template::def_element
+Tag Name: signup-page
+Polymorphic
+Template::tag_method - signup-page__base 
+Template::tag_method_body
+Template::children_to_erb
+Template::tag_method_body END
+<% def signup_page__base(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %><% output_buffer; end; end %>
+Template::element_to_erb END
+Template::node_to_erb
+Template::node_to_erb
+Template::element_to_erb
+Template::def_element
+Tag Name: signup-page
+Template::tag_method - signup-page__for_user 
+Template::tag_method_body
+Template::children_to_erb
+Template::node_to_erb
+Template::node_to_erb
+Template::element_to_erb
+Template::tag_call - page
+Template::tag_attributes
+Template::parameter_tag_hash_item
+Template::param_proc
+Template::without_parameters
+Template::parameter_tag_hash_item
+Template::param_proc
+Template::default_param_proc
+Template::children_to_erb
+Template::node_to_erb
+Template::node_to_erb
+Template::element_to_erb
+Template::tag_call - header
+Template::tag_attributes
+Template::default_param_proc
+Template::children_to_erb
+Template::node_to_erb
+Template::node_to_erb
+Template::element_to_erb
+Template::tag_call - h2
+Template::tag_attributes
+Template::default_param_proc
+Template::children_to_erb
+Template::node_to_erb
+Template::without_parameters
+call - call_tag_parameter(:h2, {}, { :default => proc { |_h2__default_content| new_context { %>Signup<% } }, }, all_parameters, :heading)
+Template::apply_control_attributes
+Template::maybe_make_part_call
+call before metadata - <% concat(call_tag_parameter(:h2, {}, { :default => proc { |_h2__default_content| new_context { %>Signup<% } }, }, all_parameters, :heading)) %>
+Template::tag_call - h2 END
+Template::element_to_erb END
+Template::node_to_erb
+Template::without_parameters
+call - call_tag_parameter(:header, {}, { :default => proc { |_header__default_content| new_context { %>
+        <% concat(call_tag_parameter(:h2, {}, { :default => proc { |_h2__default_content| new_context { %>Signup<% } }, }, all_parameters, :heading)) %>
+      <% } }, }, all_parameters, :content_header)
+Template::apply_control_attributes
+Template::maybe_make_part_call
+call before metadata - <% concat(call_tag_parameter(:header, {}, { :default => proc { |_header__default_content| new_context { %>
+        <% concat(call_tag_parameter(:h2, {}, { :default => proc { |_h2__default_content| new_context { %>Signup<% } }, }, all_parameters, :heading)) %>
+      <% } }, }, all_parameters, :content_header)) %>
+Template::tag_call - header END
+Template::element_to_erb END
+Template::node_to_erb
+Template::node_to_erb
+Template::element_to_erb
+Template::tag_call - section
+Template::tag_attributes
+Template::default_param_proc
+Template::children_to_erb
+Template::node_to_erb
+Template::node_to_erb
+Template::element_to_erb
+Template::tag_call - signup_form
+Template::tag_attributes
+Template::without_parameters
+call - call_tag_parameter(:signup_form, {}, {}, all_parameters, :form)
+Template::apply_control_attributes
+Template::maybe_make_part_call
+call before metadata - <% concat(call_tag_parameter(:signup_form, {}, {}, all_parameters, :form)) %>
+Template::tag_call - signup_form END
+Template::element_to_erb END
+Template::node_to_erb
+Template::without_parameters
+call - call_tag_parameter(:section, {}, { :default => proc { |_section__default_content| new_context { %>
+        <% concat(call_tag_parameter(:signup_form, {}, {}, all_parameters, :form)) %>
+      <% } }, }, all_parameters, :content_body)
+Template::apply_control_attributes
+Template::maybe_make_part_call
+call before metadata - <% concat(call_tag_parameter(:section, {}, { :default => proc { |_section__default_content| new_context { %>
+        <% concat(call_tag_parameter(:signup_form, {}, {}, all_parameters, :form)) %>
+      <% } }, }, all_parameters, :content_body)) %>
+Template::tag_call - section END
+Template::element_to_erb END
+Template::node_to_erb
+Template::without_parameters
+Template::without_parameters
+call - page(merge_attrs({:title => "Signup"}, attributes), merge_parameter_hashes({
+
+    :body => merge_tag_parameter(proc { [{:class => "lifecycle-start-page signup-page"}, {}] }, all_parameters[:body]), 
+
+    :content => merge_tag_parameter(proc { [{}, { :default => proc { |_content__default_content| new_context { %>
+      <% concat(call_tag_parameter(:header, {}, { :default => proc { |_header__default_content| new_context { %>
+        <% concat(call_tag_parameter(:h2, {}, { :default => proc { |_h2__default_content| new_context { %>Signup<% } }, }, all_parameters, :heading)) %>
+      <% } }, }, all_parameters, :content_header)) %>
+
+      <% concat(call_tag_parameter(:section, {}, { :default => proc { |_section__default_content| new_context { %>
+        <% concat(call_tag_parameter(:signup_form, {}, {}, all_parameters, :form)) %>
+      <% } }, }, all_parameters, :content_body)) %>
+    <% } }, }] }, all_parameters[:content]), 
+
+  }, (parameters) || {}))
+Template::apply_control_attributes
+Template::maybe_make_part_call
+call before metadata - <% concat(page(merge_attrs({:title => "Signup"}, attributes), merge_parameter_hashes({
+
+    :body => merge_tag_parameter(proc { [{:class => "lifecycle-start-page signup-page"}, {}] }, all_parameters[:body]), 
+
+    :content => merge_tag_parameter(proc { [{}, { :default => proc { |_content__default_content| new_context { %>
+      <% concat(call_tag_parameter(:header, {}, { :default => proc { |_header__default_content| new_context { %>
+        <% concat(call_tag_parameter(:h2, {}, { :default => proc { |_h2__default_content| new_context { %>Signup<% } }, }, all_parameters, :heading)) %>
+      <% } }, }, all_parameters, :content_header)) %>
+
+      <% concat(call_tag_parameter(:section, {}, { :default => proc { |_section__default_content| new_context { %>
+        <% concat(call_tag_parameter(:signup_form, {}, {}, all_parameters, :form)) %>
+      <% } }, }, all_parameters, :content_body)) %>
+    <% } }, }] }, all_parameters[:content]), 
+
+  }, (parameters) || {}))) %>
+Template::tag_call - page END
+Template::element_to_erb END
+Template::node_to_erb
+Template::tag_method_body END
+<% def signup_page__for_user(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, [:body, :content, :content_header, :heading, :content_body, :form]); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %>
+
+  <% concat(page(merge_attrs({:title => "Signup"}, attributes), merge_parameter_hashes({
+
+    :body => merge_tag_parameter(proc { [{:class => "lifecycle-start-page signup-page"}, {}] }, all_parameters[:body]), 
+
+    :content => merge_tag_parameter(proc { [{}, { :default => proc { |_content__default_content| new_context { %>
+      <% concat(call_tag_parameter(:header, {}, { :default => proc { |_header__default_content| new_context { %>
+        <% concat(call_tag_parameter(:h2, {}, { :default => proc { |_h2__default_content| new_context { %>Signup<% } }, }, all_parameters, :heading)) %>
+      <% } }, }, all_parameters, :content_header)) %>
+
+      <% concat(call_tag_parameter(:section, {}, { :default => proc { |_section__default_content| new_context { %>
+        <% concat(call_tag_parameter(:signup_form, {}, {}, all_parameters, :form)) %>
+      <% } }, }, all_parameters, :content_body)) %>
+    <% } }, }] }, all_parameters[:content]), 
+
+  }, (parameters) || {}))) %>
+<% output_buffer; end; end %>
+Template::element_to_erb END
+Template::node_to_erb
+Template::node_to_erb
+Template::element_to_erb
+Template::def_element
+Tag Name: reset-password-page
+Polymorphic
+Template::tag_method - reset-password-page__base 
+Template::tag_method_body
+Template::children_to_erb
+Template::tag_method_body END
+<% def reset_password_page__base(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %><% output_buffer; end; end %>
+Template::element_to_erb END
+Template::node_to_erb
+Template::node_to_erb
+Template::element_to_erb
+Template::def_element
+Tag Name: reset-password-page
+Template::tag_method - reset-password-page__for_user 
+Template::tag_method_body
+Template::children_to_erb
+Template::node_to_erb
+Template::node_to_erb
+Template::element_to_erb
+Template::tag_call - page
+Template::tag_attributes
+Template::parameter_tag_hash_item
+Template::param_proc
+Template::without_parameters
+Template::parameter_tag_hash_item
+Template::param_proc
+Template::default_param_proc
+Template::children_to_erb
+Template::node_to_erb
+Template::node_to_erb
+Template::element_to_erb
+Template::tag_call - header
+Template::tag_attributes
+Template::default_param_proc
+Template::children_to_erb
+Template::node_to_erb
+Template::node_to_erb
+Template::element_to_erb
+Template::tag_call - h2
+Template::tag_attributes
+Template::default_param_proc
+Template::children_to_erb
+Template::node_to_erb
+Template::without_parameters
+call - call_tag_parameter(:h2, {}, { :default => proc { |_h2__default_content| new_context { %>Reset Password<% } }, }, all_parameters, :heading)
+Template::apply_control_attributes
+Template::maybe_make_part_call
+call before metadata - <% concat(call_tag_parameter(:h2, {}, { :default => proc { |_h2__default_content| new_context { %>Reset Password<% } }, }, all_parameters, :heading)) %>
+Template::tag_call - h2 END
+Template::element_to_erb END
+Template::node_to_erb
+Template::without_parameters
+call - call_tag_parameter(:header, {}, { :default => proc { |_header__default_content| new_context { %>
+        <% concat(call_tag_parameter(:h2, {}, { :default => proc { |_h2__default_content| new_context { %>Reset Password<% } }, }, all_parameters, :heading)) %>
+      <% } }, }, all_parameters, :content_header)
+Template::apply_control_attributes
+Template::maybe_make_part_call
+call before metadata - <% concat(call_tag_parameter(:header, {}, { :default => proc { |_header__default_content| new_context { %>
+        <% concat(call_tag_parameter(:h2, {}, { :default => proc { |_h2__default_content| new_context { %>Reset Password<% } }, }, all_parameters, :heading)) %>
+      <% } }, }, all_parameters, :content_header)) %>
+Template::tag_call - header END
+Template::element_to_erb END
+Template::node_to_erb
+Template::node_to_erb
+Template::element_to_erb
+Template::tag_call - section
+Template::tag_attributes
+Template::default_param_proc
+Template::children_to_erb
+Template::node_to_erb
+Template::node_to_erb
+Template::element_to_erb
+Template::tag_call - reset_password_form
+Template::tag_attributes
+Template::without_parameters
+call - call_tag_parameter(:reset_password_form, {}, {}, all_parameters, :form)
+Template::apply_control_attributes
+Template::maybe_make_part_call
+call before metadata - <% concat(call_tag_parameter(:reset_password_form, {}, {}, all_parameters, :form)) %>
+Template::tag_call - reset_password_form END
+Template::element_to_erb END
+Template::node_to_erb
+Template::without_parameters
+call - call_tag_parameter(:section, {}, { :default => proc { |_section__default_content| new_context { %>
+        <% concat(call_tag_parameter(:reset_password_form, {}, {}, all_parameters, :form)) %>
+      <% } }, }, all_parameters, :content_body)
+Template::apply_control_attributes
+Template::maybe_make_part_call
+call before metadata - <% concat(call_tag_parameter(:section, {}, { :default => proc { |_section__default_content| new_context { %>
+        <% concat(call_tag_parameter(:reset_password_form, {}, {}, all_parameters, :form)) %>
+      <% } }, }, all_parameters, :content_body)) %>
+Template::tag_call - section END
+Template::element_to_erb END
+Template::node_to_erb
+Template::without_parameters
+Template::without_parameters
+call - page(merge_attrs({:title => "Reset Password"}, attributes), merge_parameter_hashes({
+    
+    :body => merge_tag_parameter(proc { [{:class => "lifecycle-transition-page reset-password-page"}, {}] }, all_parameters[:body]), 
+    
+    :content => proc { [{}, { :default => proc { |_content__default_content| new_context { %>
+      <% concat(call_tag_parameter(:header, {}, { :default => proc { |_header__default_content| new_context { %>
+        <% concat(call_tag_parameter(:h2, {}, { :default => proc { |_h2__default_content| new_context { %>Reset Password<% } }, }, all_parameters, :heading)) %>
+      <% } }, }, all_parameters, :content_header)) %>
+      
+      <% concat(call_tag_parameter(:section, {}, { :default => proc { |_section__default_content| new_context { %>
+        <% concat(call_tag_parameter(:reset_password_form, {}, {}, all_parameters, :form)) %>
+      <% } }, }, all_parameters, :content_body)) %>
+    <% } }, }] }, 
+    
+  }, (parameters) || {}))
+Template::apply_control_attributes
+Template::maybe_make_part_call
+call before metadata - <% concat(page(merge_attrs({:title => "Reset Password"}, attributes), merge_parameter_hashes({
+    
+    :body => merge_tag_parameter(proc { [{:class => "lifecycle-transition-page reset-password-page"}, {}] }, all_parameters[:body]), 
+    
+    :content => proc { [{}, { :default => proc { |_content__default_content| new_context { %>
+      <% concat(call_tag_parameter(:header, {}, { :default => proc { |_header__default_content| new_context { %>
+        <% concat(call_tag_parameter(:h2, {}, { :default => proc { |_h2__default_content| new_context { %>Reset Password<% } }, }, all_parameters, :heading)) %>
+      <% } }, }, all_parameters, :content_header)) %>
+      
+      <% concat(call_tag_parameter(:section, {}, { :default => proc { |_section__default_content| new_context { %>
+        <% concat(call_tag_parameter(:reset_password_form, {}, {}, all_parameters, :form)) %>
+      <% } }, }, all_parameters, :content_body)) %>
+    <% } }, }] }, 
+    
+  }, (parameters) || {}))) %>
+Template::tag_call - page END
+Template::element_to_erb END
+Template::node_to_erb
+Template::tag_method_body END
+<% def reset_password_page__for_user(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, [:body, :content_header, :heading, :content_body, :form]); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %>
+  <% concat(page(merge_attrs({:title => "Reset Password"}, attributes), merge_parameter_hashes({
+    
+    :body => merge_tag_parameter(proc { [{:class => "lifecycle-transition-page reset-password-page"}, {}] }, all_parameters[:body]), 
+    
+    :content => proc { [{}, { :default => proc { |_content__default_content| new_context { %>
+      <% concat(call_tag_parameter(:header, {}, { :default => proc { |_header__default_content| new_context { %>
+        <% concat(call_tag_parameter(:h2, {}, { :default => proc { |_h2__default_content| new_context { %>Reset Password<% } }, }, all_parameters, :heading)) %>
+      <% } }, }, all_parameters, :content_header)) %>
+      
+      <% concat(call_tag_parameter(:section, {}, { :default => proc { |_section__default_content| new_context { %>
+        <% concat(call_tag_parameter(:reset_password_form, {}, {}, all_parameters, :form)) %>
+      <% } }, }, all_parameters, :content_body)) %>
+    <% } }, }] }, 
+    
+  }, (parameters) || {}))) %>
+<% output_buffer; end; end %>
+Template::element_to_erb END
+Template::node_to_erb
+Build template with Hobo::Dryml::DRYMLBuilder

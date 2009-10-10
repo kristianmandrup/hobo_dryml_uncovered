@@ -1,0 +1,91 @@
+Sat Oct 10 18:27:35 +0200 2009
+creating new Template builder
+Hobo::Dryml::Template.initialize : END
+Template::Compile
+Template::proces_src
+processing taglib app/views/taglibs/application.dryml
+Template::children_to_erb
+Template::node_to_erb
+Template::element_to_erb
+Template::element_to_erb END
+Template::node_to_erb
+Template::node_to_erb
+Template::element_to_erb
+Template::element_to_erb END
+Template::node_to_erb
+Template::node_to_erb
+Template::element_to_erb
+Template::element_to_erb END
+Template::node_to_erb
+Template::node_to_erb
+Template::element_to_erb
+Template::element_to_erb END
+Template::node_to_erb
+Template::node_to_erb
+Template::element_to_erb
+Template::element_to_erb END
+Template::node_to_erb
+Template::node_to_erb
+Template::element_to_erb
+Template::def_element
+Tag Name: app-name
+Template::tag_method - app-name 
+Template::tag_method_body
+Template::children_to_erb
+Template::node_to_erb
+Template::tag_method_body END
+<% def app_name(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %>Ext Js<% output_buffer; end; end %>
+Template::element_to_erb END
+Template::node_to_erb
+Template::node_to_erb
+Template::element_to_erb
+Template::def_element
+Tag Name: comma
+Template::tag_method - comma 
+Template::tag_method_body
+Template::children_to_erb
+Template::node_to_erb
+Template::node_to_erb
+Template::element_to_erb
+Template::tag_call - do_
+Template::tag_attributes
+Template::without_parameters
+call - do_({:default => "param", :sep => ","}, {})
+Template::apply_control_attributes
+Template::maybe_make_part_call
+call before metadata - <% concat(do_({:default => "param", :sep => ","}, {})) %>
+Template::tag_call - do_ END
+Template::element_to_erb END
+Template::node_to_erb
+Template::tag_method_body END
+<% def comma(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %>
+  <% concat(do_({:default => "param", :sep => ","}, {})) %>
+<% output_buffer; end; end %>
+Template::element_to_erb END
+Template::node_to_erb
+Template::node_to_erb
+Template::element_to_erb
+Template::def_element
+Tag Name: x
+Template::tag_method - x 
+Template::tag_method_body
+Template::children_to_erb
+Template::node_to_erb
+Template::node_to_erb
+Template::element_to_erb
+Template::tag_call - do_
+Template::tag_attributes
+Template::without_parameters
+call - do_({:default => "param"}, {})
+Template::apply_control_attributes
+Template::maybe_make_part_call
+call before metadata - <% concat(do_({:default => "param"}, {})) %>
+Template::tag_call - do_ END
+Template::element_to_erb END
+Template::node_to_erb
+Template::tag_method_body END
+<% def x(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %>
+  {<% concat(do_({:default => "param"}, {})) %>}
+<% output_buffer; end; end %>
+Template::element_to_erb END
+Build template with Hobo::Dryml::DRYMLBuilder

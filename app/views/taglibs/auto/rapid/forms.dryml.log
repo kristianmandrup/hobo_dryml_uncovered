@@ -1,0 +1,387 @@
+creating new Template builder
+Hobo::Dryml::Template.initialize : END
+Template::Compile
+Template::proces_src
+processing taglib app/views/taglibs/auto/rapid/forms.dryml
+Template::children_to_erb
+Template::node_to_erb
+Template::node_to_erb
+Template::node_to_erb
+Template::element_to_erb
+Template::def_element
+Tag Name: form
+Template::tag_method - form__for_user 
+Template::tag_method_body
+Template::children_to_erb
+Template::node_to_erb
+Template::node_to_erb
+Template::element_to_erb
+Template::tag_call - form__base
+Template::tag_attributes
+Template::default_param_proc
+Template::children_to_erb
+Template::node_to_erb
+Template::node_to_erb
+Template::element_to_erb
+Template::tag_call - error_messages
+Template::tag_attributes
+Template::without_parameters
+call - call_tag_parameter(:error_messages, {}, {}, all_parameters, :error_messages)
+Template::apply_control_attributes
+Template::maybe_make_part_call
+call before metadata - <% concat(call_tag_parameter(:error_messages, {}, {}, all_parameters, :error_messages)) %>
+Template::tag_call - error_messages END
+Template::element_to_erb END
+Template::node_to_erb
+Template::node_to_erb
+Template::element_to_erb
+Template::tag_call - field_list
+Template::tag_attributes
+Template::without_parameters
+call - call_tag_parameter(:field_list, {:fields => "name, email_address, administrator"}, {}, all_parameters, :field_list)
+Template::apply_control_attributes
+Template::maybe_make_part_call
+call before metadata - <% concat(call_tag_parameter(:field_list, {:fields => "name, email_address, administrator"}, {}, all_parameters, :field_list)) %>
+Template::tag_call - field_list END
+Template::element_to_erb END
+Template::node_to_erb
+Template::node_to_erb
+Template::element_to_erb
+Template::tag_call - div
+Template::tag_attributes
+Template::default_param_proc
+Template::children_to_erb
+Template::node_to_erb
+Template::node_to_erb
+Template::element_to_erb
+Template::tag_call - submit
+Template::tag_attributes
+Template::without_parameters
+call - call_tag_parameter(:submit, {:label => "Save"}, {}, all_parameters, :submit)
+Template::apply_control_attributes
+Template::maybe_make_part_call
+call before metadata - <% concat(call_tag_parameter(:submit, {:label => "Save"}, {}, all_parameters, :submit)) %>
+Template::tag_call - submit END
+Template::element_to_erb END
+Template::node_to_erb
+Template::element_to_erb
+Template::tag_call - or_cancel
+Template::tag_attributes
+Template::without_parameters
+call - call_tag_parameter(:or_cancel, {}, {}, all_parameters, :cancel)
+Template::apply_control_attributes
+Template::maybe_make_part_call
+call before metadata - <% concat(call_tag_parameter(:or_cancel, {}, {}, all_parameters, :cancel)) %>
+Template::tag_call - or_cancel END
+Template::element_to_erb END
+Template::node_to_erb
+Template::without_parameters
+call - call_tag_parameter(:div, {}, { :default => proc { |_div__default_content| new_context { %>
+      <% concat(call_tag_parameter(:submit, {:label => "Save"}, {}, all_parameters, :submit)) %><% concat(call_tag_parameter(:or_cancel, {}, {}, all_parameters, :cancel)) %>
+    <% } }, }, all_parameters, :actions)
+Template::apply_control_attributes
+Template::maybe_make_part_call
+call before metadata - <% concat(call_tag_parameter(:div, {}, { :default => proc { |_div__default_content| new_context { %>
+      <% concat(call_tag_parameter(:submit, {:label => "Save"}, {}, all_parameters, :submit)) %><% concat(call_tag_parameter(:or_cancel, {}, {}, all_parameters, :cancel)) %>
+    <% } }, }, all_parameters, :actions)) %>
+Template::tag_call - div END
+Template::element_to_erb END
+Template::node_to_erb
+Template::without_parameters
+call - call_tag_parameter(:form__base, merge_attrs({}, attributes), merge_parameter_hashes({ :default => proc { |_form__default_content| new_context { %>
+    <% concat(call_tag_parameter(:error_messages, {}, {}, all_parameters, :error_messages)) %>
+    <% concat(call_tag_parameter(:field_list, {:fields => "name, email_address, administrator"}, {}, all_parameters, :field_list)) %>
+    <% concat(call_tag_parameter(:div, {}, { :default => proc { |_div__default_content| new_context { %>
+      <% concat(call_tag_parameter(:submit, {:label => "Save"}, {}, all_parameters, :submit)) %><% concat(call_tag_parameter(:or_cancel, {}, {}, all_parameters, :cancel)) %>
+    <% } }, }, all_parameters, :actions)) %>
+  <% } }, }, (parameters) || {}), all_parameters, :default)
+Template::apply_control_attributes
+Template::maybe_make_part_call
+call before metadata - <% concat(call_tag_parameter(:form__base, merge_attrs({}, attributes), merge_parameter_hashes({ :default => proc { |_form__default_content| new_context { %>
+    <% concat(call_tag_parameter(:error_messages, {}, {}, all_parameters, :error_messages)) %>
+    <% concat(call_tag_parameter(:field_list, {:fields => "name, email_address, administrator"}, {}, all_parameters, :field_list)) %>
+    <% concat(call_tag_parameter(:div, {}, { :default => proc { |_div__default_content| new_context { %>
+      <% concat(call_tag_parameter(:submit, {:label => "Save"}, {}, all_parameters, :submit)) %><% concat(call_tag_parameter(:or_cancel, {}, {}, all_parameters, :cancel)) %>
+    <% } }, }, all_parameters, :actions)) %>
+  <% } }, }, (parameters) || {}), all_parameters, :default)) %>
+Template::tag_call - form__base END
+Template::element_to_erb END
+Template::node_to_erb
+Template::tag_method_body END
+<% def form__for_user(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, [:default, :error_messages, :field_list, :actions, :submit, :cancel]); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %>
+  <% concat(call_tag_parameter(:form__base, merge_attrs({}, attributes), merge_parameter_hashes({ :default => proc { |_form__default_content| new_context { %>
+    <% concat(call_tag_parameter(:error_messages, {}, {}, all_parameters, :error_messages)) %>
+    <% concat(call_tag_parameter(:field_list, {:fields => "name, email_address, administrator"}, {}, all_parameters, :field_list)) %>
+    <% concat(call_tag_parameter(:div, {}, { :default => proc { |_div__default_content| new_context { %>
+      <% concat(call_tag_parameter(:submit, {:label => "Save"}, {}, all_parameters, :submit)) %><% concat(call_tag_parameter(:or_cancel, {}, {}, all_parameters, :cancel)) %>
+    <% } }, }, all_parameters, :actions)) %>
+  <% } }, }, (parameters) || {}), all_parameters, :default)) %>
+<% output_buffer; end; end %>
+Template::element_to_erb END
+Template::node_to_erb
+Template::node_to_erb
+Template::element_to_erb
+Template::def_element
+Tag Name: signup-form
+Polymorphic
+Template::tag_method - signup-form__base 
+Template::tag_method_body
+Template::children_to_erb
+Template::tag_method_body END
+<% def signup_form__base(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %><% output_buffer; end; end %>
+Template::element_to_erb END
+Template::node_to_erb
+Template::node_to_erb
+Template::element_to_erb
+Template::def_element
+Tag Name: signup-form
+Template::tag_method - signup-form__for_user 
+Template::tag_method_body
+Template::children_to_erb
+Template::node_to_erb
+Template::node_to_erb
+Template::element_to_erb
+Template::tag_call - form
+Template::tag_attributes
+Template::default_param_proc
+Template::children_to_erb
+Template::node_to_erb
+Template::node_to_erb
+Template::element_to_erb
+Template::tag_call - error_messages
+Template::tag_attributes
+Template::without_parameters
+call - call_tag_parameter(:error_messages, {}, {}, all_parameters, :error_messages)
+Template::apply_control_attributes
+Template::maybe_make_part_call
+call before metadata - <% concat(call_tag_parameter(:error_messages, {}, {}, all_parameters, :error_messages)) %>
+Template::tag_call - error_messages END
+Template::element_to_erb END
+Template::node_to_erb
+Template::node_to_erb
+Template::element_to_erb
+Template::tag_call - field_list
+Template::tag_attributes
+Template::without_parameters
+call - call_tag_parameter(:field_list, {:fields => "name, email_address, password, password_confirmation"}, {}, all_parameters, :field_list)
+Template::apply_control_attributes
+Template::maybe_make_part_call
+call before metadata - <% concat(call_tag_parameter(:field_list, {:fields => "name, email_address, password, password_confirmation"}, {}, all_parameters, :field_list)) %>
+Template::tag_call - field_list END
+Template::element_to_erb END
+Template::node_to_erb
+Template::node_to_erb
+Template::element_to_erb
+Template::tag_call - div
+Template::tag_attributes
+Template::default_param_proc
+Template::children_to_erb
+Template::node_to_erb
+Template::node_to_erb
+Template::element_to_erb
+Template::tag_call - submit
+Template::tag_attributes
+Template::without_parameters
+call - call_tag_parameter(:submit, {:label => "Signup"}, {}, all_parameters, :submit)
+Template::apply_control_attributes
+Template::maybe_make_part_call
+call before metadata - <% concat(call_tag_parameter(:submit, {:label => "Signup"}, {}, all_parameters, :submit)) %>
+Template::tag_call - submit END
+Template::element_to_erb END
+Template::node_to_erb
+Template::element_to_erb
+Template::tag_call - or_cancel
+Template::tag_attributes
+Template::without_parameters
+call - call_tag_parameter(:or_cancel, {}, {}, all_parameters, :cancel)
+Template::apply_control_attributes
+Template::maybe_make_part_call
+call before metadata - <% concat(call_tag_parameter(:or_cancel, {}, {}, all_parameters, :cancel)) %>
+Template::tag_call - or_cancel END
+Template::element_to_erb END
+Template::node_to_erb
+Template::without_parameters
+call - call_tag_parameter(:div, {}, { :default => proc { |_div__default_content| new_context { %>
+      <% concat(call_tag_parameter(:submit, {:label => "Signup"}, {}, all_parameters, :submit)) %><% concat(call_tag_parameter(:or_cancel, {}, {}, all_parameters, :cancel)) %>
+    <% } }, }, all_parameters, :actions)
+Template::apply_control_attributes
+Template::maybe_make_part_call
+call before metadata - <% concat(call_tag_parameter(:div, {}, { :default => proc { |_div__default_content| new_context { %>
+      <% concat(call_tag_parameter(:submit, {:label => "Signup"}, {}, all_parameters, :submit)) %><% concat(call_tag_parameter(:or_cancel, {}, {}, all_parameters, :cancel)) %>
+    <% } }, }, all_parameters, :actions)) %>
+Template::tag_call - div END
+Template::element_to_erb END
+Template::node_to_erb
+Template::without_parameters
+call - call_tag_parameter(:form, merge_attrs({:lifecycle => "signup"}, attributes), merge_parameter_hashes({ :default => proc { |_form__default_content| new_context { %>
+    <% concat(call_tag_parameter(:error_messages, {}, {}, all_parameters, :error_messages)) %>
+    <% concat(call_tag_parameter(:field_list, {:fields => "name, email_address, password, password_confirmation"}, {}, all_parameters, :field_list)) %>
+    <% concat(call_tag_parameter(:div, {}, { :default => proc { |_div__default_content| new_context { %>
+      <% concat(call_tag_parameter(:submit, {:label => "Signup"}, {}, all_parameters, :submit)) %><% concat(call_tag_parameter(:or_cancel, {}, {}, all_parameters, :cancel)) %>
+    <% } }, }, all_parameters, :actions)) %>
+  <% } }, }, (parameters) || {}), all_parameters, :default)
+Template::apply_control_attributes
+Template::maybe_make_part_call
+call before metadata - <% concat(call_tag_parameter(:form, merge_attrs({:lifecycle => "signup"}, attributes), merge_parameter_hashes({ :default => proc { |_form__default_content| new_context { %>
+    <% concat(call_tag_parameter(:error_messages, {}, {}, all_parameters, :error_messages)) %>
+    <% concat(call_tag_parameter(:field_list, {:fields => "name, email_address, password, password_confirmation"}, {}, all_parameters, :field_list)) %>
+    <% concat(call_tag_parameter(:div, {}, { :default => proc { |_div__default_content| new_context { %>
+      <% concat(call_tag_parameter(:submit, {:label => "Signup"}, {}, all_parameters, :submit)) %><% concat(call_tag_parameter(:or_cancel, {}, {}, all_parameters, :cancel)) %>
+    <% } }, }, all_parameters, :actions)) %>
+  <% } }, }, (parameters) || {}), all_parameters, :default)) %>
+Template::tag_call - form END
+Template::element_to_erb END
+Template::node_to_erb
+Template::tag_method_body END
+<% def signup_form__for_user(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, [:default, :error_messages, :field_list, :actions, :submit, :cancel]); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %>
+  <% concat(call_tag_parameter(:form, merge_attrs({:lifecycle => "signup"}, attributes), merge_parameter_hashes({ :default => proc { |_form__default_content| new_context { %>
+    <% concat(call_tag_parameter(:error_messages, {}, {}, all_parameters, :error_messages)) %>
+    <% concat(call_tag_parameter(:field_list, {:fields => "name, email_address, password, password_confirmation"}, {}, all_parameters, :field_list)) %>
+    <% concat(call_tag_parameter(:div, {}, { :default => proc { |_div__default_content| new_context { %>
+      <% concat(call_tag_parameter(:submit, {:label => "Signup"}, {}, all_parameters, :submit)) %><% concat(call_tag_parameter(:or_cancel, {}, {}, all_parameters, :cancel)) %>
+    <% } }, }, all_parameters, :actions)) %>
+  <% } }, }, (parameters) || {}), all_parameters, :default)) %>
+<% output_buffer; end; end %>
+Template::element_to_erb END
+Template::node_to_erb
+Template::node_to_erb
+Template::element_to_erb
+Template::def_element
+Tag Name: reset-password-form
+Polymorphic
+Template::tag_method - reset-password-form__base 
+Template::tag_method_body
+Template::children_to_erb
+Template::tag_method_body END
+<% def reset_password_form__base(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %><% output_buffer; end; end %>
+Template::element_to_erb END
+Template::node_to_erb
+Template::node_to_erb
+Template::element_to_erb
+Template::def_element
+Tag Name: reset-password-form
+Template::tag_method - reset-password-form__for_user 
+Template::tag_method_body
+Template::children_to_erb
+Template::node_to_erb
+Template::node_to_erb
+Template::element_to_erb
+Template::tag_call - form
+Template::tag_attributes
+Template::default_param_proc
+Template::children_to_erb
+Template::node_to_erb
+Template::node_to_erb
+Template::element_to_erb
+Template::tag_call - error_messages
+Template::tag_attributes
+Template::without_parameters
+call - call_tag_parameter(:error_messages, {}, {}, all_parameters, :error_messages)
+Template::apply_control_attributes
+Template::maybe_make_part_call
+call before metadata - <% concat(call_tag_parameter(:error_messages, {}, {}, all_parameters, :error_messages)) %>
+Template::tag_call - error_messages END
+Template::element_to_erb END
+Template::node_to_erb
+Template::node_to_erb
+Template::element_to_erb
+Template::tag_call - input
+Template::tag_attributes
+Template::without_parameters
+call - input({:name => "key", :type => "hidden", :value => (this.lifecycle.provided_key)}, {})
+Template::apply_control_attributes
+Template::maybe_make_part_call
+call before metadata - <% concat((if !(this.lifecycle.provided_key).blank?; (__tmp_1 = input({:name => "key", :type => "hidden", :value => (this.lifecycle.provided_key)}, {}); Hobo::Dryml.last_if = true; __tmp_1) else (Hobo::Dryml.last_if = false; ''); end)) %>
+Template::tag_call - input END
+Template::element_to_erb END
+Template::node_to_erb
+Template::node_to_erb
+Template::element_to_erb
+Template::tag_call - field_list
+Template::tag_attributes
+Template::without_parameters
+call - call_tag_parameter(:field_list, {:fields => "password, password_confirmation"}, {}, all_parameters, :field_list)
+Template::apply_control_attributes
+Template::maybe_make_part_call
+call before metadata - <% concat(call_tag_parameter(:field_list, {:fields => "password, password_confirmation"}, {}, all_parameters, :field_list)) %>
+Template::tag_call - field_list END
+Template::element_to_erb END
+Template::node_to_erb
+Template::node_to_erb
+Template::element_to_erb
+Template::tag_call - div
+Template::tag_attributes
+Template::default_param_proc
+Template::children_to_erb
+Template::node_to_erb
+Template::node_to_erb
+Template::element_to_erb
+Template::tag_call - submit
+Template::tag_attributes
+Template::without_parameters
+call - call_tag_parameter(:submit, {:label => "Reset Password"}, {}, all_parameters, :submit)
+Template::apply_control_attributes
+Template::maybe_make_part_call
+call before metadata - <% concat(call_tag_parameter(:submit, {:label => "Reset Password"}, {}, all_parameters, :submit)) %>
+Template::tag_call - submit END
+Template::element_to_erb END
+Template::node_to_erb
+Template::element_to_erb
+Template::tag_call - or_cancel
+Template::tag_attributes
+Template::without_parameters
+call - call_tag_parameter(:or_cancel, {}, {}, all_parameters, :cancel)
+Template::apply_control_attributes
+Template::maybe_make_part_call
+call before metadata - <% concat(call_tag_parameter(:or_cancel, {}, {}, all_parameters, :cancel)) %>
+Template::tag_call - or_cancel END
+Template::element_to_erb END
+Template::node_to_erb
+Template::without_parameters
+call - call_tag_parameter(:div, {}, { :default => proc { |_div__default_content| new_context { %>
+      <% concat(call_tag_parameter(:submit, {:label => "Reset Password"}, {}, all_parameters, :submit)) %><% concat(call_tag_parameter(:or_cancel, {}, {}, all_parameters, :cancel)) %>
+    <% } }, }, all_parameters, :actions)
+Template::apply_control_attributes
+Template::maybe_make_part_call
+call before metadata - <% concat(call_tag_parameter(:div, {}, { :default => proc { |_div__default_content| new_context { %>
+      <% concat(call_tag_parameter(:submit, {:label => "Reset Password"}, {}, all_parameters, :submit)) %><% concat(call_tag_parameter(:or_cancel, {}, {}, all_parameters, :cancel)) %>
+    <% } }, }, all_parameters, :actions)) %>
+Template::tag_call - div END
+Template::element_to_erb END
+Template::node_to_erb
+Template::without_parameters
+call - call_tag_parameter(:form, merge_attrs({:lifecycle => "reset_password"}, attributes), merge_parameter_hashes({ :default => proc { |_form__default_content| new_context { %>
+    <% concat(call_tag_parameter(:error_messages, {}, {}, all_parameters, :error_messages)) %>
+    <% concat((if !(this.lifecycle.provided_key).blank?; (__tmp_1 = input({:name => "key", :type => "hidden", :value => (this.lifecycle.provided_key)}, {}); Hobo::Dryml.last_if = true; __tmp_1) else (Hobo::Dryml.last_if = false; ''); end)) %>
+    <% concat(call_tag_parameter(:field_list, {:fields => "password, password_confirmation"}, {}, all_parameters, :field_list)) %>
+    <% concat(call_tag_parameter(:div, {}, { :default => proc { |_div__default_content| new_context { %>
+      <% concat(call_tag_parameter(:submit, {:label => "Reset Password"}, {}, all_parameters, :submit)) %><% concat(call_tag_parameter(:or_cancel, {}, {}, all_parameters, :cancel)) %>
+    <% } }, }, all_parameters, :actions)) %>
+  <% } }, }, (parameters) || {}), all_parameters, :default)
+Template::apply_control_attributes
+Template::maybe_make_part_call
+call before metadata - <% concat(call_tag_parameter(:form, merge_attrs({:lifecycle => "reset_password"}, attributes), merge_parameter_hashes({ :default => proc { |_form__default_content| new_context { %>
+    <% concat(call_tag_parameter(:error_messages, {}, {}, all_parameters, :error_messages)) %>
+    <% concat((if !(this.lifecycle.provided_key).blank?; (__tmp_1 = input({:name => "key", :type => "hidden", :value => (this.lifecycle.provided_key)}, {}); Hobo::Dryml.last_if = true; __tmp_1) else (Hobo::Dryml.last_if = false; ''); end)) %>
+    <% concat(call_tag_parameter(:field_list, {:fields => "password, password_confirmation"}, {}, all_parameters, :field_list)) %>
+    <% concat(call_tag_parameter(:div, {}, { :default => proc { |_div__default_content| new_context { %>
+      <% concat(call_tag_parameter(:submit, {:label => "Reset Password"}, {}, all_parameters, :submit)) %><% concat(call_tag_parameter(:or_cancel, {}, {}, all_parameters, :cancel)) %>
+    <% } }, }, all_parameters, :actions)) %>
+  <% } }, }, (parameters) || {}), all_parameters, :default)) %>
+Template::tag_call - form END
+Template::element_to_erb END
+Template::node_to_erb
+Template::tag_method_body END
+<% def reset_password_form__for_user(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, [:default, :error_messages, :field_list, :actions, :submit, :cancel]); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %>
+  <% concat(call_tag_parameter(:form, merge_attrs({:lifecycle => "reset_password"}, attributes), merge_parameter_hashes({ :default => proc { |_form__default_content| new_context { %>
+    <% concat(call_tag_parameter(:error_messages, {}, {}, all_parameters, :error_messages)) %>
+    <% concat((if !(this.lifecycle.provided_key).blank?; (__tmp_1 = input({:name => "key", :type => "hidden", :value => (this.lifecycle.provided_key)}, {}); Hobo::Dryml.last_if = true; __tmp_1) else (Hobo::Dryml.last_if = false; ''); end)) %>
+    <% concat(call_tag_parameter(:field_list, {:fields => "password, password_confirmation"}, {}, all_parameters, :field_list)) %>
+    <% concat(call_tag_parameter(:div, {}, { :default => proc { |_div__default_content| new_context { %>
+      <% concat(call_tag_parameter(:submit, {:label => "Reset Password"}, {}, all_parameters, :submit)) %><% concat(call_tag_parameter(:or_cancel, {}, {}, all_parameters, :cancel)) %>
+    <% } }, }, all_parameters, :actions)) %>
+  <% } }, }, (parameters) || {}), all_parameters, :default)) %>
+<% output_buffer; end; end %>
+Template::element_to_erb END
+Template::node_to_erb
+Build template with Hobo::Dryml::DRYMLBuilder

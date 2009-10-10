@@ -7,3 +7,11 @@
 <set-theme name="clean"/>
 
 <def tag="app-name">Ext Js</def>
+
+<def tag="comma">
+  <do default="param" sep=","/>
+</def>
+
+<def tag="x">
+  {<do default="param"/>}
+</def>

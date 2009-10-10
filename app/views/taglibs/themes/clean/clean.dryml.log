@@ -1,0 +1,109 @@
+creating new Template builder
+Hobo::Dryml::Template.initialize : END
+Template::Compile
+Template::proces_src
+processing taglib app/views/taglibs/themes/clean/clean.dryml
+Template::children_to_erb
+Template::node_to_erb
+Template::element_to_erb
+Template::def_element
+Tag Name: page
+Template::tag_method - page 
+extends tag: page_with_aaa82d3a9ca5
+Template::tag_method_body
+Template::children_to_erb
+Template::node_to_erb
+Template::node_to_erb
+Template::element_to_erb
+Template::tag_call - page_without_aaa82d3a9ca5
+Template::tag_attributes
+Template::parameter_tag_hash_item
+Template::param_proc
+Template::default_param_proc
+Template::children_to_erb
+Template::node_to_erb
+Template::node_to_erb
+Template::element_to_erb
+Template::tag_call - stylesheet
+Template::tag_attributes
+Template::without_parameters
+call - stylesheet({:name => "reset"}, {})
+Template::apply_control_attributes
+Template::maybe_make_part_call
+call before metadata - <% concat(stylesheet({:name => "reset"}, {})) %>
+Template::tag_call - stylesheet END
+Template::element_to_erb END
+Template::node_to_erb
+Template::node_to_erb
+Template::element_to_erb
+Template::tag_call - theme_stylesheet
+Template::tag_attributes
+Template::without_parameters
+call - theme_stylesheet.to_s
+Template::apply_control_attributes
+Template::maybe_make_part_call
+call before metadata - <% concat(theme_stylesheet.to_s) %>
+Template::tag_call - theme_stylesheet END
+Template::element_to_erb END
+Template::node_to_erb
+Template::node_to_erb
+Template::element_to_erb
+Template::tag_call - theme_stylesheet
+Template::tag_attributes
+Template::without_parameters
+call - theme_stylesheet({:name => "rapid-ui"}, {})
+Template::apply_control_attributes
+Template::maybe_make_part_call
+call before metadata - <% concat(theme_stylesheet({:name => "rapid-ui"}, {})) %>
+Template::tag_call - theme_stylesheet END
+Template::element_to_erb END
+Template::node_to_erb
+Template::node_to_erb
+Template::element_to_erb
+Template::tag_call - stylesheet
+Template::tag_attributes
+Template::without_parameters
+call - call_tag_parameter(:stylesheet, {:name => "application"}, {}, all_parameters, :app_stylesheet)
+Template::apply_control_attributes
+Template::maybe_make_part_call
+call before metadata - <% concat(call_tag_parameter(:stylesheet, {:name => "application"}, {}, all_parameters, :app_stylesheet)) %>
+Template::tag_call - stylesheet END
+Template::element_to_erb END
+Template::node_to_erb
+Template::without_parameters
+Template::without_parameters
+call - page_without_aaa82d3a9ca5(merge_attrs({}, attributes), merge_parameter_hashes({
+    :stylesheets => merge_tag_parameter(proc { [{}, { :default => proc { |_stylesheets__default_content| new_context { %>
+      <% concat(stylesheet({:name => "reset"}, {})) %>
+      <% concat(theme_stylesheet.to_s) %>
+      <% concat(theme_stylesheet({:name => "rapid-ui"}, {})) %>
+      <% concat(call_tag_parameter(:stylesheet, {:name => "application"}, {}, all_parameters, :app_stylesheet)) %>
+    <% } }, }] }, all_parameters[:stylesheets]), 
+  }, (parameters) || {}))
+Template::apply_control_attributes
+Template::maybe_make_part_call
+call before metadata - <% concat(page_without_aaa82d3a9ca5(merge_attrs({}, attributes), merge_parameter_hashes({
+    :stylesheets => merge_tag_parameter(proc { [{}, { :default => proc { |_stylesheets__default_content| new_context { %>
+      <% concat(stylesheet({:name => "reset"}, {})) %>
+      <% concat(theme_stylesheet.to_s) %>
+      <% concat(theme_stylesheet({:name => "rapid-ui"}, {})) %>
+      <% concat(call_tag_parameter(:stylesheet, {:name => "application"}, {}, all_parameters, :app_stylesheet)) %>
+    <% } }, }] }, all_parameters[:stylesheets]), 
+  }, (parameters) || {}))) %>
+Template::tag_call - page_without_aaa82d3a9ca5 END
+Template::element_to_erb END
+Template::node_to_erb
+Template::tag_method_body END
+<% def page_with_aaa82d3a9ca5(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, [:stylesheets, :app_stylesheet]); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %>
+  <% concat(page_without_aaa82d3a9ca5(merge_attrs({}, attributes), merge_parameter_hashes({
+    :stylesheets => merge_tag_parameter(proc { [{}, { :default => proc { |_stylesheets__default_content| new_context { %>
+      <% concat(stylesheet({:name => "reset"}, {})) %>
+      <% concat(theme_stylesheet.to_s) %>
+      <% concat(theme_stylesheet({:name => "rapid-ui"}, {})) %>
+      <% concat(call_tag_parameter(:stylesheet, {:name => "application"}, {}, all_parameters, :app_stylesheet)) %>
+    <% } }, }] }, all_parameters[:stylesheets]), 
+  }, (parameters) || {}))) %>
+<% output_buffer; end; end; alias_method_chain_on_include :page, :aaa82d3a9ca5 %>
+Template::element_to_erb END
+Template::node_to_erb
+Build template with Hobo::Dryml::DRYMLBuilder

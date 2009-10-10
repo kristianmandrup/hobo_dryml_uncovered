@@ -1,29 +1,12 @@
 <% concat(page({:title => "Home"}, {
-
   :body => proc { [{:class => "front-page"}, {}] }, 
-
   :content => proc { [{}, { :default => proc { |_content__default_content| new_context { %>
     <% concat(header({:class => "content-header"}, { :default => proc { |_header__default_content| new_context { %>
-      <h1>Welcome to <% concat(app_name.to_s) %></h1>
-      <% concat(section({:class => "welcome-message"}, { :default => proc { |_section__default_content| new_context { %>
-        <h3>Congratulations! Your Hobo Rails App is up and running</h3>
-        <ul>
-          <li>To customise this page: edit app/views/front/index.dryml</li>
-        </ul>
-    
-        <% if User.count == 0 -%>
-          <h3 style="margin-top: 20px;">There are no user accounts - please provide the details of the site administrator</h3>
-          <% concat(do_({:with => (User.new)}, { :default => proc { |_do__default_content| new_context { %><% this.exempt_from_edit_checks = true %>
-            <% concat(signup_form.to_s) %>
-          <% } }, })) %>
-        <% end -%>
-        
-      
-      <% } }, })) %>
-    <% } }, })) %>
-
-    <% concat(section({:class => "content-body"}, { :default => proc { |_section__default_content| new_context { %>
+        <h3>Congratulations! Your Hobo Rails App is up and running</h3>    
+        <% concat(comma({}, { :default => proc { |_comma__default_content| new_context { %>
+          <% concat(x({}, { :default => proc { |_x__default_content| new_context { %>hello<% } }, })) %>
+          <% concat(x({}, { :default => proc { |_x__default_content| new_context { %>hello you<% } }, })) %>
+        <% } }, })) %>              
     <% } }, })) %>
   <% } }, }] }, 
-  
 })) %>
