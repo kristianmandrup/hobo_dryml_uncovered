@@ -11,13 +11,19 @@ module Logging
     @log ||= Logger.new(STDOUT)
     @log.level ||= Logger::DEBUG          
     @log_file ||= 'dryml_template'
-
-    @log.debug msg
-    log_f(msg)
+#    @old_template ||= ''
+    
+    if @template_path # && @template_path.include?('app/views/') || !@template_path.include?('views/taglibs')
+      file = @template_path + '.log'
+      log_f(msg, file)
+    else
+       @log.debug msg
+       log_f(msg)
+    end
   end  
 
-  def log_f(txt)
-    file = RAILS_ROOT + "/log/#{@log_file}.log"
+  def log_f(txt, file = nil)
+    file = file || (RAILS_ROOT + "/log/#{@log_file}.log")
     open(file, "a+") do |f|
       f.puts txt
     end
