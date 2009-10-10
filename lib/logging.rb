@@ -13,6 +13,11 @@ module Logging
   
   def log_template?(template)
     return false if !@template_path
+    return true
+    
+    # TODO - This part needs fixing! 
+    # See /log-test/logging.rb
+    # I hope to fix this ASAP  
     
     # directory of template file
     template_dir = File.dirname(template)
