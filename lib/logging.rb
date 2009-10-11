@@ -142,7 +142,7 @@ module Logging
     method_begin?(msg) || method_end?(msg)
   end
 
-  def handle_method(meth_name, meth_pos)
+  def handle_method(meth_name, meth_pos)        
     if meth_pos == 'begin'
       @log_method_stack.push(meth_name)
     elsif meth_pos == 'end'
@@ -150,10 +150,26 @@ module Logging
     end      
   end
 
+  def log_method?(msg)
+    handle_method(get_method_name(msg), method_pos(msg))    
+    cls_name = class_name(msg)
+    return false if !cls_name || cls_name.blank?     
+
+    # @log.debug "Class name:" + cls_name
+    dryml_methods = @log_dryml_methods[cls_name.to_sym] || {}  
+    current_meth = @log_method_stack.last
+    if current_meth && dryml_methods
+      return false if log_exclude?(current_meth, dryml_methods)
+      return true if log_include?(current_meth, dryml_methods)
+    end
+    return dryml_methods[:default] || true
+  end
+
   def log_class?(msg)
     if dryml_class?(msg)
-      return false if @log_dryml_classes[:excludes].include?(class_name(msg))
-      return true if @log_dryml_classes[:includes].include?(class_name(msg))
+      cls_name = class_name(msg)
+      return false if log_exclude?(cls_name, @log_dryml_classes)
+      return true if  log_include?(cls_name, @log_dryml_classes)
     end
     return @log_dryml_classes[:default] || true
   end
@@ -166,7 +182,7 @@ module Logging
     
     # TODO: should I log inside this method? 
     # use log call stack! push on BEGIN, pop on END    
-    handle_method(get_method_name(msg), method_pos(msg))
+    return if !log_method?(msg)
     
     # should I log this template?    
     if log_template?(@template_path)

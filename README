@@ -15,10 +15,13 @@ This should make it much easier to seemingly integrate with future versions of H
 
 There is support for fine tuning of logging, fx only logging specific parts of DRYML generation, fx include or exclude logging for specific view folders, view templates or taglibs. You can also set a default logging option for each of these. There is also options to control whether to log to console and to log to dryml log file in /log folder. Each log file now starts with a timestamp.
 
+Now also includes a log 'method stack' used for methods encountered (using BEGIN/END)
+You can fine tune logging by setting methods to include/exclude for each DRYML class, then using log "call" stack, top method in stack used as current to see if logging should be done. if logging is disabled within a method call hierarchy, it should be disabled until explicitly enabled again by an include or by switching class or coming to the END marker for this method, in which case it should retrieve the previous logging flag from container method... getting complex!
+
+Please help out here ;)   
+
 TODO: 
 * Create a logging report, listing all log files generated in the order they were generated and a timestamp for each.
-* Create a log stack for methods encountered using BEGIN/END
-  - allow include/exclude methods for each DRYML class, then using log "call" stack, compare method we are within to these lists to decide to log or not  
 
 ----
 Logging is currently provided by libs/logging.rb which contains a few modules that are included in select DRYML classes. 
