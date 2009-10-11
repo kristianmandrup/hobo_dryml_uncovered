@@ -1,0 +1,124 @@
+# =============================== 
+# DEF: table_plus
+# def
+# =============================== 
+<% def table_plus(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, [:header, :search_form, :search_submit, :"\#{scope.field_name}_heading", :"\#{scope.field_name}_heading_link", :up_arrow, :down_arrow, :empty_message, :page_nav]); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do sort_field, sort_direction, sort_columns, attributes, = _tag_locals(all_attributes, [:sort_field, :sort_direction, :sort_columns]) %>
+  <% sort_field ||= @sort_field; sort_direction ||= @sort_direction; sort_columns ||= {} %>
+  <% sort_columns['this'] ||= this.member_class.try.name_attribute %>
+  <% concat(element(:div, merge_attrs({'class' => "table-plus"}, (attributes - attrs_for(:with_fields) - attrs_for(:table)) || {}), new_context { %>
+    <% concat(call_tag_parameter(:div, {:class => "header"}, { :default => proc { |_div__default_content| new_context { %>
+      <div class="search">
+        <% concat(call_tag_parameter(:form, {:method => "get", :action => ""}, { :default => proc { |_form__default_content| new_context { %>
+          <% concat(hidden_fields({:for_query_string => (true), :skip => "page, search"}, {})) %>
+          <span>Search</span>
+          <% concat(input({:name => "search", :class => "search", :type => "search", :value => (params[:search])}, {})) %>
+          <% concat(call_tag_parameter(:submit, {:label => "Go", :class => "search-button"}, {}, all_parameters, :search_submit)) %>
+        <% } }, }, all_parameters, :search_form)) %>
+      </div>
+    <% } }, }, all_parameters, :header)) %>
+
+    <% concat(table(merge_attrs({:empty => (true)}, (attributes & (attrs_for(:table) + attrs_for(:with_fields))) || {}), merge_parameter_hashes({
+      :field_heading_row => proc { [{}, { :default => proc { |_field_heading_row__default_content| new_context { %>
+        <% concat(with_field_names(merge_attrs({}, (all_attributes & attrs_for(:with_fields)) || {}), { :default => proc { |_with_field_names__default_content| new_context { %>
+          <% col = sort_columns[scope.field_path] || scope.field_path
+             sort = sort_field == col && sort_direction == 'asc' ?
+                      "-#{col}" : col
+             sort_url = url_for(params.merge(:sort => sort) - [:page])
+             col_heading_name = this.member_class.try.view_hints.try.field_name(scope.field_name) || scope.field_name.titleize %>
+                          
+          <% concat(call_tag_parameter(:th, {}, { :default => proc { |_th__default_content| new_context { %>
+            <% concat(call_tag_parameter(:a, {:href => (sort_url), :class => "column-sort"}, 
+{ :default => proc { |_a__default_content| new_context { %><%= col_heading_name %><% } 
+}, }, all_parameters, "#{scope.field_name}_heading_link".to_sym)) %>
+            <% concat(if_({:test => (col == sort_field)}, { :default => proc { |_if__default_content| new_context { %>
+              <% concat((if !(sort_direction == 'desc').blank?; (__tmp_1 = call_tag_parameter(:do_, {}, { :default => proc { |_do__default_content| new_context { %>&uarr;<% } }, }, all_parameters, :up_arrow); Hobo::Dryml.last_if = true; __tmp_1) else (Hobo::Dryml.last_if = false; ''); end)) %>
+              <% concat((if !(sort_direction == 'asc').blank?; (__tmp_2 = call_tag_parameter(:do_, {}, { :default => proc { |_do__default_content| new_context { %>&darr;<% } }, }, all_parameters, :down_arrow); Hobo::Dryml.last_if = true; __tmp_2) else (Hobo::Dryml.last_if = false; ''); end)) %>
+            <% } }, })) %>
+          <% } }, }, all_parameters, "#{scope.field_name}_heading".to_sym)) %>
+        <% } }, })) %>
+        
+      <% } }, }] }, 
+    }, (parameters) || {}))) %>    
+    <% concat((if !(this.empty?).blank?; (__tmp_4 = call_tag_parameter(:do_, {}, { :default => proc { |_do__default_content| new_context { %>No <% concat(collection_name({:lowercase => (true)}, {})) %> to display<% } }, }, all_parameters, :empty_message); Hobo::Dryml.last_if = true; __tmp_4) else (Hobo::Dryml.last_if = false; ''); end)) %>
+
+   
+    <% concat((if !(this.respond_to?(:page_count) || this.respond_to?(:total_pages)).blank?; (__tmp_5 = call_tag_parameter(:page_nav, {}, {}, all_parameters, :page_nav); Hobo::Dryml.last_if = true; __tmp_5) else (Hobo::Dryml.last_if = false; ''); end)) %>
+  <% })) %>
+<% output_buffer; end; end %><% _register_tag_attrs(:table_plus, [:sort_field, :sort_direction, :sort_columns]) %>
+# =============================== 
+# DEF: sortable_collection
+# def
+# =============================== 
+<% def sortable_collection(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, [:item, :handle, :default, :card]); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do sortable_options, attributes, = _tag_locals(all_attributes, [:sortable_options]) %><%
+  singular_name = this.member_class.name.underscore
+  attributes[:id] ||= "#{singular_name}_ordering"
+  route_method = subsite ? "#{subsite}_reorder_#{singular_name.pluralize}_url" : "reorder_#{singular_name.pluralize}_url"
+  reorder_url = send(route_method)
+%>
+  <% concat(collection(merge_attrs({:class => "sortable"}, attributes), merge_parameter_hashes({
+    :item => merge_tag_parameter(proc { [{:id => "#{singular_name}_#{this.id}"}, { :default => proc { |_item__default_content| new_context { %>
+      <% concat((if !(can_edit?).blank?; (__tmp_6 = call_tag_parameter(:div, {:class => "ordering-handle"}, { :default => proc { |_div__default_content| new_context { %>&uarr;<% concat(br.to_s) %>&darr;<% } }, }, all_parameters, :handle); Hobo::Dryml.last_if = true; __tmp_6) else (Hobo::Dryml.last_if = false; ''); end)) %>
+      <% concat(call_tag_parameter(:do_, {}, { :default => proc { |_do__default_content| new_context { %><% concat(call_tag_parameter(:card, {}, {}, all_parameters, :card)) %><% } }, }, all_parameters, :default)) %>
+    <% } }, }] }, all_parameters[:item]), 
+  }, (parameters) || {}))) %>
+  <%= if Hobo::Dryml.last_if
+        opts = { :url => reorder_url,
+                 :constraint => :vertical,
+                 :overlap => :vertical,
+                 :scroll => :window,
+                 :handle => 'ordering-handle',
+                 :complete => [visual_effect(:highlight, attributes[:id])]
+                }
+        opts.update(sortable_options) if sortable_options
+        sortable_element attributes[:id], opts
+      end # FIXME: Make unobstrusive
+   %>
+<% output_buffer; end; end %><% _register_tag_attrs(:sortable_collection, [:sortable_options]) %>
+# =============================== 
+# DEF: preview_with_more
+# def
+# =============================== 
+<% def preview_with_more(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, [:default, :heading, :more, :collection]); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do name, attributes, = _tag_locals(all_attributes, [:name]) %>
+  <% name ||= collection_name.pluralize -%>
+  <% concat(call_tag_parameter(:section, {:class => "#{name.gsub(' ', '-').dasherize} preview-with-more"}, { :default => proc { |_section__default_content| new_context { %>
+    <% concat(call_tag_parameter(:h3, {}, { :default => proc { |_h3__default_content| new_context { %><%= name.titleize %><% } }, }, all_parameters, :heading)) %>
+    <% concat(call_tag_parameter(:a, {}, { :default => proc { |_a__default_content| new_context { %>More <% concat(type_name({:lowercase => (true), :plural => (true)}, {})) %>...<% } }, }, all_parameters, :more)) %>
+    <% concat(call_tag_parameter(:collection, {}, {}, all_parameters, :collection)) %>
+  <% } }, }, all_parameters, :default)) %>
+<% output_buffer; end; end %><% _register_tag_attrs(:preview_with_more, [:name]) %>
+# =============================== 
+# DEF: gravatar
+# def
+# =============================== 
+<% def gravatar(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do size, rating, attributes, = _tag_locals(all_attributes, [:size, :rating]) %>
+  <% size ||= 80; rating ||= 'g'; digest = Digest::MD5.hexdigest(this.email_address) -%>
+  <% concat(a({:class => "gravatar"}, { :default => proc { |_a__default_content| new_context { %><% concat(img(merge_attrs({:class => "gravatar", :src => "http://www.gravatar.com/avatar/#{digest}?s=#{size}&r=#{rating}"}, attributes || {}), {})) %><% } }, })) %>
+<% output_buffer; end; end %><% _register_tag_attrs(:gravatar, [:size, :rating]) %>
+# =============================== 
+# DEF: live_search
+# def
+# =============================== 
+<% def live_search(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, [:close_button]); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %>
+  <div class="search">
+    <label for="search-field">Search</label><% concat(input({:class => "live-search", :type => "search"}, {})) %>
+    <% concat(spinner({:id => "search-spinner"}, {})) %>
+  </div>
+  <% concat(section({:class => "hidden", :id => "search-results-panel"}, { :default => proc { |_section__default_content| new_context { %>
+    <h2>Search Results</h2><% concat(call_tag_parameter(:div, {}, { :default => proc { |_div__default_content| new_context { %>close<% } }, }, all_parameters, :close_button)) %>
+    <% concat(section({:id => "search-results"}, { :default => proc { |_section__default_content| new_context { %>&nbsp;<% } }, })) %>
+  <% } }, })) %>
+<% output_buffer; end; end %><% _register_tag_attrs(:live_search, []) %>
+# =============================== 
+# DEF: filter_menu
+# def
+# =============================== 
+<% def filter_menu(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do param_name, options, no_filter, id, attributes, = _tag_locals(all_attributes, [:param_name, :options, :no_filter, :id]) %>
+  <% no_filter ||= "All" %>
+  <% concat(form(merge_attrs({:class => "filter-menu", :method => "get", :action => (request.request_uri)}, (all_attributes & [:id]) || {}), { :default => proc { |_form__default_content| new_context { %>
+    <div>
+      <% selected = options.detect {|o| o.to_s==params[param_name.gsub('-', '_')] } %>
+      <% concat(select_menu({:name => (param_name), :selected => (selected), :first_option => (no_filter), :options => (options)}, 
+merge_parameter_hashes({}, (parameters) || {}))) %>
+    </div>
+  <% } }, })) %>
+<% output_buffer; end; end %><% _register_tag_attrs(:filter_menu, [:param_name, :options, :no_filter, :id]) %>

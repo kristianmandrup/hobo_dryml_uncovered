@@ -1,0 +1,14 @@
+# =============================== 
+# DEF: page_with_aaa82d3a9ca5
+# def
+# =============================== 
+<% def page_with_aaa82d3a9ca5(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, [:stylesheets, :app_stylesheet]); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %>
+  <% concat(page_without_aaa82d3a9ca5(merge_attrs({}, attributes), merge_parameter_hashes({
+    :stylesheets => merge_tag_parameter(proc { [{}, { :default => proc { |_stylesheets__default_content| new_context { %>
+      <% concat(stylesheet({:name => "reset"}, {})) %>
+      <% concat(theme_stylesheet.to_s) %>
+      <% concat(theme_stylesheet({:name => "rapid-ui"}, {})) %>
+      <% concat(call_tag_parameter(:stylesheet, {:name => "application"}, {}, all_parameters, :app_stylesheet)) %>
+    <% } }, }] }, all_parameters[:stylesheets]), 
+  }, (parameters) || {}))) %>
+<% output_buffer; end; end; alias_method_chain_on_include :page, :aaa82d3a9ca5 %><% _register_tag_attrs(:page, []) %>

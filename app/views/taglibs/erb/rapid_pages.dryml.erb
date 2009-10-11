@@ -1,0 +1,307 @@
+# =============================== 
+# DEF: page
+# def
+# =============================== 
+<% def page(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, [:head, :title, :stylesheets, :app_stylesheet, :scripts, :javascript, :fix_ie6, :custom_scripts, :application_javascript, :body, :ajax_progress, :header, :account_nav, :app_name, :live_search, :main_nav, :content, :footer, :page_scripts]); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do title, full_title, attributes, = _tag_locals(all_attributes, [:title, :full_title]) %>
+  <% full_title ||= "#{title} : #{app_name}" %>
+  <% concat(html(merge_attrs({}, attributes || {}), { :default => proc { |_html__default_content| new_context { %>
+    <% concat(call_tag_parameter(:head, {}, { :default => proc { |_head__default_content| new_context { %>
+      <% concat(call_tag_parameter(:title, {}, { :default => proc { |_title__default_content| new_context { %><%= strip_tags full_title %><% } }, }, all_parameters, :title)) %>
+      <% concat(call_tag_parameter(:do_, {}, { :default => proc { |_do__default_content| new_context { %>
+        <!-- note that this is probably overridden in your app/views/taglibs/themes/xxx/xxx.dryml --> 
+        <% concat(stylesheet({:name => "reset, hobo-rapid"}, {})) %>
+        <% concat(theme_stylesheet.to_s) %>
+        <% concat(call_tag_parameter(:stylesheet, {:name => "application"}, {}, all_parameters, :app_stylesheet)) %>
+      <% } }, }, all_parameters, :stylesheets)) %>
+
+      <% concat(call_tag_parameter(:do_, {}, { :default => proc { |_do__default_content| new_context { %>
+        <% concat(call_tag_parameter(:javascript, {:name => "prototype, effects, dragdrop, controls, lowpro, hobo-rapid"}, {}, all_parameters, :javascript)) %>
+        <% concat(call_tag_parameter(:if_ie, {:version => "lt IE 7"}, { :default => proc { |_if_ie__default_content| new_context { %>
+          <% concat(javascript({:name => "IE7"}, {})) %>
+          <% concat(javascript({:name => "ie7-recalc"}, {})) %>
+        <% } }, }, all_parameters, :fix_ie6)) %>
+        <% concat(call_tag_parameter(:do_, {}, {}, all_parameters, :custom_scripts)) %>
+        <% concat(call_tag_parameter(:javascript, {:name => "application"}, {}, all_parameters, :application_javascript)) %>
+      <% } }, }, all_parameters, :scripts)) %>
+    <% } }, }, all_parameters, :head)) %>
+
+    <% concat(call_tag_parameter(:body, {}, { :default => proc { |_body__default_content| new_context { %>
+      <% scope.new_scope(:flash_rendered => (false) ) {  %>
+        <% concat(call_tag_parameter(:ajax_progress, {}, {}, all_parameters, :ajax_progress)) %>
+        <% concat(call_tag_parameter(:header, {:class => "page-header"}, { :default => proc { |_header__default_content| new_context { %>
+          <% concat((if !(login_url(Hobo::User.default_user_model)).blank?; (__tmp_1 = call_tag_parameter(:account_nav, {}, {}, all_parameters, :account_nav); Hobo::Dryml.last_if = true; __tmp_1) else (Hobo::Dryml.last_if = false; ''); end)) %>
+          <% concat(call_tag_parameter(:h1, {}, { :default => proc { |_h1__default_content| new_context { %><% concat(a({:href => "#{base_url}/"}, { :default => proc { |_a__default_content| new_context { %><% concat(app_name.to_s) %><% } }, })) %><% } }, }, all_parameters, :app_name)) %>
+          <% concat((if !(defined_route? :site_search).blank?; (__tmp_2 = call_tag_parameter(:live_search, {}, {}, all_parameters, :live_search); Hobo::Dryml.last_if = true; __tmp_2) else (Hobo::Dryml.last_if = false; ''); end)) %>
+          <% concat(call_tag_parameter(:main_nav, {:current => (title)}, {}, all_parameters, :main_nav)) %>
+        <% } }, }, all_parameters, :header)) %>
+        <% concat(call_tag_parameter(:section, {:with_flash_messages => (true)}, {}, all_parameters, :content)) %>
+        <% concat(call_tag_parameter(:footer, {:class => "page-footer"}, {}, all_parameters, :footer)) %>
+        <% concat(call_tag_parameter(:page_scripts, {}, {}, all_parameters, :page_scripts)) %>
+      <% } %>
+    <% } }, }, all_parameters, :body)) %>
+  <% } }, })) %>
+<% output_buffer; end; end %><% _register_tag_attrs(:page, [:title, :full_title]) %>
+# =============================== 
+# DEF: page_scripts
+# def
+# =============================== 
+<% def page_scripts(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, [:default]); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %>
+  <% concat(call_tag_parameter(:script, {:type => "text/javascript"}, { :default => proc { |_script__default_content| new_context { %>
+    <% concat(hobo_rapid_javascripts.to_s) %>
+    <% concat(part_contexts_storage.to_s) %>
+  <% } }, }, all_parameters, :default)) %>
+<% output_buffer; end; end %><% _register_tag_attrs(:page_scripts, []) %>
+# =============================== 
+# DEF: index_page
+# eval
+# =============================== 
+
+      def index_page(attributes={}, parameters={})
+        _tag_context(attributes) do
+          attributes.delete :with
+          attributes.delete :field
+          call_polymorphic_tag('index_page', attributes, parameters) { index_page__base(attributes.except, parameters) }
+        end
+      end
+      
+# =============================== 
+# DEF: index_page__base
+# def
+# =============================== 
+<% def index_page__base(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %><% output_buffer; end; end %><% _register_tag_attrs(:index_page__base, []) %>
+# =============================== 
+# DEF: new_page
+# eval
+# =============================== 
+
+      def new_page(attributes={}, parameters={})
+        _tag_context(attributes) do
+          attributes.delete :with
+          attributes.delete :field
+          call_polymorphic_tag('new_page', attributes, parameters) { new_page__base(attributes.except, parameters) }
+        end
+      end
+      
+# =============================== 
+# DEF: new_page__base
+# def
+# =============================== 
+<% def new_page__base(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %><% output_buffer; end; end %><% _register_tag_attrs(:new_page__base, []) %>
+# =============================== 
+# DEF: show_page
+# eval
+# =============================== 
+
+      def show_page(attributes={}, parameters={})
+        _tag_context(attributes) do
+          attributes.delete :with
+          attributes.delete :field
+          call_polymorphic_tag('show_page', attributes, parameters) { show_page__base(attributes.except, parameters) }
+        end
+      end
+      
+# =============================== 
+# DEF: show_page__base
+# def
+# =============================== 
+<% def show_page__base(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %><% output_buffer; end; end %><% _register_tag_attrs(:show_page__base, []) %>
+# =============================== 
+# DEF: edit_page
+# eval
+# =============================== 
+
+      def edit_page(attributes={}, parameters={})
+        _tag_context(attributes) do
+          attributes.delete :with
+          attributes.delete :field
+          call_polymorphic_tag('edit_page', attributes, parameters) { edit_page__base(attributes.except, parameters) }
+        end
+      end
+      
+# =============================== 
+# DEF: edit_page__base
+# def
+# =============================== 
+<% def edit_page__base(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %><% output_buffer; end; end %><% _register_tag_attrs(:edit_page__base, []) %>
+# =============================== 
+# DEF: permission_denied_page
+# def
+# =============================== 
+<% def permission_denied_page(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, [:content, :content_header, :heading]); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do message, attributes, = _tag_locals(all_attributes, [:message]) %>
+  <% message ||= "That operation is not allowed" %>
+  <% concat(page(merge_attrs({}, attributes), merge_parameter_hashes({
+    :body => proc { [{:class => "permission-denied"}, {}] }, 
+    :content => merge_tag_parameter(proc { [{}, { :default => proc { |_content__default_content| new_context { %>
+      <% concat(call_tag_parameter(:header, {}, { :default => proc { |_header__default_content| new_context { %>
+        <% concat(call_tag_parameter(:h2, {}, { :default => proc { |_h2__default_content| new_context { %><% concat(message.to_s) %><% } }, }, all_parameters, :heading)) %>
+        <% concat((if !(Rails.env.development?).blank?; (__tmp_3 = element(:div, {'class' => "debug"}, new_context { %>
+          <h3>Exception:</h3>
+          <pre><%= h @permission_error.pretty_inspect %></pre>
+          <h3>params:</h3>
+          <pre><%= h params.pretty_inspect %></pre>
+        <% }); Hobo::Dryml.last_if = true; __tmp_3) else (Hobo::Dryml.last_if = false; ''); end)) %>
+      <% } }, }, all_parameters, :content_header)) %>
+    <% } }, }] }, all_parameters[:content]), 
+  }, (parameters) || {}))) %>
+<% output_buffer; end; end %><% _register_tag_attrs(:permission_denied_page, [:message]) %>
+# =============================== 
+# DEF: not_found_page
+# def
+# =============================== 
+<% def not_found_page(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, [:content, :content_header, :heading]); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do message, attributes, = _tag_locals(all_attributes, [:message]) %>
+  <% message ||= "The page you were looking for could not be found" %>
+  <% concat(page(merge_attrs({}, attributes), merge_parameter_hashes({
+    :body => proc { [{:class => "not-found"}, {}] }, 
+    :content => merge_tag_parameter(proc { [{}, { :default => proc { |_content__default_content| new_context { %>
+      <% concat(call_tag_parameter(:header, {}, { :default => proc { |_header__default_content| new_context { %>
+        <% concat(call_tag_parameter(:h2, {}, { :default => proc { |_h2__default_content| new_context { %><% concat(message.to_s) %><% } }, }, all_parameters, :heading)) %>
+      <% } }, }, all_parameters, :content_header)) %>
+    <% } }, }] }, all_parameters[:content]), 
+  }, (parameters) || {}))) %>
+<% output_buffer; end; end %><% _register_tag_attrs(:not_found_page, [:message]) %>
+# =============================== 
+# DEF: doctype
+# def
+# =============================== 
+<% def doctype(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do version, attributes, = _tag_locals(all_attributes, [:version]) %><%=
+  case version.upcase
+    when "HTML 4.01 STRICT"
+      '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" ' + 
+        '"http://www.w3.org/TR/html4/strict.dtd">'
+    when "HTML 4.01 TRANSITIONAL"
+      '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" ' + 
+        '"http://www.w3.org/TR/html4/loose.dtd">'
+    when "XHTML 1.0 STRICT"
+      '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" ' + 
+        '"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">'
+    when "XHTML 1.0 TRANSITIONAL"
+      '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" ' + 
+        '"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">'
+    when "XHTML 1.1"
+      '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" ' + 
+        '"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">'
+  end
+%><% output_buffer; end; end %><% _register_tag_attrs(:doctype, [:version]) %>
+# =============================== 
+# DEF: html
+# def
+# =============================== 
+<% def html(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, [:default]); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do doctype, attributes, = _tag_locals(all_attributes, [:doctype]) %>
+  <% doctype ||= 'XHTML 1.0 TRANSITIONAL' -%>
+  <% concat(doctype({:version => (doctype)}, {})) %>
+  <% attributes.reverse_merge!(:xmlns => "http://www.w3.org/1999/xhtml") if doctype.upcase =~ /^XHTML/ -%>
+  <%= "<html#{tag_options(attributes)}>" %>
+    <% scope.new_scope(:xmldoctype => (doctype.upcase =~ /^XHTML/) ) {  %><% concat(call_tag_parameter(:do_, {}, {}, all_parameters, :default)) %><% } %>
+  <%= "</html>" %>
+<% output_buffer; end; end %><% _register_tag_attrs(:html, [:doctype]) %>
+# =============================== 
+# DEF: empty_tag
+# def
+# =============================== 
+<% def empty_tag(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do tag_name, attributes, = _tag_locals(all_attributes, [:tag_name]) %><%= element(tag_name, attributes, nil, true, true) %><% output_buffer; end; end %><% _register_tag_attrs(:empty_tag, [:tag_name]) %>
+# =============================== 
+# DEF: base
+# def
+# =============================== 
+<% def base(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %><% concat(empty_tag(merge_attrs({:tag_name => "base"}, attributes), merge_parameter_hashes({}, (parameters) || {}))) %><% output_buffer; end; end %><% _register_tag_attrs(:base, []) %>
+# =============================== 
+# DEF: meta
+# def
+# =============================== 
+<% def meta(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %><% concat(empty_tag(merge_attrs({:tag_name => "meta"}, attributes), merge_parameter_hashes({}, (parameters) || {}))) %><% output_buffer; end; end %><% _register_tag_attrs(:meta, []) %>
+# =============================== 
+# DEF: link
+# def
+# =============================== 
+<% def link(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %><% concat(empty_tag(merge_attrs({:tag_name => "link"}, attributes), merge_parameter_hashes({}, (parameters) || {}))) %><% output_buffer; end; end %><% _register_tag_attrs(:link, []) %>
+# =============================== 
+# DEF: img
+# def
+# =============================== 
+<% def img(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %><% concat(empty_tag(merge_attrs({:tag_name => "img"}, attributes), merge_parameter_hashes({}, (parameters) || {}))) %><% output_buffer; end; end %><% _register_tag_attrs(:img, []) %>
+# =============================== 
+# DEF: br
+# def
+# =============================== 
+<% def br(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %><% concat(empty_tag(merge_attrs({:tag_name => "br"}, attributes), merge_parameter_hashes({}, (parameters) || {}))) %><% output_buffer; end; end %><% _register_tag_attrs(:br, []) %>
+# =============================== 
+# DEF: hr
+# def
+# =============================== 
+<% def hr(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %><% concat(empty_tag(merge_attrs({:tag_name => "hr"}, attributes), merge_parameter_hashes({}, (parameters) || {}))) %><% output_buffer; end; end %><% _register_tag_attrs(:hr, []) %>
+# =============================== 
+# DEF: frame
+# def
+# =============================== 
+<% def frame(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %><% concat(empty_tag(merge_attrs({:tag_name => "frame"}, attributes), merge_parameter_hashes({}, (parameters) || {}))) %><% output_buffer; end; end %><% _register_tag_attrs(:frame, []) %>
+# =============================== 
+# DEF: area
+# def
+# =============================== 
+<% def area(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %><% concat(empty_tag(merge_attrs({:tag_name => "area"}, attributes), merge_parameter_hashes({}, (parameters) || {}))) %><% output_buffer; end; end %><% _register_tag_attrs(:area, []) %>
+# =============================== 
+# DEF: param
+# def
+# =============================== 
+<% def param(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %><% concat(empty_tag(merge_attrs({:tag_name => "param"}, attributes), merge_parameter_hashes({}, (parameters) || {}))) %><% output_buffer; end; end %><% _register_tag_attrs(:param, []) %>
+# =============================== 
+# DEF: col
+# def
+# =============================== 
+<% def col(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %><% concat(empty_tag(merge_attrs({:tag_name => "col"}, attributes), merge_parameter_hashes({}, (parameters) || {}))) %><% output_buffer; end; end %><% _register_tag_attrs(:col, []) %>
+# =============================== 
+# DEF: if_ie
+# def
+# =============================== 
+<% def if_ie(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, [:default]); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do version, attributes, = _tag_locals(all_attributes, [:version]) %>
+  <%= "<!--[if #{version || 'IE'}]>" %><% concat(call_tag_parameter(:do_, {}, {}, all_parameters, :default)) %><%= "<![endif]-->" %>
+<% output_buffer; end; end %><% _register_tag_attrs(:if_ie, [:version]) %>
+# =============================== 
+# DEF: stylesheet
+# def
+# =============================== 
+<% def stylesheet(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do name, attributes, = _tag_locals(all_attributes, [:name]) %>
+  <%= stylesheet_link_tag *(comma_split(name) + [attributes]) %>
+<% output_buffer; end; end %><% _register_tag_attrs(:stylesheet, [:name]) %>
+# =============================== 
+# DEF: javascript
+# def
+# =============================== 
+<% def javascript(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do name, attributes, = _tag_locals(all_attributes, [:name]) %>
+  <% concat(if_({:test => (name.is_a?(Symbol))}, { :default => proc { |_if__default_content| new_context { %>
+    <%= javascript_include_tag name %>
+  <% } }, })) %>
+  <% concat(else_({}, { :default => proc { |_else__default_content| new_context { %>
+    <% concat(repeat({:with => (comma_split(name))}, { :default => proc { |_repeat__default_content| new_context { %>
+      <%= javascript_include_tag this %>
+    <% } }, })) %>
+  <% } }, })) %>
+<% output_buffer; end; end %><% _register_tag_attrs(:javascript, [:name]) %>
+# =============================== 
+# DEF: flash_message
+# def
+# =============================== 
+<% def flash_message(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do type, attributes, = _tag_locals(all_attributes, [:type]) %>
+  <% type = type ? type.to_sym : :notice -%>
+  <% concat((if !(flash[type]).blank?; (__tmp_4 = element(:div, merge_attrs({'class' => "flash #{type}"}, attributes || {}), new_context { %><%= flash[type] %><% }); Hobo::Dryml.last_if = true; __tmp_4) else (Hobo::Dryml.last_if = false; ''); end)) %>
+<% output_buffer; end; end %><% _register_tag_attrs(:flash_message, [:type]) %>
+# =============================== 
+# DEF: flash_messages
+# def
+# =============================== 
+<% def flash_messages(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do names, attributes, = _tag_locals(all_attributes, [:names]) %><%=
+  scope.flash_rendered = true
+  names = names.nil? ? flash.keys : comma_split(names)
+  names.map { |name| flash_message :type => name }
+%><% output_buffer; end; end %><% _register_tag_attrs(:flash_messages, [:names]) %>
+# =============================== 
+# DEF: ajax_progress
+# def
+# =============================== 
+<% def ajax_progress(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %>
+  <% concat(element(:div, merge_attrs({'id' => "ajax-progress"}, attributes || {}), new_context { %>
+    <div>
+      <span id="ajax-progress-text"></span>
+    </div>
+  <% })) %>
+<% output_buffer; end; end %><% _register_tag_attrs(:ajax_progress, []) %>

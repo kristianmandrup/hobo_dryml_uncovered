@@ -1,0 +1,427 @@
+# =============================== 
+# DEF: field_list
+# def
+# =============================== 
+<% def field_list(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, [:"\#{this_field.to_s.sub('?', '')}_label", :label, :"\#{this_field.to_s.sub('?', '')}_view", :view, :"\#{this_field.to_s.sub('?', '')}_tag", :input_help]); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do tag, no_edit, attributes, = _tag_locals(all_attributes, [:tag, :no_edit]) %>
+  <% tag ||= scope.in_form ? "input" : "view"; no_edit ||= "skip" %>
+  <% concat(labelled_item_list(merge_attrs({}, (attributes - attrs_for(:with_fields)) || {}), { :default => proc { |_labelled_item_list__default_content| new_context { %>
+    <% concat(with_fields(merge_attrs({}, (attributes & attrs_for(:with_fields)) || {}), { :default => proc { |_with_fields__default_content| new_context { %>
+    <% field_name = this_field_name 
+       input_attrs = {:no_edit => no_edit} if tag == "input" && no_edit == "disable"
+    -%>
+      <% concat((if (tag == 'input' && no_edit == 'skip' && !can_edit?).blank?; (__tmp_3 = labelled_item({}, { :default => proc { |_labelled_item__default_content| new_context { %>
+        <% concat((if (field_name.blank?).blank?; (__tmp_1 = call_tag_parameter(:item_label, {}, { :default => proc { |_item_label__default_content| new_context { %>
+          <% concat(call_tag_parameter(:do_, {}, { :default => proc { |_do__default_content| new_context { %><%= field_name %><% } }, }, all_parameters, :label)) %>
+        <% } }, }, all_parameters, "#{this_field.to_s.sub('?', '')}_label".to_sym); Hobo::Dryml.last_if = true; __tmp_1) else (Hobo::Dryml.last_if = false; ''); end)) %>
+        <% concat(call_tag_parameter(:item_value, {:colspan => (2 if field_name.blank?)}, { :default => proc { |_item_value__default_content| new_context { %>
+          <% concat(call_tag_parameter(:do_, {}, { :default => proc { |_do__default_content| new_context { %><% concat(call_tag_parameter(:call_tag, merge_attrs({:tag => (tag)}, (input_attrs) || {}), {}, all_parameters, "#{this_field.to_s.sub('?', '')}_tag".to_sym)) %><% } }, }, all_parameters, :view)) %>
+          <% concat((if !(tag.to_sym == :input && !this_field_help.blank?).blank?; (__tmp_2 = call_tag_parameter(:div, {}, { :default => proc { |_div__default_content| new_context { %><%= this_field_help %><% } }, }, all_parameters, :input_help); Hobo::Dryml.last_if = true; __tmp_2) else (Hobo::Dryml.last_if = false; ''); end)) %>
+        <% } }, }, all_parameters, "#{this_field.to_s.sub('?', '')}_view".to_sym)) %>
+      <% } }, }); Hobo::Dryml.last_if = true; __tmp_3) else (Hobo::Dryml.last_if = false; ''); end)) %>
+    <% } }, })) %>
+  <% } }, })) %>
+<% output_buffer; end; end %><% _register_tag_attrs(:field_list, [:tag, :no_edit]) %>
+# =============================== 
+# DEF: nil_view
+# def
+# =============================== 
+<% def nil_view(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %><%= scope.nil_view || "(Not Available)" %><% output_buffer; end; end %><% _register_tag_attrs(:nil_view, []) %>
+# =============================== 
+# DEF: table
+# def
+# =============================== 
+<% def table(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, [:thead, :field_heading_row, :"\#{scope.field_name}_heading", :tbody, :tr, :"\#{this_field.to_s.sub('?', '').gsub('.', '_')}_view", :controls, :edit_link, :delete_button, :tfoot]); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do fields, field_tag, empty, attributes, = _tag_locals(all_attributes, [:fields, :field_tag, :empty]) %>
+  <% concat(if_({:test => (!(fields || all_parameters.tr?))}, { :default => proc { |_if__default_content| new_context { %>
+    <%= element("table", attributes, all_parameters.default) %>
+  <% } }, })) %>
+  <% concat(else_({}, { :default => proc { |_else__default_content| new_context { %>
+    <% field_tag ||= "view" %>
+    <% concat(unless_({:test => (this.empty? && !empty)}, { :default => proc { |_unless__default_content| new_context { %>
+      <% element "table", attributes - attrs_for(:with_fields) do %>
+      <% concat((if !(all_parameters[:thead] || fields).blank?; (__tmp_5 = call_tag_parameter(:thead, {}, { :default => proc { |_thead__default_content| new_context { %>
+        <% concat(call_tag_parameter(:tr, {}, { :default => proc { |_tr__default_content| new_context { %>
+          <% concat(with_field_names(merge_attrs({}, (all_attributes & attrs_for(:with_fields)) || {}), { :default => proc { |_with_field_names__default_content| new_context { %>
+            <% concat(call_tag_parameter(:th, {}, { :default => proc { |_th__default_content| new_context { %><%= this.member_class.try.view_hints.try.field_name(scope.field_name) if scope %><% } }, }, all_parameters, "#{scope.field_name}_heading".to_sym)) %>
+          <% } }, })) %>
+          
+        <% } }, }, all_parameters, :field_heading_row)) %>
+      <% } }, }, all_parameters, :thead); Hobo::Dryml.last_if = true; __tmp_5) else (Hobo::Dryml.last_if = false; ''); end)) %>
+      <% concat(call_tag_parameter(:tbody, {}, { :default => proc { |_tbody__default_content| new_context { %>
+        <% concat(repeat({}, { :default => proc { |_repeat__default_content| new_context { %>
+          <% concat((if !(can_view?).blank?; (__tmp_8 = call_tag_parameter(:tr, {:class => "#{scope.even_odd} #{this_type.name.underscore} #{model_id_class}"}, 
+{ :default => proc { |_tr__default_content| new_context { %>
+            <% concat(if_({:test => (fields)}, { :default => proc { |_if__default_content| new_context { %>
+              <% concat(with_fields(merge_attrs({:force_all => (true)}, (all_attributes & attrs_for(:with_fields)) || {}), { :default => proc { |_with_fields__default_content| new_context { %>
+                <% concat(call_tag_parameter(:td, {}, { :default => proc { |_td__default_content| new_context { %><% concat(call_tag({:tag => (field_tag)}, {})) %><% } }, }, all_parameters, "#{this_field.to_s.sub('?', '').gsub('.', '_')}_view".to_sym)) %>
+              <% } }, })) %>
+              <% concat((if !(all_parameters[:controls]).blank?; (__tmp_7 = call_tag_parameter(:td, {:class => "controls"}, { :default => proc { |_td__default_content| new_context { %>
+                <% concat((if !(can_edit?).blank?; (__tmp_6 = call_tag_parameter(:a, {:action => "edit"}, { :default => proc { |_a__default_content| new_context { %>Edit<% } }, }, all_parameters, :edit_link); Hobo::Dryml.last_if = true; __tmp_6) else (Hobo::Dryml.last_if = false; ''); end)) %>
+                <% concat(call_tag_parameter(:delete_button, {}, {}, all_parameters, :delete_button)) %>
+              <% } }, }, all_parameters, :controls); Hobo::Dryml.last_if = true; __tmp_7) else (Hobo::Dryml.last_if = false; ''); end)) %>
+            <% } }, })) %>
+          <% } 
+}, }, all_parameters, :tr); Hobo::Dryml.last_if = true; __tmp_8) else (Hobo::Dryml.last_if = false; ''); end)) %>
+        <% } }, })) %>      
+      <% } }, }, all_parameters, :tbody)) %>
+      <% concat((if !(all_parameters[:tfoot]).blank?; (__tmp_9 = call_tag_parameter(:tfoot, {}, {}, all_parameters, :tfoot); Hobo::Dryml.last_if = true; __tmp_9) else (Hobo::Dryml.last_if = false; ''); end)) %>
+      <% end %>
+    <% } }, })) %>
+  <% } }, })) %>
+<% output_buffer; end; end %><% _register_tag_attrs(:table, [:fields, :field_tag, :empty]) %>
+# =============================== 
+# DEF: image
+# def
+# =============================== 
+<% def image(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do src, attributes, = _tag_locals(all_attributes, [:src]) %>
+  <% concat(img(merge_attrs({:src => "#{base_url}/images/#{src}"}, attributes || {}), {})) %>
+<% output_buffer; end; end %><% _register_tag_attrs(:image, [:src]) %>
+# =============================== 
+# DEF: spinner
+# def
+# =============================== 
+<% def spinner(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %>
+  <% concat(img(merge_attrs({:class => "hidden", :src => "#{base_url}/hobothemes/#{Hobo.current_theme}/images/spinner.gif"}, attributes || {}), {})) %>
+<% output_buffer; end; end %><% _register_tag_attrs(:spinner, []) %>
+# =============================== 
+# DEF: hobo_rapid_javascripts
+# def
+# =============================== 
+<% def hobo_rapid_javascripts(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %><%=
+   res = 'var hoboParts = {};'
+   # FIXME: This should interrogate the model-router - not the models
+   unless Hobo::Model.all_models.empty?
+     # Tell JS code how to pluralize names, unless they follow the simple rule
+     names = Hobo::Model.all_models.map do |m|
+                                          m = m.name.underscore
+                                          "#{m}: '#{m.pluralize}'" unless m.pluralize == m + 's'
+                                        end.compact
+     res << "var pluralisations = {#{names * ', '}}; "
+   end
+   base = [base_url, subsite].compact.join("/")
+   res << "urlBase = '#{base}'; hoboPagePath = '#{view_name}'"
+   if protect_against_forgery?
+     res << "; formAuthToken = { name: '#{request_forgery_protection_token}', value: '#{form_authenticity_token}' }"
+   end
+   res
+%><% output_buffer; end; end %><% _register_tag_attrs(:hobo_rapid_javascripts, []) %>
+# =============================== 
+# DEF: name
+# def
+# =============================== 
+<% def name(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do if_present, attributes, = _tag_locals(all_attributes, [:if_present]) %><%= 
+  if this.nil?
+    nil_view unless if_present
+  else
+    if this.is_a?(Array)
+      count
+    elsif this.is_a?(Class)
+      type_name(attributes)
+    elsif (name_attr = this.class.try.name_attribute) && can_view?(this, name_attr)
+      view(merge_attrs(attributes, {:field => name_attr}))
+    elsif can_view?(this)
+      h this.to_s
+    end
+  end
+%><% output_buffer; end; end %><% _register_tag_attrs(:name, [:if_present]) %>
+# =============================== 
+# DEF: type_name
+# def
+# =============================== 
+<% def type_name(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do plural, lowercase, dasherize, attributes, = _tag_locals(all_attributes, [:plural, :lowercase, :dasherize]) %><%=
+  type ||= (this if this.is_a?(Class)) || this.try.member_class || this.class
+  
+  name = type.respond_to?(:view_hints) ? type.view_hints.model_name : type.name
+  name = dasherize ? name.underscore.dasherize : name.titleize
+  name = name.pluralize if plural
+  name = name.downcase if lowercase
+  name
+%><% output_buffer; end; end %><% _register_tag_attrs(:type_name, [:plural, :lowercase, :dasherize]) %>
+# =============================== 
+# DEF: collection_name
+# def
+# =============================== 
+<% def collection_name(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do singular, lowercase, dasherize, attributes, = _tag_locals(all_attributes, [:singular, :lowercase, :dasherize]) %><%=
+  if (attr = this.try.origin_attribute)
+    name = attr.to_s
+    name = dasherize ? name.underscore.dasherize : name.titleize
+    name = name.singularize if singular
+    name = name.downcase if lowercase
+    name
+  else
+    type_name(:plural => !singular, :lowercase => lowercase, :dasherize => dasherize)
+  end
+%><% output_buffer; end; end %><% _register_tag_attrs(:collection_name, [:singular, :lowercase, :dasherize]) %>
+# =============================== 
+# DEF: a
+# def
+# =============================== 
+<% def a(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do action, to, params, query_params, href, format, subsite, force, attributes, = _tag_locals(all_attributes, [:action, :to, :params, :query_params, :href, :format, :subsite, :force]) %><%=
+  content = parameters.default
+   
+  params = self.query_params.merge(params || HashWithIndifferentAccess.new) if query_params
+  
+  if href || attributes[:name]
+    # Regular link
+    href += "?" + params.map { |n, v| "#{n}=#{v}" }.join('&') if !params.blank?
+    element(:a, attributes.update(:href => href), content)
+  else
+    target = to || this
+  
+    if target.nil?
+      Hobo::Dryml.last_if = false
+      nil_view
+    elsif action == "new"
+      # Link to a new object form
+      new_record = target.new
+      new_record.set_creator(current_user)
+      href = object_url(target, "new", params._?.merge(:subsite => subsite))
+      
+      if href && (force || can_create?(new_record))
+        new_class_name = if target.respond_to?(:proxy_reflection)
+                           target.proxy_reflection.klass.name
+                         else
+                           target.name
+                         end
+
+        add_classes!(attributes, "new-#{new_class_name.underscore}-link")
+        content = "New #{new_class_name.titleize}" if content.blank?
+        Hobo::Dryml.last_if = true
+        element(:a, attributes.update(:href => href), content)
+      else
+        Hobo::Dryml.last_if = false
+        ""
+      end
+    else
+      # Link to an existing object
+
+      content = name if content.blank?
+      
+      href = object_url(target, action, (params || {}).merge(:subsite => subsite))
+      if href.nil?
+        # This target is registered with ModelRouter as not linkable
+        content
+      else
+        css_class = target.try.origin_attribute || target.class.name.underscore.dasherize
+        add_classes!(attributes, "#{css_class}-link")
+      
+        href.sub!(/\?|$/, ".#{format}\\0") unless format.blank?
+      
+        # Set default link text if none given
+        element(:a, attributes.update(:href => href), content)
+      end
+    end
+  end
+%><% output_buffer; end; end %><% _register_tag_attrs(:a, [:action, :to, :params, :query_params, :href, :format, :subsite, :force]) %>
+# =============================== 
+# DEF: view
+# def
+# =============================== 
+<% def view(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do inline, block, if_blank, no_wrapper, truncate, attributes, = _tag_locals(all_attributes, [:inline, :block, :if_blank, :no_wrapper, :truncate]) %><%=
+  raise HoboError, "view of non-viewable field '#{this_field}' of #{this_parent.typed_id rescue this_parent}" unless
+    can_view?
+   
+  res = if this.nil? && if_blank.nil?
+          this_type.is_a?(Class) && this_type <= String ? "" : nil_view
+        elsif (refl = this_field_reflection) && refl.macro == :has_many
+          collection_view(attributes)
+        else
+          view_tag = find_polymorphic_tag("view")
+          
+          if view_tag == "view" # i.e. it didn't find a type specific tag
+            if this.respond_to?(:to_html)
+              this.to_html(scope.xmldoctype)
+            else
+              this.to_s
+            end
+          else
+            attrs = add_classes(attributes, "view", type_and_field._?.dasherize, model_id_class)
+
+            view_attrs = attrs_for(view_tag)
+            the_view = send(view_tag, attrs & view_attrs)
+            
+            the_view = if_blank if if_blank && the_view.blank?
+
+            truncate = 30 if truncate == true
+            the_view = self.truncate(the_view, :length => truncate.to_i) if truncate
+            the_view = the_view.strip
+            
+            if no_wrapper
+              the_view
+            else
+              wrapper = if inline
+                          :span
+                        elsif block || this_type <= HoboFields::Text
+                          :div
+                        else
+                          :span
+                        end
+              element(wrapper, attrs - view_attrs, the_view)
+            end
+          end
+        end
+   Hobo::Dryml.last_if = !res.blank?
+   res
+%><% output_buffer; end; end %><% _register_tag_attrs(:view, [:inline, :block, :if_blank, :no_wrapper, :truncate]) %>
+# =============================== 
+# DEF: collection_view
+# eval
+# =============================== 
+
+      def collection_view(attributes={}, parameters={})
+        _tag_context(attributes) do
+          attributes.delete :with
+          attributes.delete :field
+          call_polymorphic_tag('collection_view', attributes, parameters) { collection_view__base(attributes.except, parameters) }
+        end
+      end
+      
+# =============================== 
+# DEF: collection_view__base
+# def
+# =============================== 
+<% def collection_view__base(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %><% concat(links_for_collection(merge_attrs({}, attributes || {}), {})) %><% output_buffer; end; end %><% _register_tag_attrs(:collection_view__base, []) %>
+# =============================== 
+# DEF: links_for_collection
+# def
+# =============================== 
+<% def links_for_collection(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %><%= this.empty? ? "(none)" : context_map { a }.join(", ") %><% output_buffer; end; end %><% _register_tag_attrs(:links_for_collection, []) %>
+# =============================== 
+# DEF: view__for_date
+# def
+# =============================== 
+<% def view__for_date(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do format, attributes, = _tag_locals(all_attributes, [:format]) %><%= this && (format ? this.strftime(format) : this.to_s(:long)) %><% output_buffer; end; end %><% _register_tag_attrs(:view__for_date, [:format]) %>
+# =============================== 
+# DEF: view__for_time
+# def
+# =============================== 
+<% def view__for_time(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do format, attributes, = _tag_locals(all_attributes, [:format]) %><%= this && (format ? this.strftime(format) : this.to_s(:long)) %><% output_buffer; end; end %><% _register_tag_attrs(:view__for_time, [:format]) %>
+# =============================== 
+# DEF: view__for_active_support__time_with_zone
+# def
+# =============================== 
+<% def view__for_active_support__time_with_zone(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do format, attributes, = _tag_locals(all_attributes, [:format]) %><%= this && (format ? this.strftime(format) : this.to_s(:long)) %><% output_buffer; end; end %><% _register_tag_attrs(:view__for_active_support__time_with_zone, [:format]) %>
+# =============================== 
+# DEF: view__for_numeric
+# def
+# =============================== 
+<% def view__for_numeric(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do format, attributes, = _tag_locals(all_attributes, [:format]) %><%= format ? format % this : this.to_s %><% output_buffer; end; end %><% _register_tag_attrs(:view__for_numeric, [:format]) %>
+# =============================== 
+# DEF: view__for_string
+# def
+# =============================== 
+<% def view__for_string(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %><%= 
+  if !(this.class == String) && this.respond_to?(:to_html) # workaround for Maruku which adds String#to_html : (
+    this.to_html(scope.xmldoctype)
+  else
+    h(this).gsub("\n", "<br#{scope.xmldoctype ? ' /' : ''}>") 
+  end
+%><% output_buffer; end; end %><% _register_tag_attrs(:view__for_string, []) %>
+# =============================== 
+# DEF: view__for_hobo__boolean
+# def
+# =============================== 
+<% def view__for_hobo__boolean(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %><%= this ? 'Yes' : 'No' %><% output_buffer; end; end %><% _register_tag_attrs(:view__for_hobo__boolean, []) %>
+# =============================== 
+# DEF: view__for_active_record__base
+# def
+# =============================== 
+<% def view__for_active_record__base(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %><% concat(a(merge_attrs({}, attributes || {}), {})) %><% output_buffer; end; end %><% _register_tag_attrs(:view__for_active_record__base, []) %>
+# =============================== 
+# DEF: count
+# def
+# =============================== 
+<% def count(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do label, prefix, if_any, lowercase, attributes, = _tag_locals(all_attributes, [:label, :prefix, :if_any, :lowercase]) %><span class="count"><%=
+  raise Exception.new("asked for count of a string") if this.is_a?(String)
+   
+  c = this.try.to_int || this.try.total_entries || (this.try.loaded? && this.try.length) || this.try.count || this.try.length
+
+  label ||= if this.is_a?(Class)
+              this.name
+            elsif (attr = this.try.origin_attribute)
+              attr.to_s.singularize
+            else
+              this.member_class.name
+            end.titleize
+
+  label = label.downcase if lowercase
+   
+  Hobo::Dryml.last_if = c > 0 if if_any
+  if if_any && c == 0
+    ""
+  else
+    main = label.blank? ? c : pluralize(c, label)
+   
+    if prefix.in? %w(are is)
+      p = c == 1 ? "is" : "are"
+      p + ' ' + main.to_s
+    else
+      main
+    end
+  end
+%></span><% output_buffer; end; end %><% _register_tag_attrs(:count, [:label, :prefix, :if_any, :lowercase]) %>
+# =============================== 
+# DEF: theme_stylesheet
+# def
+# =============================== 
+<% def theme_stylesheet(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do name, attributes, = _tag_locals(all_attributes, [:name]) %>
+  <% name ||= Hobo.current_theme -%>
+  <% concat(link(merge_attrs({:href => "#{base_url}/hobothemes/#{Hobo.current_theme}/stylesheets/#{name}.css", :rel => "Stylesheet", :media => "all", :type => "text/css"}, attributes), 
+merge_parameter_hashes({}, (parameters) || {}))) %>
+<% output_buffer; end; end %><% _register_tag_attrs(:theme_stylesheet, [:name]) %>
+# =============================== 
+# DEF: you
+# def
+# =============================== 
+<% def you(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, [:default]); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do have, are, do_, titleize, attributes, = _tag_locals(all_attributes, [:have, :are, :do, :titleize]) %><% concat(if_({:test => (this == current_user)}, { :default => proc { |_if__default_content| new_context { %><%= "#{titleize ? 'Y' : 'y'}ou#{' have' if have}#{' are' if are}#{' do' if do_}" %><% } }, })) %><% concat(else_({}, { :default => proc { |_else__default_content| new_context { %><% concat(call_tag_parameter(:do_, {}, { :default => proc { |_do__default_content| new_context { %><% concat(name.to_s) %><%= "#{' has' if have}#{' is' if are}#{' does' if do_}" %><% } }, }, all_parameters, :default)) %><% } }, })) %><% output_buffer; end; end %><% _register_tag_attrs(:you, [:have, :are, :do, :titleize]) %>
+# =============================== 
+# DEF: You
+# def
+# =============================== 
+<% def You(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %><% concat(you(merge_attrs({:titleize => (true)}, attributes), merge_parameter_hashes({}, (parameters) || {}))) %><% output_buffer; end; end %><% _register_tag_attrs(:You, []) %>
+# =============================== 
+# DEF: your
+# def
+# =============================== 
+<% def your(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, [:default]); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %>
+  <% concat(if_({:test => (this == current_user)}, { :default => proc { |_if__default_content| new_context { %>your<% } }, })) %>
+  <% concat(else_({}, { :default => proc { |_else__default_content| new_context { %><% concat(call_tag_parameter(:do_, {}, { :default => proc { |_do__default_content| new_context { %><%= n = name; n.ends_with?('s') ? "#{n}'" : "#{n}'s" %><% } }, }, all_parameters, :default)) %><% } }, })) %>
+<% output_buffer; end; end %><% _register_tag_attrs(:your, []) %>
+# =============================== 
+# DEF: Your
+# def
+# =============================== 
+<% def Your(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, [:default]); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %>
+  <% concat(if_({:test => (this == current_user)}, { :default => proc { |_if__default_content| new_context { %>Your<% } }, })) %>
+  <% concat(else_({}, { :default => proc { |_else__default_content| new_context { %><% concat(call_tag_parameter(:do_, {}, { :default => proc { |_do__default_content| new_context { %><%= n = name; n.ends_with?('s') ? "#{n}'" : "#{n}'s" %><% } }, }, all_parameters, :default)) %><% } }, })) %>
+<% output_buffer; end; end %><% _register_tag_attrs(:Your, []) %>
+# =============================== 
+# DEF: a_or_an
+# def
+# =============================== 
+<% def a_or_an(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do word, attributes, = _tag_locals(all_attributes, [:word]) %><%=
+  (word =~ /^[aeiou]/i ? "an " : "a ") + word
+%><% output_buffer; end; end %><% _register_tag_attrs(:a_or_an, [:word]) %>
+# =============================== 
+# DEF: A_or_An
+# def
+# =============================== 
+<% def A_or_An(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do word, attributes, = _tag_locals(all_attributes, [:word]) %><%=
+  (word =~ /^[aeiou]/i ? "An " : "A ") + word
+%><% output_buffer; end; end %><% _register_tag_attrs(:A_or_An, [:word]) %>
+# =============================== 
+# DEF: comma_list
+# def
+# =============================== 
+<% def comma_list(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do join, attributes, = _tag_locals(all_attributes, [:join]) %><%= this.join(join || ", ") %><% output_buffer; end; end %><% _register_tag_attrs(:comma_list, [:join]) %>
+# =============================== 
+# DEF: dev_user_changer
+# def
+# =============================== 
+<% def dev_user_changer(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %>
+  <% begin; user = (Hobo::User.default_user_model); ; end %>
+  <% concat((if !(user && RAILS_ENV == 'development').blank?; (__tmp_10 = select_menu({:class => "dev-user-changer", :selected => "#{current_user.login}", :onchange => "location.href = '/dev/set_current_user?login=' + this.options[this.selectedIndex].value", :first_option => "Guest", :options => (user.all(:limit => 30).*.login)}, 
+
+
+
+{}); Hobo::Dryml.last_if = true; __tmp_10) else (Hobo::Dryml.last_if = false; ''); end)) %>
+<% output_buffer; end; end %><% _register_tag_attrs(:dev_user_changer, []) %>

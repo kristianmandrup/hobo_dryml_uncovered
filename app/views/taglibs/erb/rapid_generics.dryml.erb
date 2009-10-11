@@ -1,0 +1,71 @@
+# =============================== 
+# DEF: card
+# eval
+# =============================== 
+
+      def card(attributes={}, parameters={})
+        _tag_context(attributes) do
+          attributes.delete :with
+          attributes.delete :field
+          call_polymorphic_tag('card', attributes, parameters) { card__base(attributes.except, parameters) }
+        end
+      end
+      
+# =============================== 
+# DEF: card__base
+# def
+# =============================== 
+<% def card__base(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, [:default, :header, :body]); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %>
+  <% concat(call_tag_parameter(:div, merge_attrs({:class => "card"}, attributes || {}), { :default => proc { |_div__default_content| new_context { %>
+    <% concat(call_tag_parameter(:header, {}, {}, all_parameters, :header)) %>
+    <% concat((if !(all_parameters[:body]).blank?; (__tmp_1 = call_tag_parameter(:div, {}, {}, all_parameters, :body); Hobo::Dryml.last_if = true; __tmp_1) else (Hobo::Dryml.last_if = false; ''); end)) %>
+  <% } }, }, all_parameters, :default)) %>
+<% output_buffer; end; end %><% _register_tag_attrs(:card__base, []) %>
+# =============================== 
+# DEF: search_card
+# eval
+# =============================== 
+
+      def search_card(attributes={}, parameters={})
+        _tag_context(attributes) do
+          attributes.delete :with
+          attributes.delete :field
+          call_polymorphic_tag('search_card', attributes, parameters) { search_card__base(attributes.except, parameters) }
+        end
+      end
+      
+# =============================== 
+# DEF: search_card__base
+# def
+# =============================== 
+<% def search_card__base(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %>
+  <% concat(card(merge_attrs({}, attributes), merge_parameter_hashes({}, (parameters) || {}))) %>
+<% output_buffer; end; end %><% _register_tag_attrs(:search_card__base, []) %>
+# =============================== 
+# DEF: empty_collection_message
+# def
+# =============================== 
+<% def empty_collection_message(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, [:default]); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %>
+  <% concat(call_tag_parameter(:div, {:class => "empty-collection-message", :style => "#{'display:none' if !this.empty?}"}, { :default => proc { |_div__default_content| new_context { %>
+    No <% concat(collection_name({:lowercase => (true)}, {})) %> to display
+  <% } }, }, all_parameters, :default)) %>
+<% output_buffer; end; end %><% _register_tag_attrs(:empty_collection_message, []) %>
+# =============================== 
+# DEF: collection
+# def
+# =============================== 
+<% def collection(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, [:item, :default, :card, :empty_message]); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %>
+  <% concat((if (this.empty?).blank?; (__tmp_3 = element(:ul, merge_attrs({'class' => "collection #{collection_name :dasherize => true}"}, attributes || {}), new_context { %>
+    <% concat(repeat_attribute(select_viewable) { call_tag_parameter(:li, {:class => "#{scope.even_odd} #{model_id_class}"}, { :default => proc { |_li__default_content| new_context { %>
+      <% concat(call_tag_parameter(:do_, {}, { :default => proc { |_do__default_content| new_context { %><% concat(call_tag_parameter(:card, {}, {}, all_parameters, :card)) %><% } }, }, all_parameters, :default)) %>
+    <% } }, }, all_parameters, :item) }) %>
+  <% }); Hobo::Dryml.last_if = true; __tmp_3) else (Hobo::Dryml.last_if = false; ''); end)) %>
+  <% concat(call_tag_parameter(:empty_collection_message, {}, {}, all_parameters, :empty_message)) %>
+<% output_buffer; end; end %><% _register_tag_attrs(:collection, []) %>
+# =============================== 
+# DEF: record_flags
+# def
+# =============================== 
+<% def record_flags(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do fields, attributes, = _tag_locals(all_attributes, [:fields]) %><%=
+  comma_split(fields).select { |f| this.send(f) }.map { |f| f.titleize }.join(', ')
+%><% output_buffer; end; end %><% _register_tag_attrs(:record_flags, [:fields]) %>

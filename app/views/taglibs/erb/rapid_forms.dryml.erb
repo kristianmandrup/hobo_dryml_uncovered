@@ -1,0 +1,624 @@
+# =============================== 
+# DEF: hidden_fields
+# def
+# =============================== 
+<% def hidden_fields(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do fields, for_query_string, skip, attributes, = _tag_locals(all_attributes, [:fields, :for_query_string, :skip]) %><%= 
+  pairs = if for_query_string
+            query_params.to_a
+          else
+            hiddens = case fields
+                      when '*', nil
+                        # TODO: Need a better (i.e. extensible) way to eleminate certain fields
+                        this.class.column_names - ['type', 'created_at', 'updated_at']
+                      else
+                        comma_split(fields)
+                      end
+            hiddens.map do |field| 
+              val = this.send(field)
+              param_name = param_name_for(form_field_path + [field])
+              [param_name, val] unless val.nil? || 
+                                       field.to_sym.in?(this.class.attr_protected) || 
+                                       (this.new_record? && val == this.class.column(field).default)
+            end.compact
+          end
+  skip = comma_split skip
+  pairs.reject! { |p| p.first.in?(skip) }
+  pairs.map { |n, v| hidden_field_tag(n, v.to_s) if v && n.not_in?(scope.form_field_names) }.compact.join("\n")
+%><% output_buffer; end; end %><% _register_tag_attrs(:hidden_fields, [:fields, :for_query_string, :skip]) %>
+# =============================== 
+# DEF: form
+# eval
+# =============================== 
+
+      def form(attributes={}, parameters={})
+        _tag_context(attributes) do
+          attributes.delete :with
+          attributes.delete :field
+          call_polymorphic_tag('form', attributes, parameters) { form__base(attributes.except, parameters) }
+        end
+      end
+      
+# =============================== 
+# DEF: form__base
+# def
+# =============================== 
+<% def form__base(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do update, hidden_fields, action, method, web_method, lifecycle, owner, multipart, attributes, = _tag_locals(all_attributes, [:update, :hidden_fields, :action, :method, :web_method, :lifecycle, :owner, :multipart]) %><%= 
+  ajax_attrs, html_attrs = attributes.partition_hash(Hobo::RapidHelper::AJAX_ATTRS)
+  html_attrs[:enctype] ||= "multipart/form-data" if multipart
+   
+  new_record = this.try.new_record?
+
+  method = if method.nil?
+             (action || web_method || new_record) ? "post" : "put"
+           else
+             method.downcase
+           end
+
+  html_attrs[:action] = action || begin
+     target = if owner
+                collection_name = this.class.reverse_reflection(owner).name
+                this.send(owner).send(collection_name)
+              else
+                this
+              end
+     action = web_method || lifecycle
+     object_url(target, action, :method => method)
+   end
+   
+  if action.nil? && (html_attrs[:action].nil? ||
+                     (lifecycle.nil? && new_record && !this.creatable_by?(current_user)) ||
+                     (lifecycle.nil? && !new_record && !can_edit?))
+    Hobo::Dryml.last_if = false
+    ""
+  else
+    if method == "put"
+      # browsers don't support put -- use post and add the Rails _method hack
+      http_method_hidden = hidden_field_tag("_method", "PUT") 
+      html_attrs[:method] = "post" 
+    else
+      html_attrs[:method] = method
+    end
+     
+    if update || !ajax_attrs.empty?
+      # add an onsubmit to convert to an ajax form if `update` is given
+      function = ajax_updater(:post_form, update, ajax_attrs)
+      html_attrs[:onsubmit] = [html_attrs[:onsubmit], "#{function}; return false;"].compact.join("; ")
+    end
+     
+    hiddens = nil
+    body = with_form_context do
+      # It is important to evaluate parameters.default first, in order to populate scope.form_field_names
+      b = parameters.default
+      hiddens = self.hidden_fields(:fields => hidden_fields) if new_record
+      b
+    end
+     
+    auth_token = if method.nil? || method == 'get' || !protect_against_forgery?
+                   ''
+                 else
+                   element(:input, {:type => "hidden", 
+                           :name => request_forgery_protection_token.to_s,
+                           :value => form_authenticity_token}, nil, true, true)
+                 end
+     
+    unless method == "get"
+      page_path = if (request.post? || request.put?) && params[:page_path]
+                    params[:page_path]
+                  else
+                    view_name.sub(Hobo::Dryml::EMPTY_PAGE, params[:action])
+                  end
+      page_path_hidden = hidden_field_tag("page_path", page_path) 
+    end
+    
+    hiddens_div = element(:div, {:class => "hidden-fields"}, [http_method_hidden, page_path_hidden, auth_token, hiddens].join)
+     
+    body = [hiddens_div, body].join
+    
+    if action.nil? # don't add automatic css classes if the action was specified
+      if web_method
+        add_classes!(html_attrs, "#{type_id.dasherize}-#{web_method}-form")
+      else
+        add_classes!(html_attrs, "#{'new ' if new_record}#{type_id.dasherize}")
+      end
+    end
+
+    Hobo::Dryml.last_if = true
+    element("form", html_attrs, body)
+  end
+%><% output_buffer; end; end %><% _register_tag_attrs(:form__base, [:update, :hidden_fields, :action, :method, :web_method, :lifecycle, :owner, :multipart]) %>
+# =============================== 
+# DEF: submit
+# def
+# =============================== 
+<% def submit(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do label, image, attributes, = _tag_locals(all_attributes, [:label, :image]) %>
+  <% concat((if !(image).blank?; (__tmp_1 = input(merge_attrs({:class => "image-button submit-button", :src => (image), :type => "image"}, attributes || {}), {}); Hobo::Dryml.last_if = true; __tmp_1) else (Hobo::Dryml.last_if = false; ''); end)) %>
+  <% concat(else_({}, { :default => proc { |_else__default_content| new_context { %>
+    <% concat(input(merge_attrs({:class => "button submit-button", :type => "submit", :value => "#{label}"}, attributes || {}), {})) %>
+  <% } }, })) %>
+<% output_buffer; end; end %><% _register_tag_attrs(:submit, [:label, :image]) %>
+# =============================== 
+# DEF: input
+# def
+# =============================== 
+<% def input(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do no_edit, attributes, = _tag_locals(all_attributes, [:no_edit]) %><%=
+  if attributes[:type]
+    element :input, attributes, nil, true, true
+  else
+    no_edit ||= :view
+    no_edit = no_edit.to_sym
+    no_edit_permission = !can_edit? unless no_edit == :ignore
+    if no_edit_permission && no_edit == :view
+      view
+    elsif no_edit_permission && no_edit == :skip
+      ""
+    else
+      attrs = add_classes(attributes, type_id.dasherize, type_and_field.dasherize)
+      attrs[:name] ||= param_name_for_this
+      attrs[:disabled] = true if no_edit_permission && no_edit == :disable
+      the_input = if (refl = this_field_reflection)
+                    if refl.macro == :belongs_to
+                      call_polymorphic_tag('input', attrs) or select_one(attrs)
+                    elsif refl.macro == :has_many
+                      if refl.options[:through]
+                        collection_input(attrs)
+                      else
+                        input_many(attrs)
+                      end
+                    end
+                  else
+                    call_polymorphic_tag('input', attrs) or
+                      (call_polymorphic_tag('input', HoboFields.to_class(this_type::COLUMN_TYPE), attrs) if defined?(this_type::COLUMN_TYPE)) or
+                      raise HoboError, ("No input tag for #{this_field}:#{this_type} (this=#{this.inspect})")
+                  end
+      if this_parent.errors[this_field]
+        "<span class='field-with-errors'>#{the_input}</span>"
+      else
+        the_input
+      end
+    end
+  end
+%><% output_buffer; end; end %><% _register_tag_attrs(:input, [:no_edit]) %>
+# =============================== 
+# DEF: collection_input
+# eval
+# =============================== 
+
+      def collection_input(attributes={}, parameters={})
+        _tag_context(attributes) do
+          attributes.delete :with
+          attributes.delete :field
+          call_polymorphic_tag('collection_input', attributes, parameters) { collection_input__base(attributes.except, parameters) }
+        end
+      end
+      
+# =============================== 
+# DEF: collection_input__base
+# def
+# =============================== 
+<% def collection_input__base(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %><% output_buffer; end; end %><% _register_tag_attrs(:collection_input__base, []) %>
+# =============================== 
+# DEF: collection_input__for_active_record__base
+# def
+# =============================== 
+<% def collection_input__for_active_record__base(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %><% concat(select_many(merge_attrs({}, attributes), merge_parameter_hashes({}, (parameters) || {}))) %><% output_buffer; end; end %><% _register_tag_attrs(:collection_input__for_active_record__base, []) %>
+# =============================== 
+# DEF: input__for_hobo_fields__text
+# def
+# =============================== 
+<% def input__for_hobo_fields__text(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do name, attributes, = _tag_locals(all_attributes, [:name]) %>
+  <%= text_area_tag(name, this, attributes) %>
+<% output_buffer; end; end %><% _register_tag_attrs(:input__for_hobo_fields__text, [:name]) %>
+# =============================== 
+# DEF: input__for_hobo__boolean
+# def
+# =============================== 
+<% def input__for_hobo__boolean(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do name, attributes, = _tag_locals(all_attributes, [:name]) %>
+  <%= unless attributes[:disabled]
+        cb_tag = check_box_tag(name, '1', this, attributes)
+        cb_hidden_tag = hidden_field_tag(name, '0')
+        HoboSupport::RAILS_AT_LEAST_23 ? cb_hidden_tag + cb_tag : cb_tag + cb_hidden_tag
+      end %>
+<% output_buffer; end; end %><% _register_tag_attrs(:input__for_hobo__boolean, [:name]) %>
+# =============================== 
+# DEF: input__for_hobo_fields__password_string
+# def
+# =============================== 
+<% def input__for_hobo_fields__password_string(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do name, attributes, = _tag_locals(all_attributes, [:name]) %>
+  <%= password_field_tag(name, this, attributes) %>
+<% output_buffer; end; end %><% _register_tag_attrs(:input__for_hobo_fields__password_string, [:name]) %>
+# =============================== 
+# DEF: input__for_date
+# def
+# =============================== 
+<% def input__for_date(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do order, attributes, = _tag_locals(all_attributes, [:order]) %>
+  <% order = order.nil? ? [:year, :month, :day] : comma_split(order).*.to_sym -%>
+  <%= select_date(this || Time.now, attributes.merge(:prefix => param_name_for_this, :order => order)) %>
+<% output_buffer; end; end %><% _register_tag_attrs(:input__for_date, [:order]) %>
+# =============================== 
+# DEF: input__for_time
+# def
+# =============================== 
+<% def input__for_time(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do order, attributes, = _tag_locals(all_attributes, [:order]) %>
+  <% order = order.nil? ? [:year, :month, :day, :hour, :minute, :second] : comma_split(order).*.to_sym -%>
+  <%= select_date(this || Time.now, attributes.merge(:prefix => param_name_for_this, :order => order)) %>
+<% output_buffer; end; end %><% _register_tag_attrs(:input__for_time, [:order]) %>
+# =============================== 
+# DEF: input__for_active_support__time_with_zone
+# def
+# =============================== 
+<% def input__for_active_support__time_with_zone(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do order, attributes, = _tag_locals(all_attributes, [:order]) %>
+  <% if ! order.nil?
+       order = comma_split(order).*.to_sym 
+       attributes.merge!(:order => order)
+       require 'ruby-debug'
+       debugger
+     end -%>
+  <%= select_datetime(this || Time.now, attributes.merge(:prefix => param_name_for_this)) %>
+<% output_buffer; end; end %><% _register_tag_attrs(:input__for_active_support__time_with_zone, [:order]) %>
+# =============================== 
+# DEF: input__for_integer
+# def
+# =============================== 
+<% def input__for_integer(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do name, attributes, = _tag_locals(all_attributes, [:name]) %>
+  <%= text_field_tag(name, this, attributes) %>
+<% output_buffer; end; end %><% _register_tag_attrs(:input__for_integer, [:name]) %>
+# =============================== 
+# DEF: input__for_big_decimal
+# def
+# =============================== 
+<% def input__for_big_decimal(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do name, attributes, = _tag_locals(all_attributes, [:name]) %>
+  <%= text_field_tag(name, this, attributes) %>
+<% output_buffer; end; end %><% _register_tag_attrs(:input__for_big_decimal, [:name]) %>
+# =============================== 
+# DEF: input__for_float
+# def
+# =============================== 
+<% def input__for_float(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do name, attributes, = _tag_locals(all_attributes, [:name]) %>
+  <%= text_field_tag(name, this, attributes) %>
+<% output_buffer; end; end %><% _register_tag_attrs(:input__for_float, [:name]) %>
+# =============================== 
+# DEF: input__for_string
+# def
+# =============================== 
+<% def input__for_string(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do name, attributes, = _tag_locals(all_attributes, [:name]) %>
+  <%= text_field_tag(name, this, attributes) %>
+<% output_buffer; end; end %><% _register_tag_attrs(:input__for_string, [:name]) %>
+# =============================== 
+# DEF: input__for_hobo_fields__enum_string
+# def
+# =============================== 
+<% def input__for_hobo_fields__enum_string(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do labels, titleize, first_option, first_value, attributes, = _tag_locals(all_attributes, [:labels, :titleize, :first_option, :first_value]) %><%
+  labels ||= {}
+  titleize = true if titleize.nil?
+  options = this_type.values.map {|v| [labels.fetch(v.to_sym, titleize ? v.titleize : v), v] }
+  %>
+  <% concat(element(:select, merge_attrs({'name' => "#{param_name_for_this}"}, attributes || {}), new_context { %>
+    <% concat((if (first_option.nil?).blank?; (__tmp_2 = element(:option, {'value' => "#{first_value}"}, new_context { %><% concat(first_option.to_s) %><% }); Hobo::Dryml.last_if = true; __tmp_2) else (Hobo::Dryml.last_if = false; ''); end)) %>
+    <%= options_for_select(options, this) %>
+  <% })) %>
+<% output_buffer; end; end %><% _register_tag_attrs(:input__for_hobo_fields__enum_string, [:labels, :titleize, :first_option, :first_value]) %>
+# =============================== 
+# DEF: remote_method_button
+# def
+# =============================== 
+<% def remote_method_button(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do method, update, label, confirm, url, attributes, = _tag_locals(all_attributes, [:method, :update, :label, :confirm, :url]) %><%= 
+  ajax_attributes, html_attributes = attributes.partition_hash(Hobo::RapidHelper::AJAX_ATTRS)
+
+  url ||= object_url(this, method.to_s.gsub('-', '_'), :method => :post)
+  raise ArgumentError, "no such web method '#{method}' on #{this.typed_id}" unless url
+  
+  add_classes!(html_attributes, "button remote-method-button #{method}-button")
+  label ||= method.titleize
+  if update || !ajax_attributes.empty?
+    ajax_attributes[:message] ||= label
+    func = ajax_updater(url, update, ajax_attributes.merge(:confirm => confirm))
+    html_attributes.update(:onclick => "var e = this; " + func, :type =>'button', :value => label)
+    element(:input, html_attributes, nil, true, true)
+  else
+    button_to(label, url, html_attributes.merge(:confirm => confirm))
+  end
+%><% output_buffer; end; end %><% _register_tag_attrs(:remote_method_button, [:method, :update, :label, :confirm, :url]) %>
+# =============================== 
+# DEF: update_button
+# def
+# =============================== 
+<% def update_button(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do label, update, fields, params, attributes, = _tag_locals(all_attributes, [:label, :update, :fields, :params]) %><%=
+   raise HoboError.new("no update specified") unless update
+
+   ajax_attributes, html_attributes = attributes.partition_hash(Hobo::RapidHelper::AJAX_ATTRS)
+   params = (params || {}).merge(this.class.name.underscore => fields)
+   ajax_attributes.reverse_merge!(:message => label, :params => params, :method => :put)
+   func = ajax_updater(object_url(this), update, ajax_attributes)
+   html_attributes.reverse_merge!(:type =>'button', :onclick => func, :value => label)
+   
+   element :input, add_classes(html_attributes, "button update-button update-#{this.class.name.underscore}-button"), nil, true, true %>
+<% output_buffer; end; end %><% _register_tag_attrs(:update_button, [:label, :update, :fields, :params]) %>
+# =============================== 
+# DEF: delete_button
+# def
+# =============================== 
+<% def delete_button(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do label, update, in_place, image, confirm, fade, subsite, attributes, = _tag_locals(all_attributes, [:label, :update, :in_place, :image, :confirm, :fade, :subsite]) %><%=
+  in_place = false if in_place.nil? && this == @this && request.method == :get
+  url = object_url(this, :method => :delete, :subsite => subsite)
+  if (Hobo::Dryml.last_if = url && can_delete?)
+    attributes = attributes.merge(if image
+                                    { :type => "image", :src => "#{base_url}/images/#{image}" }
+                                  else
+                                    { :type => "button" }
+                                  end)
+    label ||= "Remove"
+    confirm = "Are you sure?" if confirm.nil?
+    
+    add_classes!(attributes,
+                 image ? "image-button" : "button",
+                 "delete-button delete-#{this.class.name.underscore.dasherize}-button")
+    if url
+      if in_place == false
+        attributes[:confirm] = confirm if confirm
+        attributes[:method] = :delete
+        button_to(label, url, attributes)
+      else
+        fade = true if fade.nil?
+        attributes[:value] = label
+        attributes[:onclick] = "Hobo.removeButton(this, '#{url}', #{js_updates(update)}, {fade:#{fade}, confirm: #{confirm.inspect}})"
+        element(:input, attributes, nil, true, true)
+      end
+    end
+  else
+    ""
+  end
+%><% output_buffer; end; end %><% _register_tag_attrs(:delete_button, [:label, :update, :in_place, :image, :confirm, :fade, :subsite]) %>
+# =============================== 
+# DEF: create_button
+# def
+# =============================== 
+<% def create_button(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do model, update, label, fields, message, attributes, = _tag_locals(all_attributes, [:model, :update, :label, :fields, :message]) %><%=
+  raise HoboError.new("no update specified") unless update
+
+  fields ||= {}
+  class_or_assoc = if model
+                     model.is_a?(String) ? model.constantize : model
+                   elsif Hobo.simple_has_many_association?(this)
+                     fields[this_field_reflection.primary_key_name] = this.proxy_owner.id
+                     this
+                   else
+                     raise HoboError.new("invalid context for <create-button>")
+                   end
+  new = class_or_assoc.new(fields)
+  new.set_creator(current_user)
+  if can_create?(new)
+    label ||= "New #{new.class.name.titleize}"
+    ajax_attributes = { :message => message }
+    class_name = new.class.name.underscore
+    ajax_attributes[:params] = { class_name => fields } unless fields.empty?
+    func = ajax_updater(object_url(new.class, :method => :post), update, ajax_attributes)
+    element :input, add_classes(attributes.merge(:type =>'button', :onclick => func, :value => label),
+                                "button create-button create-#{class_name}-button"), nil, true, true
+  end
+%><% output_buffer; end; end %><% _register_tag_attrs(:create_button, [:model, :update, :label, :fields, :message]) %>
+# =============================== 
+# DEF: select_one
+# def
+# =============================== 
+<% def select_one(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do include_none, blank_message, options, sort, limit, text_method, attributes, = _tag_locals(all_attributes, [:include_none, :blank_message, :options, :sort, :limit, :text_method]) %><%
+  raise HoboError.new("Not allowed to edit #{this_field}") if !attributes[:disabled] && !can_edit? 
+
+  blank_message ||= "(No #{this_type.name.to_s.titleize})"
+  limit ||= 100
+   
+  options ||= begin
+    conditions = ActiveRecord::Associations::BelongsToAssociation.new(this_parent, this_field_reflection).conditions
+    this_field_reflection.klass.all(:conditions => conditions, :limit => limit).select {|x| can_view?(x)}
+  end
+
+  if text_method.nil?
+    select_options = options.map { |x| [x.to_s, x.id] }
+  else
+    select_options = options.map do |x| 
+      [ text_method.split(".").inject(x) { |v, method| v.send(method) },
+           x.id ]
+    end
+  end
+  select_options = select_options.sort if sort
+  select_options.insert(0, [blank_message, ""]) if include_none || (this.nil? && include_none != false)
+  attributes = add_classes(attributes, "input", "belongs_to", type_and_field)
+  -%>
+  <% concat(element(:select, merge_attrs({'name' => "#{param_name_for_this(true)}"}, (attributes.except :name) || {}), new_context { %>
+    <%= options_for_select(select_options, this ? this.id : "") %>
+  <% })) %>
+<% output_buffer; end; end %><% _register_tag_attrs(:select_one, [:include_none, :blank_message, :options, :sort, :limit, :text_method]) %>
+# =============================== 
+# DEF: name_one
+# def
+# =============================== 
+<% def name_one(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do complete_target, completer, attributes, = _tag_locals(all_attributes, [:complete_target, :completer]) %><%
+  complete_target ||= this_field_reflection.klass
+  completer ||= (complete_target.is_a?(Class) ? complete_target : complete_target.class).name_attribute
+  -%>
+  <% concat(input(merge_attrs({:name => "#{param_name_for_this}", :class => "autocompleter #{type_and_field.dasherize} #{css_data :complete_on, typed_id(complete_target), completer}", :type => "text", :value => (name :no_wrapper => true, :if_present => true)}, attributes || {}), 
+
+
+{})) %>
+  <div class="completions-popup" style="display:none"></div>
+<% output_buffer; end; end %><% _register_tag_attrs(:name_one, [:complete_target, :completer]) %>
+# =============================== 
+# DEF: sti_type_input
+# def
+# =============================== 
+<% def sti_type_input(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %>
+  <select name="<%= param_name_for(form_field_path + ['type']) %>">
+    <%= options_for_select(this.class.send(:subclasses).map{|x| [x.name.titleize, x.name]}, this.class.name) %>
+  </select>
+<% output_buffer; end; end %><% _register_tag_attrs(:sti_type_input, []) %>
+# =============================== 
+# DEF: select_input
+# def
+# =============================== 
+<% def select_input(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %>
+  <% concat(select_menu(merge_attrs({:name => "#{param_name_for_this}", :selected => (this)}, attributes), merge_parameter_hashes({}, (parameters) || {}))) %>
+<% output_buffer; end; end %><% _register_tag_attrs(:select_input, []) %>
+# =============================== 
+# DEF: error_messages
+# def
+# =============================== 
+<% def error_messages(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, [:heading, :ul, :li]); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %>
+  <% concat((if !(this.errors.length > 0).blank?; (__tmp_3 = section(merge_attrs({:class => "error-messages"}, attributes || {}), { :default => proc { |_section__default_content| new_context { %>
+    <% concat(call_tag_parameter(:h2, {}, { :default => proc { |_h2__default_content| new_context { %>To proceed please correct the following:<% } }, }, all_parameters, :heading)) %>
+    <% concat(call_tag_parameter(:ul, {}, { :default => proc { |_ul__default_content| new_context { %>
+      <% this.errors.each do |attr, message|; next if message == "..." -%>
+        <% concat(call_tag_parameter(:li, {}, { :default => proc { |_li__default_content| new_context { %><%= this.class.human_attribute_name(attr) %> <%= message %><% } }, }, all_parameters, :li)) %>
+      <% end -%>
+    <% } }, }, all_parameters, :ul)) %>
+  <% } }, }); Hobo::Dryml.last_if = true; __tmp_3) else (Hobo::Dryml.last_if = false; ''); end)) %>
+<% output_buffer; end; end %><% _register_tag_attrs(:error_messages, []) %>
+# =============================== 
+# DEF: select_many
+# def
+# =============================== 
+<% def select_many(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, [:proto_item, :proto_hidden, :proto_remove_button, :item, :hidden, :remove_button]); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do options, targets, remove_label, prompt, disabled, name, attributes, = _tag_locals(all_attributes, [:options, :targets, :remove_label, :prompt, :disabled, :name]) %><%
+  prompt ||= "Add #{this_field.titleize.singularize}"
+  options ||= this_field_reflection.klass.all(:conditions =>this.conditions).select {|x| can_view?(x)}
+  name ||= param_name_for_this
+                
+  values = this
+  -%>
+  <% concat(element(:div, merge_attrs({'class' => "input select-many"}, attributes || {}), new_context { %>
+    <div style="display:none" class="item-proto">
+      <% concat(call_tag_parameter(:div, {:class => "item"}, { :default => proc { |_div__default_content| new_context { %>
+        <span></span>
+        <% concat(call_tag_parameter(:input, {:name => "#{name}[]", :type => "hidden"}, {}, all_parameters, :proto_hidden)) %>
+        <% concat(call_tag_parameter(:input, {:class => "remove-item", :type => "button", :value => "#{remove_label || 'Remove'}"}, {}, all_parameters, :proto_remove_button)) %>
+      <% } }, }, all_parameters, :proto_item)) %>
+    </div>
+    <div class="items">
+      <% concat(repeat_attribute(this) { call_tag_parameter(:div, {:class => "item"}, { :default => proc { |_div__default_content| new_context { %>
+        <span><%= h this.to_s %></span>
+        <% concat(call_tag_parameter(:input, {:name => "#{name}[]", :type => "hidden", :value => "@#{h this.id}", :disabled => (disabled)}, 
+{}, all_parameters, :hidden)) %>
+        <% concat(call_tag_parameter(:input, {:class => "remove-item", :type => "button", :value => "#{remove_label || 'Remove'}", :disabled => (disabled)}, 
+{}, all_parameters, :remove_button)) %>
+      <% } }, }, all_parameters, :item) }) %>
+    </div>
+    <% concat(element(:select, merge_attrs({}, ({:disabled => disabled}) || {}), new_context { %>
+      <option value=""><% concat(prompt.to_s) %></option>
+      <% concat(repeat_attribute(options.sort_by {|x| x.to_s.downcase}) { element(:option, merge_attrs({'value' => "@#{this.id}"}, ({:disabled => 'true'} if this.in?(values)) || {}), new_context { %><%= h this.to_s %><% }) }) %>
+    <% })) %>
+  <% })) %>
+<% output_buffer; end; end %><% _register_tag_attrs(:select_many, [:options, :targets, :remove_label, :prompt, :disabled, :name]) %>
+# =============================== 
+# DEF: after_submit
+# def
+# =============================== 
+<% def after_submit(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do uri, stay_here, go_back, attributes, = _tag_locals(all_attributes, [:uri, :stay_here, :go_back]) %><% 
+  uri = "stay-here" if stay_here
+  uri = session[:previous_uri] if go_back
+  -%>
+  <% concat((if !(uri).blank?; (__tmp_6 = input({:name => "after_submit", :type => "hidden", :value => (params[:after_submit] || uri)}, {}); Hobo::Dryml.last_if = true; __tmp_6) else (Hobo::Dryml.last_if = false; ''); end)) %>
+<% output_buffer; end; end %><% _register_tag_attrs(:after_submit, [:uri, :stay_here, :go_back]) %>
+# =============================== 
+# DEF: select_menu
+# def
+# =============================== 
+<% def select_menu(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, [:default, :options]); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do options, selected, first_option, first_value, attributes, = _tag_locals(all_attributes, [:options, :selected, :first_option, :first_value]) %>
+  <% concat(call_tag_parameter(:select, merge_attrs({}, attributes || {}), { :default => proc { |_select__default_content| new_context { %>
+    <% selected=this if selected.nil? %>
+    <% concat((if (first_option.nil?).blank?; (__tmp_7 = element(:option, {'value' => "#{first_value}"}, new_context { %><% concat(first_option.to_s) %><% }); Hobo::Dryml.last_if = true; __tmp_7) else (Hobo::Dryml.last_if = false; ''); end)) %>
+    <% concat(call_tag_parameter(:do_, {}, { :default => proc { |_do__default_content| new_context { %><% options_for_select(options, selected) %><% } }, }, all_parameters, :options)) %>
+  <% } }, }, all_parameters, :default)) %>
+<% output_buffer; end; end %><% _register_tag_attrs(:select_menu, [:options, :selected, :first_option, :first_value]) %>
+# =============================== 
+# DEF: check_many
+# def
+# =============================== 
+<% def check_many(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, [:default, :li, :name]); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do options, disabled, attributes, = _tag_locals(all_attributes, [:options, :disabled]) %><% 
+  collection = this
+  param_name = param_name_for_this
+  options ||= begin
+    conditions = ActiveRecord::Associations::BelongsToAssociation.new(this_parent, this_field_reflection).conditions
+    this_field_reflection.klass.all(:conditions => conditions, :limit => 100).select {|x| can_view?(x)}
+  end
+  -%>
+  <% concat(call_tag_parameter(:ul, merge_attrs({:class => "check-many"}, attributes || {}), { :default => proc { |_ul__default_content| new_context { %>
+    <% concat(input({:name => "#{param_name}[]", :type => "hidden", :value => ""}, {})) %><% # ensure all items are removed when nothing checked %>
+    <% concat(repeat_attribute(options) { call_tag_parameter(:li, {}, { :default => proc { |_li__default_content| new_context { %>
+      <% concat(input({:name => "#{param_name}[]", :checked => (this.in?(collection)), :type => "checkbox", :value => "@#{this.id}", :disabled => (disabled)}, {})) %>
+      <% concat(call_tag_parameter(:name, {}, {}, all_parameters, :name)) %>
+    <% } }, }, all_parameters, :li) }) %>
+  <% } }, }, all_parameters, :default)) %>
+<% output_buffer; end; end %><% _register_tag_attrs(:check_many, [:options, :disabled]) %>
+# =============================== 
+# DEF: hidden_id_field
+# def
+# =============================== 
+<% def hidden_id_field(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %>
+  <% concat(if_({:field => "id"}, { :default => proc { |_if__default_content| new_context { %><% concat(input({:name => "#{param_name_for_this}", :type => "hidden", :value => "#{this}"}, {})) %><% } }, })) %>
+<% output_buffer; end; end %><% _register_tag_attrs(:hidden_id_field, []) %>
+# =============================== 
+# DEF: input_many
+# eval
+# =============================== 
+
+      def input_many(attributes={}, parameters={})
+        _tag_context(attributes) do
+          attributes.delete :with
+          attributes.delete :field
+          call_polymorphic_tag('input_many', attributes, parameters) { input_many__base(attributes.except, parameters) }
+        end
+      end
+      
+# =============================== 
+# DEF: input_many__base
+# def
+# =============================== 
+<% def input_many__base(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, [:default, :remove_item, :add_item, :default, :add_item]); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do fields, attributes, = _tag_locals(all_attributes, [:fields]) %>
+  <% begin; empty = (this.empty?); ; end %>
+  <ul class="input-many <%= this_field.dasherize %> <%= css_data :input_many_prefix, param_name_for_this %>">
+    <% concat(repeat_attribute(this) { element(:li, {'class' => "#{'record-with-errors' unless this.errors.empty?}"}, new_context { %>
+      <% concat(error_messages({:class => "sub-record"}, {:heading_replacement => proc {|__discard__| '' }, })) %>
+      <% concat(hidden_id_field.to_s) %>
+      <% concat(call_tag_parameter(:div, {:class => "input-many-item"}, { :default => proc { |_div__default_content| new_context { %>
+        <% concat(field_list(merge_attrs({}, (all_attributes & [:fields]) || {}), {})) %>
+      <% } }, }, all_parameters, :default)) %>
+      <div class="buttons">
+        <% concat(call_tag_parameter(:button, merge_attrs({:class => "remove-item", :type => "button"}, (all_attributes & [:disabled]) || {}), { :default => proc { |_button__default_content| new_context { %>-<% } }, }, all_parameters, :remove_item)) %>
+        <% concat((if !(last_item?).blank?; (__tmp_9 = call_tag_parameter(:button, merge_attrs({:class => "add-item", :type => "button"}, (all_attributes & [:disabled]) || {}), { :default => proc { |_button__default_content| new_context { %>+<% } }, }, all_parameters, :add_item); Hobo::Dryml.last_if = true; __tmp_9) else (Hobo::Dryml.last_if = false; ''); end)) %>
+      </div>
+    <% }) }) %>
+    <% concat((if !(empty).blank?; (__tmp_11 = element(:li, {}, new_context { %>
+      <% concat(fake_field_context({:fake_field => "0", :context => (this.try.new_candidate || this.member_class.new)}, { :default => proc { |_fake_field_context__default_content| new_context { %>
+        <% concat(call_tag_parameter(:div, {:class => "input-many-item"}, { :default => proc { |_div__default_content| new_context { %>
+          <% concat(field_list(merge_attrs({}, (all_attributes & [:fields]) || {}), {})) %>
+        <% } }, }, all_parameters, :default)) %>
+      <% } }, })) %>
+      <div class="buttons">
+        <% concat(call_tag_parameter(:button, merge_attrs({:class => "add-item", :type => "button"}, (all_attributes & [:disabled]) || {}), { :default => proc { |_button__default_content| new_context { %>+<% } }, }, all_parameters, :add_item)) %>
+      </div>
+    <% }); Hobo::Dryml.last_if = true; __tmp_11) else (Hobo::Dryml.last_if = false; ''); end)) %>
+  </ul>
+<% output_buffer; end; end %><% _register_tag_attrs(:input_many__base, [:fields]) %>
+# =============================== 
+# DEF: input_all
+# def
+# =============================== 
+<% def input_all(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, [:default]); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %>
+  <% association_fkey = this_field_reflection.primary_key_name -%>
+  <ul class="input-all <%= this_field.dasherize %>">
+    <% concat(repeat_attribute(this) { element(:li, {'class' => "#{'record-with-errors' unless this.errors.empty?}"}, new_context { %>
+      <% scope.new_scope(:form_field_names => ([]) ) {  %>
+        <% concat(hidden_id_field.to_s) %>
+        <% concat(call_tag_parameter(:do_, {}, {}, all_parameters, :default)) %>
+        <% concat(hidden_fields({:skip => (association_fkey)}, {})) %>
+      <% } %>
+    <% }) }) %>
+  </ul>
+<% output_buffer; end; end %><% _register_tag_attrs(:input_all, []) %>
+# =============================== 
+# DEF: or_cancel
+# def
+# =============================== 
+<% def or_cancel(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %>
+  <% concat(if_({:test => (linkable?)}, { :default => proc { |_if__default_content| new_context { %>or <% concat(a(merge_attrs({}, attributes || {}), { :default => proc { |_a__default_content| new_context { %>Cancel<% } }, })) %><% } }, })) %>
+  <% concat(else_({}, { :default => proc { |_else__default_content| new_context { %>
+    <% concat(if_({:test => (linkable?(this.class))}, { :default => proc { |_if__default_content| new_context { %>or <% concat(a(merge_attrs({:to => (this.class)}, attributes || {}), { :default => proc { |_a__default_content| new_context { %>Cancel<% } }, })) %><% } }, })) %>
+  <% } }, })) %>
+<% output_buffer; end; end %><% _register_tag_attrs(:or_cancel, []) %>

@@ -1,0 +1,184 @@
+# =============================== 
+# DEF: main_nav
+# def
+# =============================== 
+<% def main_nav(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, [:default]); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %>
+  <% concat(call_tag_parameter(:navigation, merge_attrs({:class => "main-nav"}, attributes || {}), { :default => proc { |_navigation__default_content| new_context { %>
+    <% concat(nav_item({:href => "#{base_url}/"}, { :default => proc { |_nav_item__default_content| new_context { %>Home<% } }, })) %>
+  <% } }, }, all_parameters, :default)) %>
+<% output_buffer; end; end %><% _register_tag_attrs(:main_nav, []) %>
+# =============================== 
+# DEF: index_page__for_user
+# def
+# =============================== 
+<% def index_page__for_user(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, [:body, :content, :content_header, :heading, :count, :content_body, :top_page_nav, :collection, :bottom_page_nav]); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %>
+  <% concat(page(merge_attrs({:title => "Users"}, attributes), merge_parameter_hashes({
+    :body => merge_tag_parameter(proc { [{:class => "index-page user"}, {}] }, all_parameters[:body]), 
+    
+    :content => merge_tag_parameter(proc { [{}, { :default => proc { |_content__default_content| new_context { %>
+      <% concat(call_tag_parameter(:header, {}, { :default => proc { |_header__default_content| new_context { %>
+        <% concat(call_tag_parameter(:h2, {}, { :default => proc { |_h2__default_content| new_context { %>Users<% } }, }, all_parameters, :heading)) %>
+
+        <% concat((if !(this).blank?; (__tmp_1 = call_tag_parameter(:p, {}, { :default => proc { |_p__default_content| new_context { %>There <% concat(count({:prefix => "are"}, {})) %><% } }, }, all_parameters, :count); Hobo::Dryml.last_if = true; __tmp_1) else (Hobo::Dryml.last_if = false; ''); end)) %>
+      <% } }, }, all_parameters, :content_header)) %>
+      
+      <% concat(call_tag_parameter(:section, {}, { :default => proc { |_section__default_content| new_context { %>
+
+        <% concat(call_tag_parameter(:page_nav, {}, {}, all_parameters, :top_page_nav)) %>
+
+        <% concat(call_tag_parameter(:collection, {}, {}, all_parameters, :collection)) %>
+
+        <% concat(call_tag_parameter(:page_nav, {}, {}, all_parameters, :bottom_page_nav)) %>
+
+
+      <% } }, }, all_parameters, :content_body)) %>
+    <% } }, }] }, all_parameters[:content]), 
+  }, (parameters) || {}))) %>
+<% output_buffer; end; end %><% _register_tag_attrs(:index_page__for_user, []) %>
+# =============================== 
+# DEF: new_page__for_user
+# def
+# =============================== 
+<% def new_page__for_user(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, [:body, :content, :content_header, :heading, :content_body, :form]); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %>
+  <% concat(page(merge_attrs({:title => "New User"}, attributes), merge_parameter_hashes({
+    :body => merge_tag_parameter(proc { [{:class => "new-page user"}, {}] }, all_parameters[:body]), 
+    
+    :content => merge_tag_parameter(proc { [{}, { :default => proc { |_content__default_content| new_context { %>
+      <% concat(call_tag_parameter(:section, {}, { :default => proc { |_section__default_content| new_context { %>
+        <% concat(call_tag_parameter(:h2, {}, { :default => proc { |_h2__default_content| new_context { %>New User<% } }, }, all_parameters, :heading)) %>
+      <% } }, }, all_parameters, :content_header)) %>
+      
+      <% concat(call_tag_parameter(:section, {}, { :default => proc { |_section__default_content| new_context { %>
+        <% concat(call_tag_parameter(:form, {}, {
+          :submit => proc { [{:label => "Create User"}, {}] }, 
+        }, all_parameters, :form)) %>
+      <% } }, }, all_parameters, :content_body)) %>
+    <% } }, }] }, all_parameters[:content]), 
+  }, (parameters) || {}))) %>
+<% output_buffer; end; end %><% _register_tag_attrs(:new_page__for_user, []) %>
+# =============================== 
+# DEF: show_page__for_user
+# def
+# =============================== 
+<% def show_page__for_user(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, [:body, :content, :content_header, :heading, :record_flags, :edit_link, :content_body, :field_list]); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %>
+  <% concat(page(merge_attrs({:title => "User"}, attributes), merge_parameter_hashes({
+
+    :body => merge_tag_parameter(proc { [{:class => "show-page user"}, {}] }, all_parameters[:body]), 
+
+    :content => merge_tag_parameter(proc { [{}, { :default => proc { |_content__default_content| new_context { %>
+          <% concat(call_tag_parameter(:header, {}, { :default => proc { |_header__default_content| new_context { %>
+            <% concat(call_tag_parameter(:h2, {}, { :default => proc { |_h2__default_content| new_context { %><% concat(name.to_s) %><% } }, }, all_parameters, :heading)) %>
+
+            <% concat(call_tag_parameter(:record_flags, {:fields => "administrator"}, {}, all_parameters, :record_flags)) %>
+
+            <% concat((if !(can_edit?).blank?; (__tmp_2 = call_tag_parameter(:a, {:action => "edit"}, { :default => proc { |_a__default_content| new_context { %>Edit User<% } }, }, all_parameters, :edit_link); Hobo::Dryml.last_if = true; __tmp_2) else (Hobo::Dryml.last_if = false; ''); end)) %>
+          <% } }, }, all_parameters, :content_header)) %>
+    
+          <% concat(call_tag_parameter(:section, {}, { :default => proc { |_section__default_content| new_context { %>
+            <% concat(call_tag_parameter(:field_list, {:fields => "email_address"}, {}, all_parameters, :field_list)) %>
+          <% } }, }, all_parameters, :content_body)) %>
+    <% } }, }] }, all_parameters[:content]), 
+    
+  }, (parameters) || {}))) %>
+<% output_buffer; end; end %><% _register_tag_attrs(:show_page__for_user, []) %>
+# =============================== 
+# DEF: edit_page__for_user
+# def
+# =============================== 
+<% def edit_page__for_user(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, [:body, :content_header, :heading, :delete_button, :content_body, :form]); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %>
+  <% concat(page(merge_attrs({:title => "Edit User"}, attributes), merge_parameter_hashes({
+
+    :body => merge_tag_parameter(proc { [{:class => "edit-page user"}, {}] }, all_parameters[:body]), 
+
+    :content => proc { [{}, { :default => proc { |_content__default_content| new_context { %>
+      <% concat(call_tag_parameter(:section, {}, { :default => proc { |_section__default_content| new_context { %>
+        <% concat(call_tag_parameter(:h2, {}, { :default => proc { |_h2__default_content| new_context { %>Edit <% concat(type_name.to_s) %><% } }, }, all_parameters, :heading)) %>
+        <% concat(call_tag_parameter(:delete_button, {:label => "Remove This User"}, {}, all_parameters, :delete_button)) %>
+      <% } }, }, all_parameters, :content_header)) %>
+
+      <% concat(call_tag_parameter(:section, {}, { :default => proc { |_section__default_content| new_context { %>
+        <% concat(call_tag_parameter(:form, {}, {}, all_parameters, :form)) %>
+      <% } }, }, all_parameters, :content_body)) %>
+    <% } }, }] }, 
+    
+  }, (parameters) || {}))) %>
+<% output_buffer; end; end %><% _register_tag_attrs(:edit_page__for_user, []) %>
+# =============================== 
+# DEF: signup_page
+# eval
+# =============================== 
+
+      def signup_page(attributes={}, parameters={})
+        _tag_context(attributes) do
+          attributes.delete :with
+          attributes.delete :field
+          call_polymorphic_tag('signup_page', attributes, parameters) { signup_page__base(attributes.except, parameters) }
+        end
+      end
+      
+# =============================== 
+# DEF: signup_page__base
+# def
+# =============================== 
+<% def signup_page__base(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %><% output_buffer; end; end %><% _register_tag_attrs(:signup_page__base, []) %>
+# =============================== 
+# DEF: signup_page__for_user
+# def
+# =============================== 
+<% def signup_page__for_user(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, [:body, :content, :content_header, :heading, :content_body, :form]); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %>
+
+  <% concat(page(merge_attrs({:title => "Signup"}, attributes), merge_parameter_hashes({
+
+    :body => merge_tag_parameter(proc { [{:class => "lifecycle-start-page signup-page"}, {}] }, all_parameters[:body]), 
+
+    :content => merge_tag_parameter(proc { [{}, { :default => proc { |_content__default_content| new_context { %>
+      <% concat(call_tag_parameter(:header, {}, { :default => proc { |_header__default_content| new_context { %>
+        <% concat(call_tag_parameter(:h2, {}, { :default => proc { |_h2__default_content| new_context { %>Signup<% } }, }, all_parameters, :heading)) %>
+      <% } }, }, all_parameters, :content_header)) %>
+
+      <% concat(call_tag_parameter(:section, {}, { :default => proc { |_section__default_content| new_context { %>
+        <% concat(call_tag_parameter(:signup_form, {}, {}, all_parameters, :form)) %>
+      <% } }, }, all_parameters, :content_body)) %>
+    <% } }, }] }, all_parameters[:content]), 
+
+  }, (parameters) || {}))) %>
+<% output_buffer; end; end %><% _register_tag_attrs(:signup_page__for_user, []) %>
+# =============================== 
+# DEF: reset_password_page
+# eval
+# =============================== 
+
+      def reset_password_page(attributes={}, parameters={})
+        _tag_context(attributes) do
+          attributes.delete :with
+          attributes.delete :field
+          call_polymorphic_tag('reset_password_page', attributes, parameters) { reset_password_page__base(attributes.except, parameters) }
+        end
+      end
+      
+# =============================== 
+# DEF: reset_password_page__base
+# def
+# =============================== 
+<% def reset_password_page__base(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %><% output_buffer; end; end %><% _register_tag_attrs(:reset_password_page__base, []) %>
+# =============================== 
+# DEF: reset_password_page__for_user
+# def
+# =============================== 
+<% def reset_password_page__for_user(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, [:body, :content_header, :heading, :content_body, :form]); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %>
+  <% concat(page(merge_attrs({:title => "Reset Password"}, attributes), merge_parameter_hashes({
+    
+    :body => merge_tag_parameter(proc { [{:class => "lifecycle-transition-page reset-password-page"}, {}] }, all_parameters[:body]), 
+    
+    :content => proc { [{}, { :default => proc { |_content__default_content| new_context { %>
+      <% concat(call_tag_parameter(:header, {}, { :default => proc { |_header__default_content| new_context { %>
+        <% concat(call_tag_parameter(:h2, {}, { :default => proc { |_h2__default_content| new_context { %>Reset Password<% } }, }, all_parameters, :heading)) %>
+      <% } }, }, all_parameters, :content_header)) %>
+      
+      <% concat(call_tag_parameter(:section, {}, { :default => proc { |_section__default_content| new_context { %>
+        <% concat(call_tag_parameter(:reset_password_form, {}, {}, all_parameters, :form)) %>
+      <% } }, }, all_parameters, :content_body)) %>
+    <% } }, }] }, 
+    
+  }, (parameters) || {}))) %>
+<% output_buffer; end; end %><% _register_tag_attrs(:reset_password_page__for_user, []) %>

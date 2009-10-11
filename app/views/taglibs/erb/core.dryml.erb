@@ -1,0 +1,77 @@
+# =============================== 
+# DEF: call_tag
+# def
+# =============================== 
+<% def call_tag(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do tag, attributes, = _tag_locals(all_attributes, [:tag]) %>
+  <%= send(tag.gsub('-', '_'), attributes, parameters) %>
+<% output_buffer; end; end %><% _register_tag_attrs(:call_tag, [:tag]) %>
+# =============================== 
+# DEF: wrap
+# def
+# =============================== 
+<% def wrap(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do tag, when_, parameter, attributes, = _tag_locals(all_attributes, [:tag, :when, :parameter]) %>
+  <% parameter ||= :default %>
+  <%= when_ ? send(tag, attributes, { parameter.to_sym => parameters[:default] }) : parameters.default %>
+<% output_buffer; end; end %><% _register_tag_attrs(:wrap, [:tag, :when, :parameter]) %>
+# =============================== 
+# DEF: partial
+# def
+# =============================== 
+<% def partial(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do name, locals, attributes, = _tag_locals(all_attributes, [:name, :locals]) %><%= 
+   locals ||= {}
+   render(:partial => name, :locals => locals.merge(:this => this))
+%><% output_buffer; end; end %><% _register_tag_attrs(:partial, [:name, :locals]) %>
+# =============================== 
+# DEF: repeat
+# def
+# =============================== 
+<% def repeat(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do join, attributes, = _tag_locals(all_attributes, [:join]) %><% concat(if_({}, { :default => proc { |_if__default_content| new_context { %><%= 
+  raise ArgumentError, "Cannot <repeat> on #{this.inspect}" unless this.respond_to? :each
+  context_map do
+    parameters.default
+  end.join(join)
+%><% } }, })) %><% output_buffer; end; end %><% _register_tag_attrs(:repeat, [:join]) %>
+# =============================== 
+# DEF: do_
+# def
+# =============================== 
+<% def do_(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %><%= parameters.default %><% output_buffer; end; end %><% _register_tag_attrs(:do_, []) %>
+# =============================== 
+# DEF: do_
+# alias_method
+# =============================== 
+
+# =============================== 
+# DEF: if_
+# def
+# =============================== 
+<% def if_(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do test, attributes, = _tag_locals(all_attributes, [:test]) %><%= 
+  test = all_attributes.fetch(:test, this)
+  res = (cond = !test.blank?) ? parameters.default : ""
+  Hobo::Dryml.last_if = cond
+  res
+%><% output_buffer; end; end %><% _register_tag_attrs(:if_, [:test]) %>
+# =============================== 
+# DEF: else_
+# def
+# =============================== 
+<% def else_(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %><%= parameters.default unless Hobo::Dryml.last_if %><% output_buffer; end; end %><% _register_tag_attrs(:else_, []) %>
+# =============================== 
+# DEF: unless_
+# def
+# =============================== 
+<% def unless_(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do test, attributes, = _tag_locals(all_attributes, [:test]) %><%= 
+  test = all_attributes.fetch(:test, this)     
+  res = (cond = test.blank?) ? parameters.default : ""
+  Hobo::Dryml.last_if = cond
+  res
+%><% output_buffer; end; end %><% _register_tag_attrs(:unless_, [:test]) %>
+# =============================== 
+# DEF: fake_field_context
+# def
+# =============================== 
+<% def fake_field_context(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do fake_field, context, attributes, = _tag_locals(all_attributes, [:fake_field, :context]) %><%=
+  res = ""
+  new_field_context(fake_field, context) { res << parameters.default }
+  res
+%><% output_buffer; end; end %><% _register_tag_attrs(:fake_field_context, [:fake_field, :context]) %>

@@ -1,0 +1,51 @@
+# =============================== 
+# DEF: navigation
+# def
+# =============================== 
+<% def navigation(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, [:default]); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do current, attributes, = _tag_locals(all_attributes, [:current]) %>
+  <% concat(element(:ul, merge_attrs({'class' => "navigation"}, attributes || {}), new_context { %>
+    <% scope.new_scope(:current_navigation => (current) ) {  %>
+      <% concat(call_tag_parameter(:do_, {}, {}, all_parameters, :default)) %>
+    <% } %>
+  <% })) %>
+<% output_buffer; end; end %><% _register_tag_attrs(:navigation, [:current]) %>
+# =============================== 
+# DEF: nav_item
+# def
+# =============================== 
+<% def nav_item(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do name, attributes, = _tag_locals(all_attributes, [:name]) %>
+  <% body = parameters.default 
+     body = h(this.to_s) if body.blank?
+     name ||= body.gsub(/<.*?>/, '').strip
+     -%>
+  <% concat(element(:li, merge_attrs({'class' => "#{'current' if (c = scope.current_navigation) && c.downcase == name.downcase}"}, (attributes - (attrs_for(:a)+['target'])) || {}), new_context { %>
+    <% concat(a(merge_attrs({}, (attributes & (attrs_for(:a)+['target'])) || {}), { :default => proc { |_a__default_content| new_context { %><%= body %><% } }, })) %>
+  <% })) %>
+<% output_buffer; end; end %><% _register_tag_attrs(:nav_item, [:name]) %>
+# =============================== 
+# DEF: account_nav
+# def
+# =============================== 
+<% def account_nav(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, [:ul, :dev_user_changer, :logged_in_as, :account, :log_out, :log_in, :sign_up]); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %>
+  <% concat(do_({:with => (current_user)}, { :default => proc { |_do__default_content| new_context { %>
+    <% concat(call_tag_parameter(:ul, {:class => "navigation account-nav"}, { :default => proc { |_ul__default_content| new_context { %>
+      <% concat((if !(RAILS_ENV == 'development').blank?; (__tmp_1 = call_tag_parameter(:li, {}, { :default => proc { |_li__default_content| new_context { %><% concat(dev_user_changer.to_s) %><% } }, }, all_parameters, :dev_user_changer); Hobo::Dryml.last_if = true; __tmp_1) else (Hobo::Dryml.last_if = false; ''); end)) %>
+      <% concat(if_({:test => (logged_in?)}, { :default => proc { |_if__default_content| new_context { %>
+        <% concat(call_tag_parameter(:li, {:class => "nav-item"}, { :default => proc { |_li__default_content| new_context { %><% concat(a({:to => (current_user)}, { :default => proc { |_a__default_content| new_context { %>Logged in as <% concat(name.to_s) %><% } }, })) %><% } }, }, all_parameters, :logged_in_as)) %>
+        <% concat(call_tag_parameter(:li, {:class => "nav-item"}, { :default => proc { |_li__default_content| new_context { %><% concat(a({:action => "account"}, { :default => proc { |_a__default_content| new_context { %>Account<% } }, })) %><% } }, }, all_parameters, :account)) %>
+        <% concat(call_tag_parameter(:li, {:class => "nav-item"}, { :default => proc { |_li__default_content| new_context { %><% concat(a({:href => (logout_url)}, { :default => proc { |_a__default_content| new_context { %>Log out<% } }, })) %><% } }, }, all_parameters, :log_out)) %>
+      <% } }, })) %>
+      <% concat(else_({}, { :default => proc { |_else__default_content| new_context { %>
+        <% concat(call_tag_parameter(:li, {:class => "nav-item"}, { :default => proc { |_li__default_content| new_context { %><% concat(a({:href => (login_url)}, { :default => proc { |_a__default_content| new_context { %>Log in<% } }, })) %><% } }, }, all_parameters, :log_in)) %>
+        <% concat((if !(signup_url).blank?; (__tmp_2 = call_tag_parameter(:li, {:class => "nav-item"}, { :default => proc { |_li__default_content| new_context { %><% concat(a({:href => (signup_url)}, { :default => proc { |_a__default_content| new_context { %>Sign up<% } }, })) %><% } }, }, all_parameters, :sign_up); Hobo::Dryml.last_if = true; __tmp_2) else (Hobo::Dryml.last_if = false; ''); end)) %>
+      <% } }, })) %>
+    <% } }, }, all_parameters, :ul)) %>
+  <% } }, })) %>
+<% output_buffer; end; end %><% _register_tag_attrs(:account_nav, []) %>
+# =============================== 
+# DEF: page_nav
+# def
+# =============================== 
+<% def page_nav(all_attributes={}, all_parameters={}); parameters = Hobo::Dryml::TagParameters.new(all_parameters, []); all_parameters = Hobo::Dryml::TagParameters.new(all_parameters); _tag_context(all_attributes) do attributes, = _tag_locals(all_attributes, []) %>
+  <%= will_paginate this, attributes.symbolize_keys.reverse_merge(:inner_window => 2, :previous_label => "&laquo; Prev") %>
+<% output_buffer; end; end %><% _register_tag_attrs(:page_nav, []) %>
