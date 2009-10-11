@@ -103,9 +103,14 @@ module Logging
     @log_views = {:includes => 'index show', :excludes => 'new', :default => false}    
     @log_taglibs = {:includes => 'rapid', :excludes => 'core', :default => false}    
     @log_default = true    
+
+    @log_method_stack = []
     
     # fine tuning by dryml class
-    @log_dryml_classes = {:includes => ['TemplateEnvironment'], :excludes => ['Taglib'], :default => true}    
+    @log_dryml_classes = {:includes => ['TemplateEnvironment'], :excludes => ['Taglib'], :default => true} 
+
+    # TODO
+    @log_dryml_methods = {:TemplateEnvironment => {:includes => ['call_tag_parameter_with_default_content'], :excludes => ['call_tag_parameter'] } }   
   end
 
   def dryml_class?(msg)
@@ -117,6 +122,32 @@ module Logging
     return 'DRYMLBuilder' if msg.include?('DRYMLBuilder')
     return 'TemplateEnvironment' if msg.include?('TemplateEnvironment')
     return 'Template' if msg.include?('Template')
+  end
+
+  def get_method_name(msg)
+    cls_name = class_name(msg)
+    meth_name_x = msg.sub(/(.*?#{cls_name})(::|\.)(.*?)/, '\3')
+    meth_name_x.sub(/(\w+)(.*)/, '\1')    
+  end
+
+  def method_begin?(msg)
+    'begin' if msg.include?('BEGIN')
+  end
+
+  def method_end?(msg)
+    'end' if msg.include?('END')
+  end
+
+  def method_pos(msg)
+    method_begin?(msg) || method_end?(msg)
+  end
+
+  def handle_method(meth_name, meth_pos)
+    if meth_pos == 'begin'
+      @log_method_stack.push(meth_name)
+    elsif meth_pos == 'end'
+      @log_method_stack.pop
+    end      
   end
 
   def log_class?(msg)
@@ -132,6 +163,10 @@ module Logging
 
     # should I log inside this class?
     return if !log_class?(msg)
+    
+    # TODO: should I log inside this method? 
+    # use log call stack! push on BEGIN, pop on END    
+    handle_method(get_method_name(msg), method_pos(msg))
     
     # should I log this template?    
     if log_template?(@template_path)
