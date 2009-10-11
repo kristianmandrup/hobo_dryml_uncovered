@@ -1,12 +1,9 @@
 <page title="Home">
   <body: class="front-page"/>
   <content:>
-    <header class="content-header">
-        <h3>Congratulations! Your Hobo Rails App is up and running</h3>    
-        <comma>
-          <x>hello</x>
-          <x>hello you</x>
-        </comma>              
-    </header>
+    <comma>
+      <x>hello</x>
+      <x>hello you</x>
+    </comma>
   </content:>
 </page>

@@ -175,14 +175,23 @@ module Logging
   end
 
   def log(msg)
+    return if msg.nil?
     setup if !@log
 
     # should I log inside this class?
     return if !log_class?(msg)
     
     # TODO: should I log inside this method? 
-    # use log call stack! push on BEGIN, pop on END    
+    # use log call stack! push on BEGIN, pop on END 
+
     return if !log_method?(msg)
+
+    # TODO: If inside method, use number of items on stack as identation       
+    if method_pos(msg) && @log_method_stack.size > 0
+      identation = ""
+      @log_method_stack.size.times { identation << " "}
+      msg = identation + msg
+    end
     
     # should I log this template?    
     if log_template?(@template_path)

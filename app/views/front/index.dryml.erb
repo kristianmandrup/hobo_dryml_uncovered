@@ -1,12 +1,9 @@
 <% concat(page({:title => "Home"}, {
   :body => proc { [{:class => "front-page"}, {}] }, 
   :content => proc { [{}, { :default => proc { |_content__default_content| new_context { %>
-    <% concat(header({:class => "content-header"}, { :default => proc { |_header__default_content| new_context { %>
-        <h3>Congratulations! Your Hobo Rails App is up and running</h3>    
-        <% concat(comma({}, { :default => proc { |_comma__default_content| new_context { %>
-          <% concat(x({}, { :default => proc { |_x__default_content| new_context { %>hello<% } }, })) %>
-          <% concat(x({}, { :default => proc { |_x__default_content| new_context { %>hello you<% } }, })) %>
-        <% } }, })) %>              
+    <% concat(comma({}, { :default => proc { |_comma__default_content| new_context { %>
+      <% concat(x({}, { :default => proc { |_x__default_content| new_context { %>hello<% } }, })) %>
+      <% concat(x({}, { :default => proc { |_x__default_content| new_context { %>hello you<% } }, })) %>
     <% } }, })) %>
   <% } }, }] }, 
 })) %>
