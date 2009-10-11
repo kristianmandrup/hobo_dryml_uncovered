@@ -104,11 +104,36 @@ class Logging
     @log_view_folders = {:includes => 'front recipe', :excludes => 'ingredient', :default => true}        
     @log_views = {:includes => 'index show', :excludes => 'new', :default => false}    
     @log_taglibs = {:includes => 'rapid', :excludes => 'core', :default => false}    
-    @log_default = true    
+    @log_default = true  
+    
+    # fine tuning by dryml class
+    @log_dryml_classes = {:includes => ['TemplateEnvironment'], :excludes => ['Taglib'], :default => true}    
+  end
+
+  def dryml_class?(msg)
+    msg.include?('Hobo::Dryml')
+  end
+
+  def class_name(msg)
+    return 'Taglib' if msg.include?('Taglib')
+    return 'DRYMLBuilder' if msg.include?('DRYMLBuilder')
+    return 'TemplateEnvironment' if msg.include?('TemplateEnvironment')
+    return 'Template' if msg.include?('Template')
+  end
+
+  def log_class?(msg)
+    if dryml_class?(msg)
+      return false if @log_dryml_classes[:excudes].include?(class_name(msg))
+      return true if @log_dryml_classes[:includes].include?(class_name(msg))
+    end
+    return @log_dryml_classes[:default] || true
   end
 
   def log(msg)
     setup if !@log
+  
+    return if !log_class?(msg)      
+    
     if log_template?(@template_path)
       file = @template_path + '.log'
       if File.exist?(@template_path)
