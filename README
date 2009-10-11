@@ -13,7 +13,9 @@ The current approach is rather "crude" and intrusive and in general more of a Pr
 In a coming version I plan to do the logging by applying some "meta-magic" (metprogramming), using alias_method on select methods of relevant DRYML classes to inject 'before' and after 'aspects' in the form of logging statements around the method call. 
 This should make it much easier to seemingly integrate with future versions of Hobo/DRYML. 
 
-There should also be better options for fine tuning logging, fx only logging specific parts of DRYML generation, fx only view templates, specific view templates, in- or exclude rapid taglib logging etc. Suggestions are welcome!
+There is support for fine tuning of logging, fx only logging specific parts of DRYML generation, fx include or exclude logging for specific view folders, view templates or taglibs. You can also set a default logging option for each of these. There is also options to control whether to log to console and to log to dryml log file in /log folder. Each log file now starts with a timestamp.
+
+TODO: Create a logging report, listing all log files generated in the order they were generated and a timestamp for each.
 
 ----
 Logging is currently provided by libs/logging.rb which contains a few modules that are included in select DRYML classes. 
