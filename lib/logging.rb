@@ -7,9 +7,15 @@ end
 
 module Logging
   
+  # use to control detail lv of logging
   def log_detail(msg)
-    # log(msg)
+    log(msg) if @log_detail_lv > 0
   end
+
+  def log_lv(lv, msg)
+    log(msg) if @log_detail_lv >= lv
+  end
+
 
   def do_log?(template, options)
     includes = options[:includes]
@@ -66,68 +72,104 @@ module Logging
     return @log_default
   end
 
-  def setup
-    @log ||= Logger.new(STDOUT)
-    @log.level ||= Logger::DEBUG          
-    @log_file ||= 'dryml_template'
+    def setup
+      @log ||= Logger.new(STDOUT)
+      @log.level ||= Logger::DEBUG 
 
-    # fine tune logging
-    @overwrite ||= false
-    @console_log ||= false
-    @generate_dryml_logfile ||= true               
+      # control detail lv of logging 
+      # currently only controls logging of 'src' for build instruction in DRYMLBuilder
+      @log_detail_lv = 0
+      # global dryml logging file (written to /log folder)         
+      @log_file ||= 'dryml_template'
 
-    @log_default = true
-    @log_view_folders = {:includes => 'front recipe', :excludes => 'ingredient', :default => true}        
-    @log_views = {:includes => 'index show', :excludes => 'new', :default => false}    
-    @log_taglibs = {:includes => 'rapid', :excludes => 'core', :default => false}    
-  end
+      # fine tune logging
 
-  def log(msg)
-    setup if !@log
-    if log_template?(@template_path)
-      file = @template_path + '.log'
-      if File.exist?(@template_path)
-        log_f(msg, file)
+      # ouput log to console?
+      @console_log ||= false
+
+      # generate log/dryml_template.log ?
+      @generate_dryml_logfile ||= true               
+
+      # overwrite existing erb files ?
+      @overwrite_view_erbs ||= true
+      @overwrite_taglib_erbs ||= false
+
+      # overwrite logging files ?
+      @overwrite_logs ||= true
+      @overwrite_dryml_log ||= true
+
+      # logging fine tuning  
+      @log_view_folders = {:includes => 'front recipe', :excludes => 'ingredient', :default => true}        
+      @log_views = {:includes => 'index show', :excludes => 'new', :default => false}    
+      @log_taglibs = {:includes => 'rapid', :excludes => 'core', :default => false}    
+      @log_default = true    
+    end
+
+    def log(msg)
+      setup if !@log
+      if log_template?(@template_path)
+        file = @template_path + '.log'
+        if File.exist?(@template_path)
+          log_f(msg, file)
+        end
+      else
+         @log.debug msg if @console_log
+         log_dryml(msg) if @generate_dryml_logfile
       end
-    else
-       @log.debug msg if @console_log
-       log_dryml(msg) if @generate_dryml_logfile
+    end  
+
+    def is_old_file?(file)
+      File.new(file).mtime < (Time.now - 20.seconds)
     end
-  end  
 
-  def is_old_file?(file)
-    File.new(file).mtime < (Time.now - 20.seconds)
-  end
+    # write to global 'dryml_template' file in /log
+    def log_dryml(txt)
+      file = RAILS_ROOT + "/log/#{@log_file}.log"
+      unless File.exist?(file) && !@overwrite_dryml_log
+        mode = is_old_file?(file) && @overwrite_dryml_log ? "w+" : "a+"
 
-  def log_dryml(txt)
-    file = RAILS_ROOT + "/log/#{@log_file}.log"
-    mode = is_old_file?(file) ? "w+" : "a+"
-
-    txt = ("#{Time.now}\n" + txt) if mode == "w+"
-    open(file, mode) do |f|
-      f.puts txt
-    end
-  end
-
-  def log_f(txt, file = nil)
-    file = file || (RAILS_ROOT + "/log/#{@log_file}.log")
-    unless File.exist?(file) && @overwrite
-      mode = is_old_file?(file) ? "w+" : "a+"
-
-      txt = ("#{Time.now}\n" + txt) if mode == "w+"      
-      open(file, mode) do |f|
-        f.puts txt
+        txt = ("#{Time.now}\n" + txt) if mode == "w+"
+        open(file, mode) do |f|
+          f.puts txt
+        end
       end
     end
-  end    
+
+    # write to individual log file if provided, otherwise log to 'dryml_template' file in /log
+    def log_f(txt, file = nil)
+      if file
+        unless File.exist?(file) && !@overwrite_logs
+          mode = is_old_file?(file) && @overwrite_logs ? "w+" : "a+"
+          txt = ("#{Time.now}\n" + txt) if mode == "w+"      
+          open(file, mode) do |f|
+            f.puts txt
+          end
+        end
+      else
+        log_f(txt)
+      end
+    end    
+  end
+
+
+def _log_report(file)
+  file = file || (RAILS_ROOT + "/log/dryml_report.log")
+
+  mode = File.exist?(file) && !is_old_file?(file) ? "a+" : "w+"
+  txt = ("#{Time.now} : " + file.to_s)
+  open(file, mode) do |f|
+    f.puts txt
+  end
 end
 
 module SaveErb  
   def save_erb_file(erb, file = nil)
     file = file || (RAILS_ROOT + "/" + @template_path + ".erb")
+
+    # TODO: how much of this is still necessary?
     unless (File.basename(@template_path, '.dryml') == 'application') || @template_path.include?('taglibs')
-      unless File.exist?(file) && @overwrite      
-        File.open(file, "w") do |erbfile|
+      unless File.exist?(file) && !@overwrite_view_erbs      
+        File.open(file, "w+") do |erbfile|
           erbfile.syswrite(erb)
         end
       end
@@ -139,10 +181,10 @@ end
 module SaveEnv  
   def save_environment_file(tag_name, env_src, taglib)
     if tag_name
-      dir = RAILS_ROOT + "/app/views/taglibs/rapid/"
+      dir = RAILS_ROOT + "/app/views/taglibs/erb/"
       FileUtils.mkdir_p(dir) unless File.directory?(dir)      
       file = File.join(dir, "#{taglib}.dryml.erb")
-      unless File.exist?(file)
+      unless File.exist?(file) && !@overwrite_taglib_erbs
         File.open(file, "w+") do |f|
           f.puts env_src
         end
