@@ -33,29 +33,29 @@ module TraceCalls
       name = method.to_s
       original_method = instance_method(name)
 
-      define_method(name) do |*args, &block|
+      define_method(name) do |*args, &block|        
+        cls_name = self.class.to_s
+        context = {:class_name => cls_name, 
+                   :method_name => name, 
+                   :args => args, 
+                   :block => block_given?
+                   :vars => self.instance_variables} # to carry @template_path etc.
+        context[:method_full_name] = method_full_name(context)
+
         if TraceCalls.ok_to_trace?(name)
           TraceCalls.suppress_tracing do
             if trace_method?(name)   
               method_stack.push(name)           
-              output "==============================================="                      
-              output "==> #{self.class}.#{name} : BEGIN" 
-              output "-----------------------------------------------"                      
-              output "#{args.inspect}" 
-              output "-----------------------------------------------"                      
-              output "#{'(and a block)' if block_given?}"
-              output "-----------------------------------------------" if block_given?            
+              handle_before_call(context)
             end
           end
         end
         result = original_method.bind(self).call(*args, &block)
         if TraceCalls.ok_to_trace?(name)
           TraceCalls.suppress_tracing do          
-            if trace_method?(name)     
-              output "<<= #{self.class}.#{name} : END"
-              output "-----------------------------------------------"          
-              output "#{result}"
-              output "==============================================="                                
+            if trace_method?(name)  
+              context[:result] = result
+              handle_after_call(context)   
             end
           end
         end

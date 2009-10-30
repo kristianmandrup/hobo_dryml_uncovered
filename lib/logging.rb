@@ -3,6 +3,7 @@
 # Also we should use trace_calls.rb TraceCalls module instead of hardcoding all those BEGIN/END logging statements!
 # That should make Logging much less intrusive!
 require 'log_ext'
+require 'log_file'
 require 'trace_calls'
 
 module Logging

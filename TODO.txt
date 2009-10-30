@@ -1,31 +1,149 @@
-- Create small Rails Blog (on Heroku)
--- "Adventures in Hobo world..."
+Improvements
+------------
+Externalized all module extensions to extension.rb
+Removed all BEGIN/END logging statements, only a few internal log statements remain (should they remain?)
 
-- do logging test in my-rails/logging/test
--- It works! Why not in Rails!?
-- Try rails debug!
+TODO
+----
+Integrate Logging framework directly with TraceCalls one step at a time
+Test that each submodule works 
 
-- Insert 'debugger' statements
-- ss --debugger
-- Ensure script "create hobo app edge, has config.gem 'hobo' commented out or removed!"
+- template filter
+- class filter
+- method filter
+- appenders
 
-http://guides.rubyonrails.org/debugging_rails_applications.html
+Trace/Logger design for Hobo::Dryml
+------------------------------------
+DRYML tracing will be implemented as a plugin
+On load, the following DRYML classes are opened
 
-- Add Tracing (tracer.rb?)
-- Add logging
-- Find root of templating and start investigating from here to get a sense of the main flow...
-- Tweak it one small step at a time...
-- Use Needle for logging/tracing (see email)
-- Let DrymlExt be called with either a has of configurations or an instance of class DrymlExtConfig, containing same parameters
+Hobo::Dryml
+- Template
+- TemplateEnvironment
+- TemplateHandler
+- Taglib
+- DRYMLBuilder
 
-class DrymlExtConfig
-  def sub_result_handler
-  end
+from template_environment.rb
+- ActionController::Base
+- ActionView::Template
+- ActionView::Pathset
 
-  def all_result_handler
-  end
+All these will have the TraceCalls module included
 
-  def init_result
-  end
-end
-  
+TraceCalls hooks into the hooks "included" and "method_added", that in turn redefines (decorates) each method added and injects 'before' and 'after' aspects in the form of log statements: 
+
+The traced method takes the form
+ log "[modules::class_name.method_name] : BEGIN"
+ log "[parameters]"
+ method call
+ log "[modules::class_name.method_name] : END"
+ log "[return data]"
+
+Note, that you can specify filter lists to indicate exactly which methods to include/exclude for tracing. 
+The filter lists even support regular expression matching, so you might fx say /polymorphic/ to include methods with the word "polymorphic" in them! Another reason to uphold a good naming convention for methods ;)
+
+each 'log BEGIN/END' method call will carry the following arguments: 
+- module, class, method where log method was called
+
+For logs within Hobo::Dryml::Template, also
+- path of current template being processed 
+
+Tracing can be set up with a set of filters:
+- module filter
+- class filter
+- method filter
+
+Logging will use the same method output
+- log msg filter (Regexp or LogFilter)
+
+LogFilter has a filter?(log_msg) method 
+
+if log_msg passes all filters, then passed to LogAppender
+
+LogAppender also has registered LogHandlers
+LogHandler can also have one or more filters
+If passes filter, LogHandler sends msg to one or more LogDestinations
+
+ModuleFilter, ClassFilter, MethodFilter are basic tracing filters
+All are just convenience wrappers on CombinedFilter
+
+ClassFilter()
+  initialize(filter_rules)
+    filter_options = {:classes => filter_rules}
+    new CombinedFilter(filter_options)
+...
+
+MethodFilter()
+  initialize(filter_rules)
+    filter_options = {:methods => filter_rules}
+    new CombinedFilter(filter_options)
+...
+
+
+Also CombinedFilter
+
+:modules => [module filters...],
+:classes => [class filters],
+:methods => [method filters]
+
+if method within class not in module, it will be tested against classes
+---
+
+VIGTIGT: context should include instance_variables!
+
+TraceController
+  apply filters
+  # if not filtered out 
+  trace_handler.each # send
+
+TraceHandler
+  if match, do_match(msg)
+  if !match, do_not_match(msg)
+
+
+LogHandler.new({:name => 'taglib_template})
+- if @template_path is a taglib and starts with "rapid_", log to rapid taglib logfile
+
+LogHandler.new({:name => 'rapid_taglib_template})
+- if @template_path within 'taglib' and starts with "rapid_", log to rapid taglib logfile
+
+ViewLogHandler < LogHandler
+- if @template_path within 'app/views' 
+
+model_filter: @template_path is a view
+:include => ['recipe', ...]
+
+ViewTemplateLogHandler < LogHandler
+
+ViewTemplateLogHandler < LogHandler
+- chained after ViewLogHandler
+- if @template_path filename matches one of 'index', 
+
+filter: {:name => 'REST view', :include => ['index', 'show', 'new', 'edit']}
+
+rest_filter.exclude('show', 'new') 
+
+
+TaglibLogHandler < LogHandler
+- if wi
+
+TaglibLogHandler.new('rapid')
+TaglibLogHandler.new('core')
+ 
+
+The log statement will then always be sent to a "chain of responsibility", consisting of a set of pluggable filters.
+
+The result of each filter will have the option to send the log statement to one or more log "appenders" (log4j style)
+
+Fx, if class where log statement orinates matches "classes to include", the log statement could be sent to a special logfile for that class. All log statements send to a "main dryml logfile" and if within a template of a specific type, send to special logfile for that template...
+
+Methods in each of the DRYML classes will be organized into one or more tiers (levels), 
+so that you will have a list of "core" methods (at the top lv) and methods at lower levels. 
+This way you can specify that you want only an "overview" logging (top level), or more detailed DRYML logging (lower levels)
+
+---
+What do you think about this design? Any comments, ideas, suggestions are welcome!
+
+Kristian

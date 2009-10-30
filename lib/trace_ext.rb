@@ -6,12 +6,49 @@ module TraceExt
     s
   end
 
+  def method_full_name(context)
+    "#{context[:class_name]}.#{context[:method_name]}"
+  end
+
+
   def method_stack
     @method_stack ||= []
   end
 
-  def output(txt)
-    puts indentation << txt
+
+  def handle_before_call(context)
+    lines = []
+    lines << "==============================================="                      
+    lines << "==> #{context[:method_full_name]} : BEGIN"
+    lines << "-----------------------------------------------"
+    lines << "#{context[:args].inspect}"
+    lines << "-----------------------------------------------"                      
+  if context[:block]       
+    lines << "(and a block)"
+    lines << "-----------------------------------------------"                
+  end
+    output(lines, context)
+  end
+
+  def handle_after_call(context)
+    lines = []
+    lines << "<<= #{context[:method_full_name]} : END"
+    lines << "-----------------------------------------------"         
+    lines << "#{context[:result]}"
+    lines << "==============================================="  
+    output(lines, context)              
+  end
+
+  def output(lines, context)
+    spaces = indentation
+    lines.map!{|line| spaces + line + "\n"}
+    output_handler(lines, context)
+  end
+  
+  # default output action: put string to STDOUT
+  # override this to customize trace handling
+  def output_handler(lines, context)
+    puts lines.join
   end
   
   def included_simple?(methods, name)

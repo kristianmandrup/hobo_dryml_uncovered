@@ -1,5 +1,7 @@
 require 'trace_calls'
-
+require 'trace_log'
+# require 'logging'
+# require 'trace_filter'
 
 module My
   class Example
